@@ -56,10 +56,11 @@ img {
 }
 
 .site-title {
-  font-size: 1.05rem;
-  letter-spacing: 0.12em;
+  font-size: 1.4rem;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  color: #000;
 }
 
 .site-nav {
