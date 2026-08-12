@@ -1,0 +1,16 @@
+[
+  {
+    "src": "images/placeholder-1.jpg",
+    "title": "Titre de l'œuvre",
+    "year": "2024",
+    "medium": "Technique / matériaux",
+    "caption": "Légende ou description courte de l'œuvre."
+  },
+  {
+    "src": "images/placeholder-2.jpg",
+    "title": "Titre de l'œuvre",
+    "year": "2023",
+    "medium": "Technique / matériaux",
+    "caption": "Légende ou description courte de l'œuvre."
+  }
+]

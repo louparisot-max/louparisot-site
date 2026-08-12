@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lou Parisot — Texts</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-title" href="index.html">Lou Parisot</a>
+    <nav class="site-nav">
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="texts.html" aria-current="page">Texts</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="news.html">News</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1 class="page-title">Texts</h1>
+  <div class="placeholder-note">
+    Contenu provisoire : édite <code>data/texts.json</code> pour ajouter tes extraits presse, et dépose les PDF correspondants dans <code>/assets/pdf</code>.
+  </div>
+  <div class="entry-list" id="texts-list"></div>
+</main>
+
+<footer class="site-footer">© <span id="year"></span> Lou Parisot</footer>
+<script src="js/entries.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

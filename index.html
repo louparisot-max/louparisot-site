@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lou Parisot — Accueil</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-title" href="index.html">Lou Parisot</a>
+    <nav class="site-nav">
+      <a href="index.html" aria-current="page">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="texts.html">Texts</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="news.html">News</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="placeholder-note">
+    Contenu provisoire : les images et légendes ci-dessous sont des exemples. Remplace-les en éditant <code>data/gallery.json</code> et en ajoutant tes photos dans <code>/images</code>.
+  </div>
+  <div class="gallery" id="gallery-grid"></div>
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox__close" aria-label="Fermer">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" aria-label="Précédent">&#8249;</button>
+  <img src="" alt="">
+  <p class="lightbox__caption"></p>
+  <button class="lightbox__nav lightbox__nav--next" aria-label="Suivant">&#8250;</button>
+</div>
+
+<footer class="site-footer">© <span id="year"></span> Lou Parisot</footer>
+
+<script src="js/gallery.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
