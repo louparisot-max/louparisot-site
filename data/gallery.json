@@ -1,16 +1,114 @@
 [
   {
-    "src": "images/placeholder-1.jpg",
-    "title": "Titre de l'œuvre",
-    "year": "2024",
-    "medium": "Technique / matériaux",
-    "caption": "Légende ou description courte de l'œuvre."
+    "src": "images/vueensemble-LouPARISOT.jpg",
+    "title": "Vue d'ensemble",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "Vue d'ensemble de l'exposition au Confort Moderne."
   },
   {
-    "src": "images/placeholder-2.jpg",
-    "title": "Titre de l'œuvre",
-    "year": "2023",
-    "medium": "Technique / matériaux",
-    "caption": "Légende ou description courte de l'œuvre."
+    "src": "images/vueensemble_LouPARISOT.jpg",
+    "title": "Vue d'ensemble",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "Vue d'ensemble de l'exposition au Confort Moderne."
+  },
+  {
+    "src": "images/vueensemble_3LouPARISOT.jpg",
+    "title": "Vue d'ensemble",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "Vue d'ensemble de l'exposition au Confort Moderne."
+  },
+  {
+    "src": "images/vueensemble_4LouPARISOT.jpg",
+    "title": "Vue d'ensemble",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "Vue d'ensemble de l'exposition au Confort Moderne."
+  },
+  {
+    "src": "images/Gryffographe-LouPARISOT.jpg",
+    "title": "Gryffographe",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/Gryffoparlor-LouPARISOT.jpg",
+    "title": "Gryffoparlor",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/Gryffophone-LouPARISOT.jpg",
+    "title": "Gryffophone",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/Gryffovotes-LouPARISOT.jpg",
+    "title": "Gryffovotes",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/rendu-vr-1.png",
+    "title": "Rendu virtuel",
+    "year": "2024",
+    "medium": "Image de synthèse / VR",
+    "caption": "À compléter — s'agit-il d'une œuvre liée à l'exposition Confort Moderne 2026 ou d'un projet distinct ?"
+  },
+  {
+    "src": "images/rendu-vr-2.png",
+    "title": "Rendu virtuel",
+    "year": "2024",
+    "medium": "Image de synthèse / VR",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/rendu-vr-3.png",
+    "title": "Rendu virtuel",
+    "year": "2024",
+    "medium": "Image de synthèse / VR",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/rendu-vr-4.png",
+    "title": "Rendu virtuel",
+    "year": "2024",
+    "medium": "Image de synthèse / VR",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/LouPARISOT_photo_Arthur_Pequin_DSF6859.jpg",
+    "title": "Vue d'exposition",
+    "year": "2026",
+    "medium": "Confort Moderne — photo Arthur Pequin",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/LouPARISOT_photo_Arthur_Pequin_DSF6896.jpg",
+    "title": "Vue d'exposition",
+    "year": "2026",
+    "medium": "Confort Moderne — photo Arthur Pequin",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/LouPARISOT_photo_Arthur_Pequin_DSF6898.jpg",
+    "title": "Vue d'exposition",
+    "year": "2026",
+    "medium": "Confort Moderne — photo Arthur Pequin",
+    "caption": "À compléter."
+  },
+  {
+    "src": "images/LouPARISOT.jpg",
+    "title": "Vue d'exposition",
+    "year": "2026",
+    "medium": "Confort Moderne",
+    "caption": "À compléter."
   }
 ]
