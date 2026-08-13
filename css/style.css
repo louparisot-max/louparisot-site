@@ -196,20 +196,28 @@ main {
 /* Gallery grid */
 
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2.5rem 1.5rem;
+  column-count: 3;
+  column-gap: 1.5rem;
 }
 
 .gallery__item {
   cursor: pointer;
+  break-inside: avoid;
+  margin-bottom: 2.5rem;
 }
 
 .gallery__item img {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  height: auto;
   background: #f0f0ee;
+}
+
+@media (max-width: 900px) {
+  .gallery { column-count: 2; }
+}
+
+@media (max-width: 560px) {
+  .gallery { column-count: 1; }
 }
 
 .gallery__caption {
@@ -293,6 +301,35 @@ main {
 
 .prose p {
   margin: 0 0 1.2rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Instagram fixed icon */
+
+.insta-fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  z-index: 60;
+}
+
+.insta-fab svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.insta-fab:hover {
+  background: #f2f2f2;
 }
 
 .entry-list {
