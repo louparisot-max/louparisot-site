@@ -1,26 +1,20 @@
 [
-  { "type": "image", "src": "images/accueil/01-confort-moderne-vue-ensemble.jpg", "title": "Vue d'ensemble", "year": "2026", "venue": "Confort Moderne, Poitiers" },
+  { "type": "image", "src": "images/accueil/vueensemble_HD.jpg", "title": "Vue d'ensemble", "year": "2026", "venue": "Jakmousse, Montreuil" },
   {
     "type": "split",
-    "left": { "type": "image", "src": "images/accueil/02-confort-moderne-gryffophone.jpg", "title": "Gryffophone", "year": "2026", "venue": "Confort Moderne, Poitiers" },
-    "right": { "type": "color", "color": "#16213a" }
+    "left": { "type": "image", "src": "images/accueil/Gryffographe-LouPARISOT.jpg", "title": "Gryffographe", "year": "2026", "venue": "Confort Moderne, Poitiers" },
+    "right": { "type": "color", "color": "#4d4d4d" }
   },
-  { "type": "image", "src": "images/accueil/03-confort-moderne-ewop.png", "title": "EWOP", "year": "2026", "venue": "Confort Moderne, Poitiers" },
+  { "type": "image", "src": "images/accueil/ewop-render.png", "title": "EWOP", "year": "2026", "venue": "Confort Moderne, Poitiers" },
   {
     "type": "split",
-    "left": { "type": "color", "color": "#5c1a24" },
-    "right": { "type": "image", "src": "images/accueil/04-confort-moderne-vue-expo.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers" }
+    "left": { "type": "color", "color": "#594040" },
+    "right": { "type": "image", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6859.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers" }
   },
-  { "type": "image", "src": "images/accueil/05-jakmousse-vue-ensemble.jpg", "title": "Vue d'ensemble", "year": "2026", "venue": "Jakmousse, Montreuil" },
+  { "type": "image", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6896.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers" },
   {
     "type": "split",
-    "left": { "type": "image", "src": "images/accueil/06-jakmousse-hydrostellar.jpg", "title": "Hydrostellar", "year": "2026", "venue": "Jakmousse, Montreuil" },
-    "right": { "type": "color", "color": "#1f3b2c" }
-  },
-  { "type": "image", "src": "images/accueil/07-jakmousse-dayzero.jpg", "title": "Day Zero", "year": "2026", "venue": "Jakmousse, Montreuil" },
-  {
-    "type": "split",
-    "left": { "type": "color", "color": "#22304a" },
-    "right": { "type": "image", "src": "images/accueil/08-jakmousse-detail.jpg", "title": "Détail", "year": "2026", "venue": "Jakmousse, Montreuil" }
+    "left": { "type": "image", "src": "images/accueil/Hydro_HD.jpg", "title": "Hydrostellar", "year": "2026", "venue": "Jakmousse, Montreuil" },
+    "right": { "type": "color", "color": "#009999" }
   }
 ]
