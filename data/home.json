@@ -20,7 +20,7 @@
   },
   {
     "type": "split",
-    "left": { "type": "image", "fit": "cover", "src": "images/NuitBlanche/00044.jpg", "title": "Vue nocturne", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris" },
+    "left": { "type": "image", "fit": "contain", "src": "images/NuitBlanche/00044.jpg", "title": "Vue nocturne", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris", "color": "#2f2f6a" },
     "right": { "type": "color", "color": "#5e3b3b" }
   },
   { "type": "image", "fit": "cover", "src": "images/NuitBlanche/vue-candelabre.jpg", "title": "Vue nocturne", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris" },

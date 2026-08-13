@@ -441,6 +441,7 @@ body.has-overlay-header .insta-fab svg circle[fill] {
   border: none;
   border-top: 1px solid #000;
   margin: 4rem 0 2.5rem;
+  width: calc(100vw - 2 * var(--gutter));
 }
 
 .expo-intro {
@@ -488,9 +489,9 @@ body.has-overlay-header .insta-fab svg circle[fill] {
 }
 
 .about-portrait {
-  flex: 0 0 320px;
+  flex: 0 0 480px;
   position: sticky;
-  top: 6rem;
+  top: 2.5rem;
 }
 
 .about-portrait img {
