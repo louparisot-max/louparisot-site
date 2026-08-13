@@ -71,6 +71,19 @@
     ]
   },
   {
+    "title": "MEDIUM3",
+    "venue": "Galerie du BiS, Paris Bastille",
+    "date": "2024",
+    "description": [
+      "Groupshow des diplômés de l'ENSCI — Les Ateliers. À compléter — texte de présentation de l'exposition."
+    ],
+    "images": [
+      { "src": "images/ensci-2024/DSC_3750_PlusClair.jpg", "title": "Vue d'ensemble", "caption": "Installation, groupshow des diplômés de l'ENSCI." },
+      { "src": "images/ensci-2024/credit-lola-rossi.jpg", "title": "Détail", "caption": "Test nocturne. Photo Lola Rossi." },
+      { "src": "images/ensci-2024/credit-lou-parisot.jpg", "title": "Détail", "caption": "Éléments en cours de fabrication." }
+    ]
+  },
+  {
     "title": "TUILERIES",
     "venue": "L'Académie (Le SHED), Maromme",
     "date": "2019",
@@ -78,8 +91,10 @@
       "Exposition personnelle, invitation de Jonathan Loppin. Une série de fontaines archéologiques à la sensibilité baroque, réalisées à partir d'objets récupérés."
     ],
     "images": [
+      { "src": "images/tuileries-2019/les-divines.jpg", "title": "Vue d'ensemble", "caption": "Fontaines archéologiques, L'Académie (Le SHED)." },
       { "src": "images/tuileries-2019/_D4S8534.jpg", "title": "Vue d'ensemble", "caption": "Fontaines archéologiques, L'Académie (Le SHED)." },
       { "src": "images/tuileries-2019/_D4S8535.jpg", "title": "Vue d'ensemble", "caption": "Fontaines archéologiques, L'Académie (Le SHED)." },
+      { "src": "images/tuileries-2019/TL_03997.jpg", "title": "Fontaine", "caption": "Fontaine archéologique, L'Académie (Le SHED)." },
       { "src": "images/tuileries-2019/_D4S8571.jpg", "title": "Wanted", "caption": "Autoportrait numérique avec un pangolin, 2019 — collection FRAC Normandie Caen." }
     ]
   },
