@@ -59,8 +59,6 @@ img {
 }
 
 .site-header__inner {
-  max-width: var(--maxw);
-  margin: 0 auto;
   padding: 1.25rem var(--gutter);
   display: flex;
   align-items: center;
@@ -81,7 +79,6 @@ img {
 .site-header--overlay .site-title,
 .site-header--overlay .site-nav a {
   color: #fff;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
 }
 
 .site-header--overlay .site-nav a[aria-current="page"] {
@@ -125,7 +122,7 @@ body.has-overlay-header main {
 .home-media {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -140,7 +137,6 @@ body.has-overlay-header main {
   left: var(--gutter);
   right: var(--gutter);
   color: #fff;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
 .home-caption__title {
@@ -196,7 +192,7 @@ body.has-overlay-header main {
 
 main {
   max-width: var(--maxw);
-  margin: 0 auto;
+  margin: 0;
   padding: 2.5rem var(--gutter) 5rem;
 }
 
@@ -225,6 +221,7 @@ main {
 
 .gallery__item {
   cursor: pointer;
+  margin: 0;
 }
 
 .gallery__item img {
@@ -336,7 +333,6 @@ main {
 
 body.has-overlay-header .insta-fab svg {
   stroke: #fff;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.6));
 }
 
 body.has-overlay-header .insta-fab svg circle[fill] {
@@ -440,13 +436,13 @@ body.has-overlay-header .insta-fab svg circle[fill] {
 }
 
 .expo-intro {
-  max-width: 720px;
   margin-bottom: 2.5rem;
 }
 
 .expo-title {
   font-size: 1.1rem;
   font-weight: 700;
+  letter-spacing: 0.1em;
   line-height: 1.6;
   color: #000;
   margin: 0 0 0.4rem;
@@ -455,6 +451,7 @@ body.has-overlay-header .insta-fab svg circle[fill] {
 .expo-meta {
   font-size: 1.1rem;
   font-weight: 700;
+  letter-spacing: 0.1em;
   color: #000;
   margin-bottom: 1.1rem;
 }

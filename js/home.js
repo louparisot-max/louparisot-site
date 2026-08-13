@@ -8,7 +8,8 @@ function renderMedia(item) {
          ${item.venue ? `<div class="home-caption__venue">${item.venue}</div>` : ""}
        </div>`
     : "";
-  return `<img class="home-media" src="${item.src}" alt="${item.title || ""}">${caption}`;
+  const bg = item.color ? ` style="background-color:${item.color};"` : "";
+  return `<img class="home-media" src="${item.src}" alt="${item.title || ""}"${bg}>${caption}`;
 }
 
 async function loadHome() {

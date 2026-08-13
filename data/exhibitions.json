@@ -33,6 +33,7 @@
       "À compléter — texte de présentation de l'exposition (contexte, démarche, œuvres présentées)."
     ],
     "images": [
+      { "src": "images/jakmousse-2026/vueensemble2_HD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
       { "src": "images/jakmousse-2026/vueBD2.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
       { "src": "images/jakmousse-2026/vue3BD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
       { "src": "images/jakmousse-2026/vue5BD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
@@ -66,16 +67,15 @@
       { "src": "images/NuitBlanche/06light.jpg", "title": "Détail", "caption": "Sculpture-candélabre, faïence et électronique." },
       { "src": "images/NuitBlanche/07light.jpg", "title": "Détail", "caption": "Sculpture-candélabre, faïence et électronique." },
       { "src": "images/NuitBlanche/vue5.jpg", "title": "Vue d'ensemble", "caption": "Présentation des éléments, Mairie du 15e." },
-      { "src": "images/NuitBlanche/vue5HD.jpg", "title": "Vue nocturne", "caption": "Sculpture-candélabre activée, parvis de la Mairie du 15e." },
       { "src": "images/NuitBlanche/vue-candelabre.jpg", "title": "Vue nocturne", "caption": "Sculpture-candélabre activée, parvis de la Mairie du 15e." }
     ]
   },
   {
-    "title": "MEDIUM3",
-    "venue": "Galerie du BiS, Paris Bastille",
+    "title": "ENSCI — LES ATELIERS",
+    "venue": "L'ENSCI — Les Ateliers, Paris",
     "date": "2024",
     "description": [
-      "Groupshow des diplômés de l'ENSCI — Les Ateliers. À compléter — texte de présentation de l'exposition."
+      "Diplôme de fin de post-diplôme « Création et Technologie Contemporaine », à L'ENSCI — Les Ateliers. À compléter — texte de présentation."
     ],
     "images": [
       { "src": "images/ensci-2024/DSC_3750_PlusClair.jpg", "title": "Vue d'ensemble", "caption": "Installation, groupshow des diplômés de l'ENSCI." },
