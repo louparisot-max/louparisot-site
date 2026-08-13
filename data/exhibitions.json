@@ -74,6 +74,7 @@
       "Duo show avec Amalia Vargas. À compléter — texte de présentation de l'exposition."
     ],
     "images": [
+      { "src": "images/confort-moderne-2019/IMG_1684.JPG", "title": "Vue d'ensemble", "caption": "Entrée de l'exposition." },
       { "src": "images/confort-moderne-2019/IMG_1652.jpg", "title": "Vue d'ensemble", "caption": "Installation sonore, téléphones et écouteurs." },
       { "src": "images/confort-moderne-2019/ensemble.jpg", "title": "Vue d'ensemble", "caption": "Installation sonore, téléphones et écouteurs." },
       { "src": "images/confort-moderne-2019/image1.jpg", "title": "Electroscope", "caption": "Vidéo présentée sur téléphone." },
