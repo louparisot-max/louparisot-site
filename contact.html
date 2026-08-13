@@ -22,13 +22,31 @@
 
 <main>
   <h1 class="page-title">Contact</h1>
+
   <div class="placeholder-note">
-    Remplace l'email et le lien Instagram ci-dessous par les tiens dans <code>contact.html</code>.
+    Le formulaire ci-dessous a besoin d'un service tiers gratuit (Formspree) pour fonctionner — voir les instructions de configuration en fin de conversation.
   </div>
+
   <ul class="contact-list">
-    <li><a href="mailto:contact@louparisot.com">contact@louparisot.com</a></li>
-    <li><a href="https://instagram.com/TON_COMPTE" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="mailto:louparisot@gmail.com">louparisot@gmail.com</a></li>
+    <li><a href="https://instagram.com/lou_parisot" target="_blank" rel="noopener">@lou_parisot</a></li>
   </ul>
+
+  <form class="contact-form" action="https://formspree.io/f/VOTRE_ID_FORMSPREE" method="POST">
+    <div>
+      <label for="name">Nom</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required></textarea>
+    </div>
+    <button type="submit">Envoyer</button>
+  </form>
 </main>
 
 <footer class="site-footer">© <span id="year"></span> Lou Parisot</footer>

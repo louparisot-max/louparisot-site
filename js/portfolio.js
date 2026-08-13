@@ -5,18 +5,23 @@ async function loadExhibitions() {
   const res = await fetch("data/exhibitions.json");
   const exhibitions = await res.json();
 
+  let index = 0;
+  const allImages = [];
+
   container.innerHTML = exhibitions
     .map((expo) => {
       const images = expo.images
-        .map(
-          (img) => `
-          <figure class="gallery__item">
-            <img src="${img.src}" alt="${img.title || ""}" loading="lazy">
+        .map((img) => {
+          allImages.push(img);
+          const i = index++;
+          return `
+          <figure class="gallery__item" data-index="${i}">
+            <img src="${img.src}" alt="${img.title || ""}">
             <figcaption class="gallery__caption">
               <strong>${img.title || ""}</strong>${img.caption ? " — " + img.caption : ""}
             </figcaption>
-          </figure>`
-        )
+          </figure>`;
+        })
         .join("");
 
       const paragraphs = (expo.description || []).map((p) => `<p>${p}</p>`).join("");
@@ -33,6 +38,32 @@ async function loadExhibitions() {
         </section>`;
     })
     .join("");
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = lightbox.querySelector("img");
+  const lightboxCaption = lightbox.querySelector(".lightbox__caption");
+
+  function open(i) {
+    const item = allImages[i];
+    lightboxImg.src = item.src;
+    lightboxImg.alt = item.title || "";
+    lightboxCaption.textContent = [item.title, item.caption].filter(Boolean).join(" — ");
+    lightbox.classList.add("is-open");
+  }
+
+  container.querySelectorAll(".gallery__item").forEach((el) => {
+    el.addEventListener("click", () => open(Number(el.dataset.index)));
+  });
+
+  lightbox.querySelector(".lightbox__close").addEventListener("click", () => {
+    lightbox.classList.remove("is-open");
+  });
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) lightbox.classList.remove("is-open");
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") lightbox.classList.remove("is-open");
+  });
 }
 
 document.addEventListener("DOMContentLoaded", loadExhibitions);
