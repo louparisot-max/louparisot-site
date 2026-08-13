@@ -2,14 +2,15 @@ function renderMedia(item) {
   if (item.type === "color") {
     return `<div class="home-color" style="background:${item.color};"></div>`;
   }
+  const fitClass = item.fit === "cover" ? "home-media--cover" : "home-media--contain";
+  const bg = item.fit !== "cover" && item.color ? ` style="background-color:${item.color};"` : "";
   const caption = item.title
     ? `<div class="home-caption">
          <div class="home-caption__title">${item.title}${item.year ? `<span class="year">, ${item.year}</span>` : ""}</div>
          ${item.venue ? `<div class="home-caption__venue">${item.venue}</div>` : ""}
        </div>`
     : "";
-  const bg = item.color ? ` style="background-color:${item.color};"` : "";
-  return `<img class="home-media" src="${item.src}" alt="${item.title || ""}"${bg}>${caption}`;
+  return `<img class="home-media ${fitClass}" src="${item.src}" alt="${item.title || ""}"${bg}>${caption}`;
 }
 
 async function loadHome() {

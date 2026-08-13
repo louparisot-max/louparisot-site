@@ -122,8 +122,15 @@ body.has-overlay-header main {
 .home-media {
   width: 100%;
   height: 100%;
-  object-fit: contain;
   display: block;
+}
+
+.home-media--contain {
+  object-fit: contain;
+}
+
+.home-media--cover {
+  object-fit: cover;
 }
 
 .home-color {
@@ -209,6 +216,7 @@ main {
 .gallery {
   display: flex;
   gap: 1.5rem;
+  width: calc(100vw - 2 * var(--gutter));
 }
 
 .gallery__column {
@@ -436,6 +444,7 @@ body.has-overlay-header .insta-fab svg circle[fill] {
 }
 
 .expo-intro {
+  max-width: 640px;
   margin-bottom: 2.5rem;
 }
 
@@ -463,6 +472,48 @@ body.has-overlay-header .insta-fab svg circle[fill] {
   text-align: justify;
   hyphens: auto;
   margin: 0 0 1rem;
+}
+
+/* About layout */
+
+.about-layout {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.about-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.about-portrait {
+  flex: 0 0 320px;
+  position: sticky;
+  top: 6rem;
+}
+
+.about-portrait img {
+  width: 100%;
+  height: auto;
+}
+
+.about-portrait__credit {
+  margin: 0.6rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .about-layout {
+    flex-direction: column;
+  }
+  .about-portrait {
+    position: static;
+    flex: none;
+    width: 220px;
+    order: -1;
+  }
 }
 
 /* CV (About page) */

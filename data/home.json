@@ -1,22 +1,28 @@
 [
-  { "type": "image", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6859.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers", "color": "#594040" },
+  { "type": "image", "fit": "cover", "src": "images/confort-moderne-2026/vueensemble-LouPARISOT.jpg", "title": "Vue d'ensemble", "year": "2026", "venue": "Confort Moderne, Poitiers" },
+  { "type": "image", "fit": "cover", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6859.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers" },
   {
     "type": "split",
-    "left": { "type": "image", "src": "images/accueil/Gryffographe-LouPARISOT.jpg", "title": "Gryffographe", "year": "2026", "venue": "Confort Moderne, Poitiers", "color": "#4d4d4d" },
+    "left": { "type": "image", "fit": "contain", "src": "images/accueil/Gryffographe-LouPARISOT.jpg", "title": "Gryffographe", "year": "2026", "venue": "Confort Moderne, Poitiers", "color": "#4d4d4d" },
     "right": { "type": "color", "color": "#4d4d4d" }
   },
-  { "type": "image", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6896.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers", "color": "#4d4d4d" },
-  { "type": "image", "src": "images/accueil/ewop-render.png", "title": "EWOP", "year": "2026", "venue": "Confort Moderne, Poitiers", "color": "#784d21" },
+  { "type": "image", "fit": "cover", "src": "images/accueil/ewop-render.png", "title": "EWOP", "year": "2026", "venue": "Confort Moderne, Poitiers" },
   {
     "type": "split",
-    "left": { "type": "image", "src": "images/accueil/vueensemble_HD.jpg", "title": "Vue d'ensemble", "year": "2026", "venue": "Jakmousse, Montreuil", "color": "#4d4d4d" },
-    "right": { "type": "color", "color": "#4d4d4d" }
+    "left": { "type": "color", "color": "#4d4d4d" },
+    "right": { "type": "image", "fit": "contain", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6896.jpg", "title": "Vue d'exposition", "year": "2026", "venue": "Confort Moderne, Poitiers", "color": "#4d4d4d" }
   },
-  { "type": "image", "src": "images/accueil/Hydro_HD.jpg", "title": "Hydrostellar", "year": "2026", "venue": "Jakmousse, Montreuil", "color": "#009999" },
+  { "type": "image", "fit": "cover", "src": "images/accueil/vueensemble_HD.jpg", "title": "Vue d'ensemble", "year": "2026", "venue": "Jakmousse, Montreuil" },
   {
     "type": "split",
-    "left": { "type": "color", "color": "#5e3b3b" },
-    "right": { "type": "image", "src": "images/NuitBlanche/vue-candelabre.jpg", "title": "Vue nocturne", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris", "color": "#5e3b3b" }
+    "left": { "type": "image", "fit": "contain", "src": "images/accueil/Hydro_HD.jpg", "title": "Hydrostellar", "year": "2026", "venue": "Jakmousse, Montreuil", "color": "#009999" },
+    "right": { "type": "color", "color": "#009999" }
   },
-  { "type": "image", "src": "images/NuitBlanche/vueensemble.jpg", "title": "Vue d'ensemble", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris", "color": "#4d4d4d" }
+  {
+    "type": "split",
+    "left": { "type": "image", "fit": "cover", "src": "images/NuitBlanche/00044.jpg", "title": "Vue nocturne", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris" },
+    "right": { "type": "color", "color": "#5e3b3b" }
+  },
+  { "type": "image", "fit": "cover", "src": "images/NuitBlanche/vue-candelabre.jpg", "title": "Vue nocturne", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris" },
+  { "type": "image", "fit": "cover", "src": "images/NuitBlanche/vueensemble.jpg", "title": "Vue d'ensemble", "year": "2025", "venue": "Nuit Blanche, Mairie du 15e, Paris" }
 ]
