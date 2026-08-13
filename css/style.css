@@ -81,6 +81,10 @@ img {
   color: #fff;
 }
 
+.site-header--overlay .site-title {
+  border-color: #fff;
+}
+
 .site-header--overlay .site-nav a[aria-current="page"] {
   color: #fff;
   border-bottom-color: #fff;
@@ -169,6 +173,9 @@ body.has-overlay-header main {
   text-transform: uppercase;
   font-weight: 700;
   color: #000;
+  display: inline-block;
+  border: 1.5px solid #000;
+  padding: 0.25rem 0.6rem;
 }
 
 .site-nav {
