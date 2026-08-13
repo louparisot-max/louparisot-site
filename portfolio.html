@@ -22,16 +22,16 @@
 
 <main>
   <h1 class="page-title">Portfolio</h1>
-  <div class="placeholder-note">
-    Remplace <code>assets/pdf/portfolio.pdf</code> par ton fichier PDF réel (même nom, ou mets à jour le lien ci-dessous).
-  </div>
   <div class="prose">
-    <p>Retrouvez l'ensemble de mon travail — sculptures, dispositifs et projets — dans le portfolio complet au format PDF.</p>
+    <p>Retrouvez l'ensemble de mon travail dans le portfolio complet au format PDF.</p>
     <a class="portfolio-cta" href="assets/pdf/portfolio.pdf" target="_blank" rel="noopener">Télécharger le portfolio (PDF)</a>
   </div>
+
+  <div id="exhibitions-list"></div>
 </main>
 
 <footer class="site-footer">© <span id="year"></span> Lou Parisot</footer>
+<script src="js/portfolio.js"></script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

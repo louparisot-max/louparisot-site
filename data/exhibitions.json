@@ -1,0 +1,60 @@
+[
+  {
+    "title": "CONFORT MODERNE",
+    "venue": "Confort Moderne, Poitiers",
+    "date": "2026",
+    "description": [
+      "À compléter — texte de présentation de l'exposition (contexte, démarche, œuvres présentées)."
+    ],
+    "images": [
+      { "src": "images/confort-moderne-2026/vueensemble-LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
+      { "src": "images/confort-moderne-2026/vueensemble_LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
+      { "src": "images/confort-moderne-2026/vueensemble_3LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
+      { "src": "images/confort-moderne-2026/vueensemble_4LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
+      { "src": "images/confort-moderne-2026/Gryffographe-LouPARISOT.jpg", "title": "Gryffographe", "caption": "À compléter." },
+      { "src": "images/confort-moderne-2026/Gryffoparlor-LouPARISOT.jpg", "title": "Gryffoparlor", "caption": "À compléter." },
+      { "src": "images/confort-moderne-2026/Gryffophone-LouPARISOT.jpg", "title": "Gryffophone", "caption": "À compléter." },
+      { "src": "images/confort-moderne-2026/Gryffovotes-LouPARISOT.jpg", "title": "Gryffovotes", "caption": "À compléter." },
+      { "src": "images/confort-moderne-2026/videoEWOP_3D.png", "title": "EWOP", "caption": "Image de synthèse / vidéo 3D." },
+      { "src": "images/confort-moderne-2026/rendu-vr-2.png", "title": "EWOP", "caption": "Image de synthèse / vidéo 3D." },
+      { "src": "images/confort-moderne-2026/rendu-vr-3.png", "title": "EWOP", "caption": "Image de synthèse / vidéo 3D." },
+      { "src": "images/confort-moderne-2026/rendu-vr-4.png", "title": "EWOP", "caption": "Image de synthèse / vidéo 3D." },
+      { "src": "images/confort-moderne-2026/LouPARISOT_photo_Arthur_Pequin_DSF6859.jpg", "title": "Vue d'exposition", "caption": "Photo Arthur Pequin." },
+      { "src": "images/confort-moderne-2026/LouPARISOT_photo_Arthur_Pequin_DSF6896.jpg", "title": "Vue d'exposition", "caption": "Photo Arthur Pequin." },
+      { "src": "images/confort-moderne-2026/LouPARISOT_photo_Arthur_Pequin_DSF6898.jpg", "title": "Vue d'exposition", "caption": "Photo Arthur Pequin." },
+      { "src": "images/confort-moderne-2026/LouPARISOT.jpg", "title": "Vue d'exposition", "caption": "À compléter." }
+    ]
+  },
+  {
+    "title": "JAKMOUSSE",
+    "venue": "Jakmousse, Montreuil",
+    "date": "2026",
+    "description": [
+      "À compléter — texte de présentation de l'exposition (contexte, démarche, œuvres présentées)."
+    ],
+    "images": [
+      { "src": "images/jakmousse-2026/vueBD2.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
+      { "src": "images/jakmousse-2026/vue3BD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
+      { "src": "images/jakmousse-2026/vue5BD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
+      { "src": "images/jakmousse-2026/Hydrostellar_LouPARISOT_BD.jpg", "title": "Hydrostellar", "caption": "À compléter." },
+      { "src": "images/jakmousse-2026/HS_BD.jpg", "title": "Hydrostellar", "caption": "À compléter." },
+      { "src": "images/jakmousse-2026/DayZERO_LouPARISOT_BD.jpg", "title": "Day Zero", "caption": "À compléter." },
+      { "src": "images/jakmousse-2026/detailBD.jpg", "title": "Détail", "caption": "À compléter." },
+      { "src": "images/jakmousse-2026/detail2BD.jpg", "title": "Détail", "caption": "À compléter." },
+      { "src": "images/jakmousse-2026/detail5BD.jpg", "title": "Détail", "caption": "À compléter." }
+    ]
+  },
+  {
+    "title": "FANTAWATT",
+    "venue": "Nuit Blanche 2025, Mairie du 15e, Paris",
+    "date": "2025",
+    "description": [
+      "Fantawatt est un parcours scénique in situ qui introduit en ville des sculptures déclenchant des phénomènes électro-fantasmatiques.",
+      "Constituées de faïence et d'électronique, ces sculptures interactives réagissent aux mouvements des mains avec des messages, lumières, vapeurs et sons. Elles produisent des mini-attractions explorant des données invisibles de la ville, liées à l'énergie électrique et électromagnétique.",
+      "Les éléments urbains choisis comme hôtes des sculptures sont les candélabres (réverbères) implantés au milieu du XIXe siècle à Paris et dans d'autres villes françaises (Nantes, Bordeaux...). Des empreintes ont été réalisées sur ces témoins de la Belle Époque pour créer des doubles sculpturaux. Ainsi augmentés, les candélabres deviennent des totems urbains dotés d'une prise de parole fantasmagorique.",
+      "Collectivement, les sculptures créées forment un IoS (Internet of Sculptures) et relient différentes communes et géographies.",
+      "La démarche in situ interroge l'appropriation du mobilier urbain en tant que médium artistique et la manière dont cela peut révéler certains aspects de l'histoire."
+    ],
+    "images": []
+  }
+]
