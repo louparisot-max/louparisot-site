@@ -492,6 +492,7 @@ body.has-overlay-header .insta-fab svg circle[fill] {
   flex: 0 0 480px;
   position: sticky;
   top: 2.5rem;
+  order: -1;
 }
 
 .about-portrait img {
