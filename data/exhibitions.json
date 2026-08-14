@@ -17,8 +17,8 @@
       { "src": "images/confort-moderne-2026/vueensemble_LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
       { "src": "images/confort-moderne-2026/vueensemble_3LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
       { "src": "images/confort-moderne-2026/vueensemble_4LouPARISOT.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition au Confort Moderne." },
-      { "src": "images/confort-moderne-2026/Gryffographe-LouPARISOT.jpg", "title": "Gryffographe", "caption": "À compléter." },
-      { "src": "images/confort-moderne-2026/Gryffoparlor-LouPARISOT.jpg", "title": "Gryffoparlor", "caption": "À compléter." },
+      { "src": "images/confort-moderne-2026/Gryffographe_céramique_électronique_ConfortModerne_Poitiers_2026.jpg", "title": "Gryffographe", "caption": "À compléter." },
+      { "src": "images/confort-moderne-2026/Gryffoparlor_céramique_sonore_bouton_poussoir.jpg", "title": "Gryffoparlor", "caption": "À compléter." },
       { "src": "images/confort-moderne-2026/Gryffophone-LouPARISOT.jpg", "title": "Gryffophone", "caption": "À compléter." },
       { "src": "images/confort-moderne-2026/Gryffovotes-LouPARISOT.jpg", "title": "Gryffovotes", "caption": "À compléter." },
       { "src": "images/confort-moderne-2026/videoEWOP_3D.png", "title": "EWOP", "caption": "Image de synthèse / vidéo 3D." },
@@ -117,12 +117,12 @@
       "Duo show avec Amalia Vargas. Au travers des vidéos Electroscope, des présentateurs-performeurs redonnent des utilisations à des objets récupérés et assemblés par l'artiste, à travers une démonstration inspirée de la vente télévisée. L'ensemble fait référence à un article de 1877 du New York Sun qui imagine pour la première fois le télé-achat avec un canular sur les usages futurs d'un appareil permettant de voir à distance. Huit vidéos ont été produites et accompagnées de bandes sonores."
     ],
     "images": [
-      { "src": "images/confort-moderne-2019/IMG_1684.JPG", "title": "Vue d'ensemble", "caption": "Entrée de l'exposition." },
-      { "src": "images/confort-moderne-2019/IMG_1652.jpg", "title": "Vue d'ensemble", "caption": "Installation sonore, téléphones et écouteurs." },
-      { "src": "images/confort-moderne-2019/ensemble.jpg", "title": "Vue d'ensemble", "caption": "Installation sonore, téléphones et écouteurs." },
-      { "src": "images/confort-moderne-2019/image1.jpg", "title": "Electroscope", "caption": "Vidéo présentée sur téléphone." },
-      { "src": "images/confort-moderne-2019/solene.jpg", "title": "Vidéo", "caption": "Zoom sur une vidéo présentée sur téléphone, avec Solène." },
-      { "src": "images/confort-moderne-2019/table.jpg", "title": "Table", "caption": "À compléter." }
+      { "src": "images/confort-moderne-2019/Exposition_LISTE_avecAmaliaVargas_ConfortModerne_Poitiers_2019.jpg", "title": "Vue d'ensemble", "caption": "Entrée de l'exposition." },
+      { "src": "images/confort-moderne-2019/Électroscope_Série_de_vidéos_sur_téléphones_ConfortModerne_Poitiers_2019.jpg", "title": "Vue d'ensemble", "caption": "Installation sonore, téléphones et écouteurs." },
+      { "src": "images/confort-moderne-2019/Électroscope_vidéos_sur_téléphones_tissus_ConfortModerne_Poitiers_2019.jpg", "title": "Vue d'ensemble", "caption": "Installation sonore, téléphones et écouteurs." },
+      { "src": "images/confort-moderne-2019/Électroscope_Série_vidéos_sur_téléphones_ConfortModerne_Poitiers_2019.jpg", "title": "Electroscope", "caption": "Vidéo présentée sur téléphone." },
+      { "src": "images/confort-moderne-2019/Électroscope_(détail)_vidéos_sur_téléphones_ConfortModerne_Poitiers_2019.jpg", "title": "Vidéo", "caption": "Zoom sur une vidéo présentée sur téléphone, avec Solène." },
+      { "src": "images/confort-moderne-2019/Électroscope_vidéos_sur_téléphones_ConfortModerne_Poitiers_2019.jpg", "title": "Table", "caption": "À compléter." }
     ]
   }
 ]
