@@ -9,7 +9,7 @@
       { "type": "image", "src": "images/confort-moderne-2026/Gryffographe_céramique_électronique_ConfortModerne_Poitiers_2026.jpg", "title": "Gryffographe", "meta": "2026, Confort Moderne", "top": 170, "left": 1060, "width": 290, "height": 480, "tagTop": 630, "tagLeft": 1040, "z": 30 },
       { "type": "image", "src": "images/accueil/EWOP_vidéo_animation_ConfortModerne_Poitiers_2026.png", "title": "E.W.O.P", "meta": "Experimental Wattscape of Paris, 2026", "top": 670, "left": 200, "width": 980, "height": 600, "tagTop": 1250, "tagLeft": 180, "z": 25 },
       { "type": "color", "color": "#17324f", "top": 910, "left": 1180, "width": 250, "height": 345, "z": 22 },
-      { "type": "color", "color": "#3a2c2e", "top": 40, "left": -70, "width": 170, "height": 280, "z": 4 }
+      { "type": "color", "color": "#3a2c2e", "top": 40, "left": 1400, "width": 200, "height": 280, "z": 4 }
     ]
   },
   {
@@ -20,7 +20,7 @@
       { "type": "image", "src": "images/accueil/Hydrostellar_et_DayZero_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Vue d'ensemble", "meta": "2026, Jakmousse, Montreuil", "top": 90, "left": 200, "width": 760, "height": 480, "tagTop": 530, "tagLeft": 180, "z": 35 },
       { "type": "image", "src": "images/accueil/Hydrostellar_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Hydrostellar", "meta": "2026, Jakmousse", "top": 390, "left": 860, "width": 300, "height": 480, "tagTop": 830, "tagLeft": 840, "z": 45 },
       { "type": "color", "color": "#174f4d", "top": 210, "left": 1180, "width": 260, "height": 345, "z": 18 },
-      { "type": "color", "color": "#989490", "top": 520, "left": -70, "width": 170, "height": 260, "z": 4 }
+      { "type": "color", "color": "#989490", "top": 580, "left": 1400, "width": 200, "height": 260, "z": 4 }
     ]
   },
   {
@@ -32,7 +32,7 @@
       { "type": "color", "color": "#3c4b64", "top": 250, "left": 600, "width": 500, "height": 320, "z": 15 },
       { "type": "image", "src": "images/NuitBlanche/Gryffowave_céramique_et_électronique_NuitBlanche2025_Paris75015_©LolaRossi.jpg", "title": "Vue nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 570, "left": 320, "width": 860, "height": 540, "tagTop": 1130, "tagLeft": 360, "z": 28 },
       { "type": "color", "color": "#4d3a2b", "top": 870, "left": 1220, "width": 210, "height": 345, "z": 20 },
-      { "type": "color", "color": "#5a3f1f", "top": 120, "left": -70, "width": 170, "height": 260, "z": 4 }
+      { "type": "color", "color": "#5a3f1f", "top": 120, "left": 1400, "width": 200, "height": 260, "z": 4 }
     ]
   }
 ]

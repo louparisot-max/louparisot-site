@@ -39,16 +39,16 @@
       "À compléter — texte de présentation de l'exposition (contexte, démarche, œuvres présentées)."
     ],
     "images": [
-      { "src": "images/jakmousse-2026/vueensemble2_HD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
-      { "src": "images/jakmousse-2026/vueBD2.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
-      { "src": "images/jakmousse-2026/vue3BD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
-      { "src": "images/jakmousse-2026/vue5BD.jpg", "title": "Vue d'ensemble", "caption": "Vue d'ensemble de l'exposition à Jakmousse." },
-      { "src": "images/jakmousse-2026/Hydrostellar_LouPARISOT_BD.jpg", "title": "Hydrostellar", "caption": "À compléter." },
-      { "src": "images/jakmousse-2026/HS_BD.jpg", "title": "Hydrostellar", "caption": "À compléter." },
-      { "src": "images/jakmousse-2026/DayZERO_LouPARISOT_BD.jpg", "title": "Day Zero", "caption": "À compléter." },
-      { "src": "images/jakmousse-2026/detailBD.jpg", "title": "Détail", "caption": "À compléter." },
-      { "src": "images/jakmousse-2026/detail2BD.jpg", "title": "Détail", "caption": "À compléter." },
-      { "src": "images/jakmousse-2026/detail5BD.jpg", "title": "Détail", "caption": "À compléter." }
+      { "src": "images/jakmousse-2026/Hydrostellar_et_DayZero_(VueEnsemble)_plâtre_peinture_aluminum_électronique_4.jpg", "title": "Hydrostellar et Day Zero", "caption": "Vue d'ensemble, plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Hydrostellar_et_DayZero_(VueEnsemble)_plâtre_peinture_aluminum_électronique_3.jpg", "title": "Hydrostellar et Day Zero", "caption": "Vue d'ensemble, plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Hydrostellar_et_DayZero_(VueEnsemble)_plâtre_peinture_aluminum_électronique.jpg", "title": "Hydrostellar et Day Zero", "caption": "Vue d'ensemble, plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Hydrostellar_et_DayZero_(VueEnsemble)_plâtre_peinture_aluminum_électronique_2.jpg", "title": "Hydrostellar et Day Zero", "caption": "Vue d'ensemble, plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Hydrostellar_plâtre_peinture_aluminum_électronique_2.jpg", "title": "Hydrostellar", "caption": "Plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Hydrostellar_plâtre_peinture_aluminum_électronique.jpg", "title": "Hydrostellar", "caption": "Plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Day_Zero_plâtre_peinture_aluminum.jpg", "title": "Day Zero", "caption": "Plâtre, peinture, aluminium." },
+      { "src": "images/jakmousse-2026/Day_Zero_(détail)_plâtre_peinture_aluminum_électronique_2.jpg", "title": "Day Zero (détail)", "caption": "Plâtre, peinture, aluminium, électronique." },
+      { "src": "images/jakmousse-2026/Day_Zero_(détail)_plâtre_peinture_aluminium.jpg", "title": "Day Zero (détail)", "caption": "Plâtre, peinture, aluminium." },
+      { "src": "images/jakmousse-2026/Hydrostellar_(détail)_plâtre_peinture_aluminum_électronique.jpg", "title": "Hydrostellar (détail)", "caption": "Plâtre, peinture, aluminium, électronique." }
     ]
   },
   {
@@ -89,7 +89,7 @@
     "images": [
       { "src": "images/ensci-2024/DSC_3750_PlusClair.jpg", "title": "Vue d'ensemble", "caption": "Installation, groupshow des diplômés de l'ENSCI." },
       { "src": "images/ensci-2024/credit-lola-rossi.jpg", "title": "Détail", "caption": "Test nocturne. Photo Lola Rossi." },
-      { "src": "images/ensci-2024/credit-lou-parisot.jpg", "title": "Détail", "caption": "Éléments en cours de fabrication." }
+      { "src": "images/ensci-2024/Gryffes_Vue_d_atelier.jpg", "title": "Vue d'atelier", "caption": "Gryffes, éléments en cours de fabrication." }
     ]
   },
   {
