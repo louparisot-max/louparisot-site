@@ -167,7 +167,12 @@ img {
   }
 
   .home-item--color {
-    height: 120px !important;
+    position: absolute !important;
+    top: 60px !important;
+    left: 100% !important;
+    width: 70px !important;
+    height: 65vh !important;
+    z-index: 1;
   }
 
   .home-item img {
