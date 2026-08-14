@@ -4,7 +4,7 @@
     "link": "https://www.confort-moderne.fr/fr/archives/event/Les-Noces-de-Coquelicot/3116",
     "height": 1320,
     "items": [
-      { "type": "image", "src": "images/confort-moderne-2026/vueensemble-LouPARISOT.jpg", "title": "Vue d'ensemble", "meta": "2026, Confort Moderne, Poitiers", "top": 20, "left": 200, "width": 700, "height": 460, "tagTop": 420, "tagLeft": 180, "z": 20 },
+      { "type": "image", "src": "images/confort-moderne-2026/Les_Gryffes_et_EWOP_Vue_ensemble_exposition.jpg", "title": "Vue d'ensemble", "meta": "2026, Confort Moderne, Poitiers", "top": 20, "left": 200, "width": 700, "height": 460, "tagTop": 420, "tagLeft": 180, "z": 20 },
       { "type": "color", "color": "#402d26", "top": 330, "left": 860, "width": 380, "height": 356, "z": 15 },
       { "type": "image", "src": "images/confort-moderne-2026/Gryffographe_céramique_électronique_ConfortModerne_Poitiers_2026.jpg", "title": "Gryffographe", "meta": "2026, Confort Moderne", "top": 170, "left": 1060, "width": 290, "height": 480, "tagTop": 630, "tagLeft": 1040, "z": 30 },
       { "type": "image", "src": "images/accueil/EWOP_vidéo_animation_ConfortModerne_Poitiers_2026.png", "title": "E.W.O.P", "meta": "Experimental Wattscape of Paris, 2026", "top": 670, "left": 200, "width": 980, "height": 600, "tagTop": 1250, "tagLeft": 180, "z": 25 },
