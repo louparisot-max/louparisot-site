@@ -16,7 +16,8 @@ function renderItem(item, sectionHeight) {
     ? `<div class="home-tag" style="top:${pct(item.tagTop, sectionHeight)}; left:${pct(item.tagLeft, DESIGN_WIDTH)};"><strong>${item.title}</strong> — ${item.meta}</div>`
     : "";
 
-  return `<div class="home-item" style="${style}"><img src="${item.src}" alt="${item.title || ""}"></div>${tag}`;
+  const bg = item.bg ? ` background-color:${item.bg};` : "";
+  return `<div class="home-item" style="${style}${bg}"><img src="${item.src}" alt="${item.title || ""}"></div>${tag}`;
 }
 
 function renderSection(section) {
