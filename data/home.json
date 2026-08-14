@@ -28,9 +28,9 @@
     "link": "https://formation-continue.ensci.com/une-actu?tx_news_pi1%5Baction%5D=detail&tx_news_pi1%5Bcontroller%5D=News&tx_news_pi1%5Bnews%5D=50283&cHash=1146f21a94789ba32296674e32f90061",
     "height": 1260,
     "items": [
-      { "type": "image", "src": "images/accueil/Confort_moderne_N_de_C_052026_photo_Arthur_Pequin_DSF6896.jpg", "title": "Vue d'exposition", "meta": "Confort Moderne, Poitiers", "top": 90, "left": 220, "width": 360, "height": 480, "tagTop": 530, "tagLeft": 200, "z": 40 },
+      { "type": "image", "src": "images/accueil/Gryffovotes_céramique_et_électronique_©ArthurPequin.jpg", "title": "Vue d'exposition", "meta": "Confort Moderne, Poitiers", "top": 90, "left": 220, "width": 360, "height": 480, "tagTop": 530, "tagLeft": 200, "z": 40 },
       { "type": "color", "color": "#3c4b64", "top": 250, "left": 600, "width": 500, "height": 320, "z": 15 },
-      { "type": "image", "src": "images/NuitBlanche/vue-candelabre.jpg", "title": "Vue nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 570, "left": 320, "width": 860, "height": 540, "tagTop": 1130, "tagLeft": 360, "z": 28 },
+      { "type": "image", "src": "images/NuitBlanche/Gryffowave_céramique_et_électronique_NuitBlanche2025_Paris75015_©LolaRossi.jpg", "title": "Vue nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 570, "left": 320, "width": 860, "height": 540, "tagTop": 1130, "tagLeft": 360, "z": 28 },
       { "type": "color", "color": "#4d3a2b", "top": 870, "left": 1220, "width": 210, "height": 345, "z": 20 },
       { "type": "color", "color": "#5a3f1f", "top": 120, "left": -70, "width": 170, "height": 260, "z": 4 }
     ]
