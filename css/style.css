@@ -140,6 +140,7 @@ img {
 @media (max-width: 900px) {
   .home-section__canvas {
     height: auto !important;
+    padding-top: 0 !important;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
