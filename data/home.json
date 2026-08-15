@@ -28,7 +28,7 @@
     "items": [
       { "type": "image", "src": "images/NuitBlanche/Évènement_Nuit_Blanche_2025_Mairie_du_15e_Paris_©V.Tanelian.jpg.jpg", "title": "Interaction nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 90, "left": 220, "width": 670, "height": 447, "tagTop": 547, "tagLeft": 200, "z": 40 },
       { "type": "color", "color": "#4d3a2b", "top": 420, "left": 650, "width": 560, "height": 480, "z": 15 },
-      { "type": "image", "src": "images/NuitBlanche/Gryffotime_crédit_V.Tanelian.jpg", "title": "Gryffotime", "meta": "2025, Nuit Blanche, Mairie du 15e", "top": 180, "left": 960, "width": 345, "height": 517, "tagTop": 707, "tagLeft": 940, "z": 45 },
+      { "type": "image", "src": "images/NuitBlanche/Gryffotime_céramique_et_électronique_©V.Tanelian.jpg", "title": "Gryffotime", "meta": "2025, Nuit Blanche, Mairie du 15e", "top": 180, "left": 960, "width": 345, "height": 517, "tagTop": 707, "tagLeft": 940, "z": 45 },
       { "type": "image", "src": "images/NuitBlanche/Gryffowave_céramique_et_électronique_NuitBlanche2025_Paris75015_©LolaRossi.jpg", "title": "Vue nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 820, "left": 320, "width": 990, "height": 660, "tagTop": 1490, "tagLeft": 360, "z": 28 }
     ]
   }
