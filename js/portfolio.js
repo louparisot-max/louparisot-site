@@ -17,6 +17,27 @@ function distributeIntoColumns(items, numColumns) {
   return columns;
 }
 
+// Splits paragraphs into two columns by character count, keeping the
+// left column always at least as large as the right (newspaper-style).
+function splitParagraphsForColumns(paragraphs) {
+  if (paragraphs.length <= 1) return { left: paragraphs, right: [] };
+
+  const lengths = paragraphs.map((p) => p.length);
+  const total = lengths.reduce((a, b) => a + b, 0);
+
+  let leftLen = 0;
+  let splitAt = paragraphs.length;
+  for (let i = 0; i < paragraphs.length; i++) {
+    const nextLeftLen = leftLen + lengths[i];
+    if (nextLeftLen / total >= 0.55 && i < paragraphs.length - 1) {
+      splitAt = i + 1;
+      break;
+    }
+    leftLen = nextLeftLen;
+  }
+  return { left: paragraphs.slice(0, splitAt), right: paragraphs.slice(splitAt) };
+}
+
 function renderGallery(images, indexOffset) {
   const numColumns = numColumnsForWidth();
   const withIndex = images.map((img, i) => ({ ...img, __index: indexOffset + i }));
@@ -57,7 +78,9 @@ async function loadExhibitions() {
       index += expo.images.length;
 
       const gallery = renderGallery(expo.images, startIndex);
-      const paragraphs = (expo.description || []).map((p) => `<p>${p}</p>`).join("");
+      const { left, right } = splitParagraphsForColumns(expo.description || []);
+      const leftHtml = left.map((p) => `<p>${p}</p>`).join("");
+      const rightHtml = right.map((p) => `<p>${p}</p>`).join("");
 
       return `
         <section class="expo-block">
@@ -65,7 +88,10 @@ async function loadExhibitions() {
           <div class="expo-intro">
             <h2 class="expo-title">${expo.title}</h2>
             <div class="expo-meta">${[expo.venue, expo.date].filter(Boolean).join(" — ")}</div>
-            <div class="expo-description">${paragraphs}</div>
+            <div class="expo-description">
+              <div class="expo-description__col">${leftHtml}</div>
+              <div class="expo-description__col">${rightHtml}</div>
+            </div>
           </div>
           <div class="gallery">${gallery}</div>
         </section>`;
