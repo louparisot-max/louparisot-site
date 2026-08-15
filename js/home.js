@@ -215,10 +215,7 @@ async function loadNewsTicker() {
   if (!entry) return;
 
   const label = `NEWS : ${entry.text || entry.title}${entry.date ? " — " + entry.date + "." : ""}`;
-  const linkHtml = (extraClass) =>
-    `<a class="news-ticker__item${extraClass}" href="${entry.link}" target="_blank" rel="noopener">${label}</a>`;
-
-  track.innerHTML = linkHtml("") + linkHtml("");
+  track.innerHTML = `<a class="news-ticker__item" href="${entry.link}" target="_blank" rel="noopener">${label}</a>`;
   ticker.hidden = false;
 }
 
