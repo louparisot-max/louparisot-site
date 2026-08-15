@@ -323,14 +323,20 @@
     ]
   },
   {
-    "title": "TUILERIES",
+    "title": "L'ACADÉMIE - LE SHED",
+    "link": "https://www.le-shed.com/",
     "venue": "L'Académie (Le SHED), Maromme",
     "date": "2019",
+    "subtitle": "Exposition personnelle « Tuileries », Maromme — 2019",
     "description": [
       "L'exposition personnelle de Lou Parisot s'étend sur 200m2 dans les quatre espaces de l'Académie du SHED. L'ensemble des dispositifs-sculpturaux portent sur l'idée de la domestication de notre entourage. Formellement, un nouveau regard et une seconde vie sont donnés à des objets rebuts, désuets ou pauvres dans un monde où notre impact environnemental est majeur. La plupart des œuvres présentées dans l'exposition s'animent d'elles même ou sont vouées à être activées par le public et des performeurs.",
       "Le titre de l'exposition fait référence au Jardin des Tuileries à Paris, un espace qui est d'abord, au XIIIème siècle un vaste terrain vague où se trouvait des fabriques de tuiles. Sous l'ordre de Catherine de Médicis, il devient un jardin italien et un palais royal. Tuileries questionne ainsi un parallèle existant dans l'histoire de l'Académie : celui d'un lieu qui fut dédié à la fabrication de poudre à canon mais aussi maison natale du Maréchal Pélissier.",
       "Tuileries est également la station de métro parisien suivant Concorde sur la ligne 1, titre emprunté par Simon Boudvin pour son exposition présentée aux mêmes dates au SHED, à 700m de distance de L'Académie."
     ],
+    "links": [
+      { "label": "Article Artpress #474 ↓", "href": "assets/pdf/artpress-2020-introducing.pdf" }
+    ],
+    "linksColumn": "right",
     "images": [
       {
         "src": "images/tuileries-2019/LesDivines_(série)_fontaines_©MarcDomage.jpg",
