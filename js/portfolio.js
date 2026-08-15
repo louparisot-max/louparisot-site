@@ -82,8 +82,18 @@ async function loadExhibitions() {
       const { left, right } = isManualColumns
         ? { left: expo.description.left || [], right: expo.description.right || [] }
         : splitParagraphsForColumns(expo.description || []);
-      const leftHtml = left.map((p) => `<p>${p}</p>`).join("");
-      const rightHtml = right.map((p) => `<p>${p}</p>`).join("");
+      const linksHtml =
+        expo.links && expo.links.length
+          ? `<div class="expo-links">${expo.links
+              .map((l) => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`)
+              .join("")}</div>`
+          : "";
+      const leftLinks = expo.linksColumn === "left" ? linksHtml : "";
+      const rightLinks = expo.linksColumn === "right" ? linksHtml : "";
+      const outsideLinks = !expo.linksColumn ? linksHtml : "";
+
+      const leftHtml = left.map((p) => `<p>${p}</p>`).join("") + leftLinks;
+      const rightHtml = right.map((p) => `<p>${p}</p>`).join("") + rightLinks;
 
       return `
         <section class="expo-block">
@@ -95,13 +105,7 @@ async function loadExhibitions() {
               <div class="expo-description__col">${leftHtml}</div>
               <div class="expo-description__col">${rightHtml}</div>
             </div>
-            ${
-              expo.links && expo.links.length
-                ? `<div class="expo-links">${expo.links
-                    .map((l) => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`)
-                    .join("")}</div>`
-                : ""
-            }
+            ${outsideLinks}
           </div>
           <div class="gallery">${gallery}</div>
         </section>`;

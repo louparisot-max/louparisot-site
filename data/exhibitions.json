@@ -7,13 +7,13 @@
     "subtitle": "Exposition collective « Les Noces de Coquelicot », commissariat Jocelyn Moisson, Poitiers — 2026",
     "description": {
       "left": [
-        "Avec Anna Bonadé, Clément Davout, Théodore Deleplace, Charlotte Delval, Léo Fourdrinier, Théo Guezennec, Arthur Marie, Lou Parisot, Théophile Péris et Amalia Vargas, sur une invitation du commissaire d’exposition Jocelyn Moisson.",
-        "« Chacune des sculptures présentées par Lou Parisot, se fait dans son fragment et sa totalité, le lieu d’un rappel de l’histoire et un appel à sa poursuite. En travaillant à partir de l’existant en en créant des doubles, elle expose l’état d’un savoir, comme celui d’un modèle reconnu - qu’il soit celui d’un achèvement, ou d’un système en crise. En y confrontant deux visions dans une expérience présente, elle oppose à un savoir connu une idée inédite, dont les rapports invariables font d’une réalité inchangées, celui d’une connaissance nouvelle. » Jocelyn Moisson"
-      ],
-      "right": [
         "Pour paraphraser les mots de Michel de Certeau, c’est parce que la différence ne cesse de faire travailler l’union, que nous nous inventons mutuellement en nous reconnaissant différents. Au détriment d’une vérité unique, la conception associationniste même de l’exposition, fait de la diversité des perceptions le langage particulier d’une réalité exposée (dont l’inconnu offre une plus grande promesse). En donnant à voir la singularité d’une appartenance, en affirmant sa présence partielle sans assimiler l’autre à soi, les dix artistes présenté·e·s dans Les Noces de Coquelicot disent tout à la fois notre désir de s’unir aux autres, que la différence qui nous en sépare et pose « la question toujours nouvelle d’une réciprocité, qui nous appelle a exister en reconnaissant l’existence des autres »<sup>1</sup>.",
         "Jocelyn Moisson, commissaire de l’exposition « Les Noces de coquelicot »",
         "<span class=\"expo-footnote\">1. De Certeau, Michel, <em>L’Étranger ou l’union dans la différence</em>, Points Essais, Paris : (c1969, coll. D.D.B.), Éditions du Seuil, 2005. p. 150</span>"
+      ],
+      "right": [
+        "Avec Anna Bonadé, Clément Davout, Théodore Deleplace, Charlotte Delval, Léo Fourdrinier, Théo Guezennec, Arthur Marie, Lou Parisot, Théophile Péris et Amalia Vargas.",
+        "« Chacune des sculptures présentées par Lou Parisot, se fait dans son fragment et sa totalité, le lieu d’un rappel de l’histoire et un appel à sa poursuite. En travaillant à partir de l’existant en en créant des doubles, elle expose l’état d’un savoir, comme celui d’un modèle reconnu - qu’il soit celui d’un achèvement, ou d’un système en crise. En y confrontant deux visions dans une expérience présente, elle oppose à un savoir connu une idée inédite, dont les rapports invariables font d’une réalité inchangées, celui d’une connaissance nouvelle. »"
       ]
     },
     "images": [
@@ -105,17 +105,20 @@
     "venue": "Jakmousse, Montreuil",
     "date": "2026",
     "subtitle": "Exposition collective « J’acc…mousse ! », Montreuil — 2026",
-    "description": [
-      "Conçues à partir d’empreintes de fontaines-poussoirs de l’espace public parisien, les sculptures « Day Zero » et « Hydrostellar » s’inscrivent dans le projet « Architectures des fluides » de Lou Parisot, un ensemble de dispositifs sculpturaux dont le point de départ est un élément presque invisible de l’infrastructure collective : la fontaine.",
-      "« Day Zero » déploie à plat les différentes faces d’une fontaine publique pour former une croix évoquant à la fois une cible, une dissection et un signe d’alerte — celle d’une ressource, l’eau potable, aujourd’hui profondément inégalement répartie à l’échelle mondiale. Le titre fait référence au moment critique où une ville ou un pays se retrouve au bord de l’épuisement de ses réserves d’eau potable, comme ce fut le cas en Afrique du Sud.",
-      "« Hydrostellar » est un objet stellaire : une archéo-interface nous faisant voyager entre l’archive et la prospection. Les motifs de la fontaine d’origine y sont réassemblés sous forme organique et spatiale, et la pièce déverse des mots comme un flux de paroles interrogeant la nature de l’eau, son origine et sa présence dans l’univers.",
-      "Après « Propositions élastiques », « Le Retour du Fiasco » et « Cataoutchouc » pour sa 4ᵉ manifestation de Relations en tension, « J’acc…mousse ! » s’énonce comme la rencontre inédite entre le J’accuse d’Émile Zola, acte de naissance de la résistance de l’intellectuel moderne, et le mousse espiègle de l’image de l’entreprise Jakmousse…",
-      "Cette exposition réunit : Raphaël Algieri, David Ancelin, Iri Berkleid, Stéphane Bérard, Vincent Bonnet, Io Burgard, Anne-Flore Cabanis, Damien Caccia, Anne-Laure Cros, Loïc Connanski, Julia Declaire, France Dubois, Léa Dumayet, Juliette de Ferluc, Jules Dumoulin, Clarisse Doussot, Corinne Fhima, Marc Fontenelle, Aurélie Galois, Gégé Lefév, Maceo Goy Clairet, Bernard Hausseguy, Martin Kaulen, Lyonel Kouro, Vincent Labaume, Arnaud Labelle-Rojoux, Christine Laquet, Rachel Laurent, Martin Le Chevallier, Corentin Le Guet, Fabien Lerat, François Maurin, Cécile Mainardi, Charlie Malgat, Jean-Charles Massera, Bérénice Mayaux, Philippe Mayaux, Kenji Meunier, Nicolas Milhé, Mohochita, Jean-Luc Moulène, Rebecca Olsen, Nicolas Paillard, Lou Parisot, Jean-Marie Perdrix, Laurent Pernot, Bertrand Planes, Manon Pretto, Recycle Group*, Pascale Rémita, Laura Rouzet, Ekaterina Shcherbakova, Arielle Sibony, Morgane Tschiember, Arnaud Vasseux et Sergio Verastegui."
-    ],
+    "description": {
+      "left": [
+        "Conçues à partir d’empreintes de fontaines-poussoirs de l’espace public parisien, les sculptures « Day Zero » et « Hydrostellar » s’inscrivent dans le projet « Architectures des fluides » de Lou Parisot, un ensemble de dispositifs sculpturaux dont le point de départ est un élément presque invisible de l’infrastructure collective : la fontaine. « Day Zero » en déploie à plat les différentes faces pour former une croix évoquant à la fois une cible, une dissection et un signe d’alerte — celle d’une ressource, l’eau potable, aujourd’hui profondément inégalement répartie à l’échelle mondiale, et dont le titre fait référence au moment critique où une ville ou un pays se retrouve au bord de l’épuisement de ses réserves, comme ce fut le cas en Afrique du Sud. « Hydrostellar », quant à elle, est un objet stellaire : une archéo-interface faisant voyager entre l’archive et la prospection, dont les motifs de la fontaine d’origine sont réassemblés sous forme organique et spatiale, et qui déverse des mots comme un flux de paroles interrogeant la nature de l’eau, son origine et sa présence dans l’univers.",
+        "Après « Propositions élastiques », « Le Retour du Fiasco » et « Cataoutchouc » pour sa 4ᵉ manifestation de Relations en tension, « J’acc…mousse ! » s’énonce comme la rencontre inédite entre le J’accuse d’Émile Zola, acte de naissance de la résistance de l’intellectuel moderne, et le mousse espiègle de l’image de l’entreprise Jakmousse…"
+      ],
+      "right": [
+        "Cette exposition réunit : Raphaël Algieri, David Ancelin, Iri Berkleid, Stéphane Bérard, Vincent Bonnet, Io Burgard, Anne-Flore Cabanis, Damien Caccia, Anne-Laure Cros, Loïc Connanski, Julia Declaire, France Dubois, Léa Dumayet, Juliette de Ferluc, Jules Dumoulin, Clarisse Doussot, Corinne Fhima, Marc Fontenelle, Aurélie Galois, Gégé Lefév, Maceo Goy Clairet, Bernard Hausseguy, Martin Kaulen, Lyonel Kouro, Vincent Labaume, Arnaud Labelle-Rojoux, Christine Laquet, Rachel Laurent, Martin Le Chevallier, Corentin Le Guet, Fabien Lerat, François Maurin, Cécile Mainardi, Charlie Malgat, Jean-Charles Massera, Bérénice Mayaux, Philippe Mayaux, Kenji Meunier, Nicolas Milhé, Mohochita, Jean-Luc Moulène, Rebecca Olsen, Nicolas Paillard, Lou Parisot, Jean-Marie Perdrix, Laurent Pernot, Bertrand Planes, Manon Pretto, Recycle Group*, Pascale Rémita, Laura Rouzet, Ekaterina Shcherbakova, Arielle Sibony, Morgane Tschiember, Arnaud Vasseux et Sergio Verastegui."
+      ]
+    },
     "links": [
       { "label": "Communiqué de presse ↓", "href": "assets/pdf/Communique_Jaccmousse_2026.pdf" },
       { "label": "Texte, Vincent Labaume ↓", "href": "assets/pdf/Texte_Vincent_Labaume.pdf" }
     ],
+    "linksColumn": "right",
     "images": [
       {
         "src": "images/jakmousse-2026/Hydrostellar_et_DayZero_(VueEnsemble)_plâtre_peinture_aluminum_électronique_4.jpg",
