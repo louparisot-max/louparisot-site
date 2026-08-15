@@ -7,13 +7,12 @@
     "subtitle": "Exposition collective « Les Noces de Coquelicot », commissariat Jocelyn Moisson, Poitiers — 2026",
     "description": {
       "left": [
-        "Avec Anna Bonadé, Clément Davout, Théodore Deleplace,<br>Charlotte Delval, Léo Fourdrinier, Théo Guezennec,<br>Arthur Marie, Lou Parisot, Théophile Péris<br>et Amalia Vargas.",
+        "Avec Anna Bonadé, Clément Davout, Théodore Deleplace,<br>Charlotte Delval, Léo Fourdrinier, Théo Guezennec,<br>Arthur Marie, Lou Parisot, Théophile Péris et Amalia Vargas.",
         "« Chacune des sculptures présentées par Lou Parisot, se fait dans son fragment et sa totalité, le lieu d’un rappel de l’histoire et un appel à sa poursuite. En travaillant à partir de l’existant en en créant des doubles, elle expose l’état d’un savoir, comme celui d’un modèle reconnu - qu’il soit celui d’un achèvement, ou d’un système en crise. En y confrontant deux visions dans une expérience présente, elle oppose à un savoir connu une idée inédite, dont les rapports invariables font d’une réalité inchangées, celui d’une connaissance nouvelle. »"
       ],
       "right": [
-        "Pour paraphraser les mots de Michel de Certeau, c’est parce que la différence ne cesse de faire travailler l’union, que nous nous inventons mutuellement en nous reconnaissant différents. Au détriment d’une vérité unique, la conception associationniste même de l’exposition, fait de la diversité des perceptions le langage particulier d’une réalité exposée (dont l’inconnu offre une plus grande promesse). En donnant à voir la singularité d’une appartenance, en affirmant sa présence partielle sans assimiler l’autre à soi, les dix artistes présenté·e·s dans Les Noces de Coquelicot disent tout à la fois notre désir de s’unir aux autres, que la différence qui nous en sépare et pose « la question toujours nouvelle d’une réciprocité, qui nous appelle a exister en reconnaissant l’existence des autres »<sup>1</sup>.",
-        "Jocelyn Moisson, commissaire de l’exposition « Les Noces de coquelicot »",
-        "<span class=\"expo-footnote\">1. De Certeau, Michel, <em>L’Étranger ou l’union dans la différence</em>, Points Essais, Paris : (c1969, coll. D.D.B.), Éditions du Seuil, 2005. p. 150</span>"
+        "Pour paraphraser les mots de Michel de Certeau, c’est parce que la différence ne cesse de faire travailler l’union, que nous nous inventons mutuellement en nous reconnaissant différents. Au détriment d’une vérité unique, la conception associationniste même de l’exposition, fait de la diversité des perceptions le langage particulier d’une réalité exposée (dont l’inconnu offre une plus grande promesse). En donnant à voir la singularité d’une appartenance, en affirmant sa présence partielle sans assimiler l’autre à soi, les dix artistes présenté·e·s dans Les Noces de Coquelicot disent tout à la fois notre désir de s’unir aux autres, que la différence qui nous en sépare et pose « la question toujours nouvelle d’une réciprocité, qui nous appelle a exister en reconnaissant l’existence des autres ».",
+        "Jocelyn Moisson, commissaire de l’exposition « Les Noces de coquelicot »"
       ]
     },
     "images": [
@@ -174,6 +173,7 @@
   },
   {
     "title": "NUIT BLANCHE 2025",
+    "link": "https://www.paris.fr/evenements/lou-parisot-fantawatt-84174",
     "venue": "Nuit Blanche 2025, Mairie du 15e, Paris",
     "date": "2025",
     "subtitle": "Fantawatt, sculptures sur candélabres de l’espace public, Mairie du 15e, Paris — 2025",
@@ -377,6 +377,7 @@
     "links": [
       { "label": "Voir la vidéo (mot de passe : electroscope) ↗", "href": "https://vimeo.com/409821447" }
     ],
+    "linksColumn": "right",
     "images": [
       {
         "src": "images/confort-moderne-2019/Exposition_LISTE_avecAmaliaVargas_ConfortModerne_Poitiers_2019.jpg",

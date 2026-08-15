@@ -204,6 +204,8 @@ img {
   letter-spacing: -0.02em;
   z-index: 60;
   writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transform-origin: center center;
   left: 0;
 }
 
@@ -281,6 +283,7 @@ img {
   .home-section__title {
     position: static;
     writing-mode: horizontal-tb;
+    transform: none;
     font-size: 2.2rem !important;
     margin-bottom: 0.5rem;
   }
