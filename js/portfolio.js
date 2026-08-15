@@ -101,13 +101,19 @@ async function loadExhibitions() {
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = lightbox.querySelector("img");
   const lightboxCaption = lightbox.querySelector(".lightbox__caption");
+  let currentIndex = 0;
 
   function open(i) {
-    const item = allImages[i];
+    currentIndex = i;
+    const item = allImages[currentIndex];
     lightboxImg.src = item.src;
     lightboxImg.alt = item.title || "";
     lightboxCaption.textContent = [item.title, item.caption].filter(Boolean).join(" — ");
     lightbox.classList.add("is-open");
+  }
+
+  function showRelative(delta) {
+    open((currentIndex + delta + allImages.length) % allImages.length);
   }
 
   container.querySelectorAll(".gallery__item").forEach((el) => {
@@ -117,11 +123,16 @@ async function loadExhibitions() {
   lightbox.querySelector(".lightbox__close").addEventListener("click", () => {
     lightbox.classList.remove("is-open");
   });
+  lightbox.querySelector(".lightbox__nav--prev").addEventListener("click", () => showRelative(-1));
+  lightbox.querySelector(".lightbox__nav--next").addEventListener("click", () => showRelative(1));
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) lightbox.classList.remove("is-open");
   });
   document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("is-open")) return;
     if (e.key === "Escape") lightbox.classList.remove("is-open");
+    if (e.key === "ArrowLeft") showRelative(-1);
+    if (e.key === "ArrowRight") showRelative(1);
   });
 }
 
