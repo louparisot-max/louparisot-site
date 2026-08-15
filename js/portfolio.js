@@ -78,7 +78,10 @@ async function loadExhibitions() {
       index += expo.images.length;
 
       const gallery = renderGallery(expo.images, startIndex);
-      const { left, right } = splitParagraphsForColumns(expo.description || []);
+      const isManualColumns = expo.description && !Array.isArray(expo.description);
+      const { left, right } = isManualColumns
+        ? { left: expo.description.left || [], right: expo.description.right || [] }
+        : splitParagraphsForColumns(expo.description || []);
       const leftHtml = left.map((p) => `<p>${p}</p>`).join("");
       const rightHtml = right.map((p) => `<p>${p}</p>`).join("");
 

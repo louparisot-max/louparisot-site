@@ -680,6 +680,12 @@ main {
   margin: 0 0 1rem;
 }
 
+.expo-footnote {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 @media (max-width: 900px) {
   .expo-description {
     flex-direction: column;
