@@ -86,7 +86,7 @@ async function loadExhibitions() {
         <section class="expo-block">
           <hr class="expo-separator">
           <div class="expo-intro">
-            <h2 class="expo-title">${expo.title}</h2>
+            <h2 class="expo-title">${expo.link ? `<a href="${expo.link}" target="_blank" rel="noopener">${expo.title}</a>` : expo.title}</h2>
             <div class="expo-meta">${[expo.venue, expo.date].filter(Boolean).join(" — ")}</div>
             <div class="expo-description">
               <div class="expo-description__col">${leftHtml}</div>
