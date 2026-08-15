@@ -90,7 +90,7 @@ img {
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
-  animation: news-ticker-scroll 12s linear infinite;
+  animation: news-ticker-scroll 20s linear infinite;
 }
 
 .news-ticker__item:hover {
