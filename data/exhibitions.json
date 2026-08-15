@@ -184,8 +184,9 @@
       "Collectivement, les sculptures créées forment un IoS (Internet of Sculptures) et relient différentes communes et géographies. La démarche in situ interroge l’appropriation du mobilier urbain en tant que médium artistique et la manière dont cela peut révéler certains aspects de l’histoire."
     ],
     "links": [
-      { "label": "Édition visiteurs ↓", "href": "assets/pdf/EditionPlan_visiteurs000.pdf" }
+      { "label": "Édition distribuée aux visiteurs ↓", "href": "assets/pdf/EditionPlan_visiteurs000.pdf" }
     ],
+    "linksColumn": "right",
     "images": [
       {
         "src": "images/NuitBlanche/Évènement_NuitBlanche2025_Mairiedu15e_Paris©V.Tanelian.jpg",
@@ -297,18 +298,14 @@
     "description": [
       "Fantawatt est un projet initié en 2024 par Lou Parisot dans le cadre du post-diplôme « Création et Technologie Contemporaine » de l'ENSCI-Les Ateliers Paris.",
       "Direction de projet : Stéphane Degoutin. Accompagnement de projet : Axelle Grégoire et Aurélien Fouillet.",
-      "Le projet superpose différentes strates de réalité et d'époques profondes afin de révéler des aspects mystérieux de l'énergie de la ville. Des candélabres sont sélectionnés pour la monstration des sculptures Gryffes (des mots grylle et greffe). Lorsqu'un passant s'approche, il peut déclencher un phénomène. Les phénomènes déclenchés incarnent des données invisibles de la ville, à la fois magnétiques et énergétiques.",
-      "Les attractions de Fantawatt créent un Doppelwelt. Le nom Doppelwelt est forgé à partir des mots allemands « double » et « monde ». Il fait également référence au Doppelgänger (jumeau imaginaire folklorique) et au concept de l'Umwelt (« Monde alentour » de Jakob Von Uexküll).",
-      "À travers ces incarnations se trouve un questionnement contemporain sur l'énergie. D'où vient l'énergie et où va-t-elle ? Quel paysage urbanistique se dessine face aux besoins énergétiques en constante augmentation ?",
-      "Aujourd’hui, ces mâts adoptent de nouvelles fonctions, comme l’intégration de caméras, de panneaux, d’accroches ou d’annonces.",
-      "Bien que leur enveloppe de fonte florale soit un élément indissociable de l’identité métropolitaine, certains n’ont même plus un rôle d’éclairage. En fin de compte, les candélabres font partie des seuls monuments du quotidien dont l’hybridation ne dérange pas, et dont l’avenir promet encore de nombreux détournements.",
-      "À l’avenir, que deviendront ces candélabres, étoiles de métal, face à la pollution lumineuse et à l’économie d’énergie ?",
-      "Les Gryffes proposent une réponse fantasmée : sur une enfilade de candélabres, des données sont mises en scène et produisent ainsi un parcours scénique urbain.",
-      "L’implantation in situ nourrit l’idée d’une ville dont les supports et les surfaces sont des objets de dialogue et de réflexions, à but non commercial."
+      "Le projet superpose différentes strates de réalité et d'époques profondes afin de révéler des aspects mystérieux de l'énergie de la ville. Des candélabres sont sélectionnés pour la monstration des sculptures Gryffes (des mots grylle et greffe) : lorsqu'un passant s'approche, il peut déclencher un phénomène, incarnant des données invisibles de la ville, à la fois magnétiques et énergétiques. Ces attractions créent ainsi un Doppelwelt — nom forgé à partir des mots allemands « double » et « monde », qui fait également référence au Doppelgänger (jumeau imaginaire folklorique) et au concept de l'Umwelt (« Monde alentour » de Jakob Von Uexküll). À travers ces incarnations se trouve un questionnement contemporain sur l'énergie : d'où vient-elle, où va-t-elle, et quel paysage urbanistique se dessine face aux besoins énergétiques en constante augmentation ?",
+      "Aujourd’hui, ces mâts adoptent de nouvelles fonctions, comme l’intégration de caméras, de panneaux, d’accroches ou d’annonces. Bien que leur enveloppe de fonte florale soit un élément indissociable de l’identité métropolitaine, certains n’ont même plus un rôle d’éclairage : les candélabres font ainsi partie des seuls monuments du quotidien dont l’hybridation ne dérange pas, et dont l’avenir promet encore de nombreux détournements.",
+      "À l’avenir, que deviendront ces candélabres, étoiles de métal, face à la pollution lumineuse et à l’économie d’énergie ? Les Gryffes proposent une réponse fantasmée : sur une enfilade de candélabres, des données sont mises en scène et produisent ainsi un parcours scénique urbain. L’implantation in situ nourrit l’idée d’une ville dont les supports et les surfaces sont des objets de dialogue et de réflexions, à but non commercial."
     ],
     "links": [
       { "label": "Voir la soutenance du projet ↗", "href": "https://www.youtube.com/watch?v=78y22NvoGTU" }
     ],
+    "linksColumn": "right",
     "images": [
       {
         "src": "images/ensci-2024/LesGryffes_(SériePrototype)_céramique_et_électronique_support_métal_et_impression_photos_©Véronique_Huyghe.jpg",
