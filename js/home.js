@@ -5,7 +5,19 @@ function pct(value, base) {
   return `${(value / base) * 100}%`;
 }
 
-function renderItem(item, sectionHeight) {
+function wrapLetters(text) {
+  return text
+    .split("")
+    .map((ch, i) => {
+      const display = ch === " " ? "&nbsp;" : ch;
+      return `<span style="transition-delay:${i * 30}ms">${display}</span>`;
+    })
+    .join("");
+}
+
+let homeLightboxIndex = [];
+
+function renderItem(item, sectionHeight, globalIndex) {
   const style = `top:${pct(item.top, sectionHeight)}; left:${pct(item.left, DESIGN_WIDTH)}; width:${pct(item.width, DESIGN_WIDTH)}; height:${pct(item.height, sectionHeight)}; z-index:${item.z};`;
 
   if (item.type === "color") {
@@ -17,18 +29,23 @@ function renderItem(item, sectionHeight) {
     : "";
 
   const bg = item.bg ? ` background-color:${item.bg};` : "";
-  return `<div class="home-item" style="${style}${bg}"><img src="${item.src}" alt="${item.title || ""}"></div>${tag}`;
+  return `<div class="home-item" style="${style}${bg}" data-lightbox-index="${globalIndex}"><img src="${item.src}" alt="${item.title || ""}"></div>${tag}`;
 }
 
 function renderSection(section) {
   const canvasStyle = `padding-top:${(section.height / DESIGN_WIDTH) * 100}%;`;
   const titleStyle = `top:${pct(TITLE_TOP, section.height)}; left:0;`;
 
-  const items = section.items.map((item) => renderItem(item, section.height)).join("");
+  const items = section.items
+    .map((item) => {
+      if (item.type === "image") homeLightboxIndex.push(item);
+      return renderItem(item, section.height, item.type === "image" ? homeLightboxIndex.length - 1 : -1);
+    })
+    .join("");
 
   return `<div class="home-section">
     <div class="home-section__canvas" style="${canvasStyle}">
-      <a class="home-section__title" style="${titleStyle}" href="${section.link}" target="_blank" rel="noopener">${section.title}<span class="arrow">&gt;</span></a>
+      <a class="home-section__title" style="${titleStyle}" href="${section.link}" target="_blank" rel="noopener">${wrapLetters(section.title)}<span class="arrow">&gt;</span></a>
       ${items}
     </div>
   </div>`;
@@ -101,6 +118,28 @@ function initOrganicLines() {
   lines.forEach((el) => io.observe(el));
 }
 
+function initItemReveal() {
+  const items = document.querySelectorAll(".home-item");
+  if (!items.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.15 }
+  );
+  items.forEach((el) => io.observe(el));
+}
+
 function initParallax() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -133,6 +172,56 @@ function initParallax() {
   update();
 }
 
+function initHomeLightbox() {
+  const lightbox = document.getElementById("home-lightbox");
+  if (!lightbox) return;
+  const lightboxImg = lightbox.querySelector("img");
+  const lightboxCaption = lightbox.querySelector(".lightbox__caption");
+
+  function open(i) {
+    const item = homeLightboxIndex[i];
+    if (!item) return;
+    lightboxImg.src = item.src;
+    lightboxImg.alt = item.title || "";
+    lightboxCaption.textContent = [item.title, item.meta].filter(Boolean).join(" — ");
+    lightbox.classList.add("is-open");
+  }
+
+  document.querySelectorAll('.home-item[data-lightbox-index]').forEach((el) => {
+    const idx = Number(el.dataset.lightboxIndex);
+    if (idx < 0) return;
+    el.addEventListener("click", () => open(idx));
+  });
+
+  lightbox.querySelector(".lightbox__close").addEventListener("click", () => {
+    lightbox.classList.remove("is-open");
+  });
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) lightbox.classList.remove("is-open");
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") lightbox.classList.remove("is-open");
+  });
+}
+
+async function loadNewsTicker() {
+  const ticker = document.getElementById("news-ticker");
+  const track = document.getElementById("news-ticker-track");
+  if (!ticker || !track) return;
+
+  const res = await fetch("data/news.json");
+  const items = await res.json();
+  const entry = items.find((it) => (it.title || "").includes("EST Galerie")) || items[0];
+  if (!entry) return;
+
+  const label = `NEWS : ${entry.text || entry.title}${entry.date ? " — " + entry.date + "." : ""}`;
+  const linkHtml = (extraClass) =>
+    `<a class="news-ticker__item${extraClass}" href="${entry.link}" target="_blank" rel="noopener">${label}</a>`;
+
+  track.innerHTML = linkHtml("") + linkHtml("");
+  ticker.hidden = false;
+}
+
 async function loadHome() {
   const collage = document.getElementById("home-collage");
   if (!collage) return;
@@ -140,6 +229,7 @@ async function loadHome() {
   const res = await fetch("data/home.json");
   const sections = await res.json();
 
+  homeLightboxIndex = [];
   collage.innerHTML = sections
     .map((section, i) => {
       const html = renderSection(section);
@@ -149,7 +239,12 @@ async function loadHome() {
     .join("");
 
   initOrganicLines();
+  initItemReveal();
   initParallax();
+  initHomeLightbox();
 }
 
-document.addEventListener("DOMContentLoaded", loadHome);
+document.addEventListener("DOMContentLoaded", () => {
+  loadHome();
+  loadNewsTicker();
+});
