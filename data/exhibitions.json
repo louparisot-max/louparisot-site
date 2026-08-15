@@ -7,7 +7,7 @@
     "subtitle": "Exposition collective « Les Noces de Coquelicot », commissariat Jocelyn Moisson, Poitiers — 2026",
     "description": {
       "left": [
-        "Avec<br>Anna Bonadé,<br>Clément Davout,<br>Théodore Deleplace,<br>Charlotte Delval,<br>Léo Fourdrinier,<br>Théo Guezennec,<br>Arthur Marie,<br>Lou Parisot,<br>Théophile Péris<br>et Amalia Vargas.",
+        "Avec Anna Bonadé, Clément Davout, Théodore Deleplace,<br>Charlotte Delval, Léo Fourdrinier, Théo Guezennec,<br>Arthur Marie, Lou Parisot, Théophile Péris<br>et Amalia Vargas.",
         "« Chacune des sculptures présentées par Lou Parisot, se fait dans son fragment et sa totalité, le lieu d’un rappel de l’histoire et un appel à sa poursuite. En travaillant à partir de l’existant en en créant des doubles, elle expose l’état d’un savoir, comme celui d’un modèle reconnu - qu’il soit celui d’un achèvement, ou d’un système en crise. En y confrontant deux visions dans une expérience présente, elle oppose à un savoir connu une idée inédite, dont les rapports invariables font d’une réalité inchangées, celui d’une connaissance nouvelle. »"
       ],
       "right": [
@@ -290,12 +290,12 @@
   },
   {
     "title": "ENSCI — LES ATELIERS",
+    "link": "https://formation-continue.ensci.com/une-actu?tx_news_pi1%5Baction%5D=detail&tx_news_pi1%5Bcontroller%5D=News&tx_news_pi1%5Bnews%5D=50283&cHash=1146f21a94789ba32296674e32f90061",
     "venue": "L'ENSCI — Les Ateliers, Paris",
     "date": "2024",
     "subtitle": "Fantawatt, première série de sculptures, Paris — 2024",
     "description": [
-      "Fantawatt est un projet initié en 2024 par Lou Parisot dans le cadre du post-diplôme « Création et Technologie Contemporaine » de l'ENSCI-Les Ateliers Paris.",
-      "Direction de projet : Stéphane Degoutin. Accompagnement de projet : Axelle Grégoire et Aurélien Fouillet.",
+      "Fantawatt est un projet initié en 2024 par Lou Parisot dans le cadre du post-diplôme « Création et Technologie Contemporaine » de l'ENSCI-Les Ateliers Paris. Direction de projet : Stéphane Degoutin. Accompagnement de projet : Axelle Grégoire et Aurélien Fouillet.",
       "Le projet superpose différentes strates de réalité et d'époques profondes afin de révéler des aspects mystérieux de l'énergie de la ville. Des candélabres sont sélectionnés pour la monstration des sculptures Gryffes (des mots grylle et greffe) : lorsqu'un passant s'approche, il peut déclencher un phénomène, incarnant des données invisibles de la ville, à la fois magnétiques et énergétiques. Ces attractions créent ainsi un Doppelwelt — nom forgé à partir des mots allemands « double » et « monde », qui fait également référence au Doppelgänger (jumeau imaginaire folklorique) et au concept de l'Umwelt (« Monde alentour » de Jakob Von Uexküll). À travers ces incarnations se trouve un questionnement contemporain sur l'énergie : d'où vient-elle, où va-t-elle, et quel paysage urbanistique se dessine face aux besoins énergétiques en constante augmentation ?",
       "Aujourd’hui, ces mâts adoptent de nouvelles fonctions, comme l’intégration de caméras, de panneaux, d’accroches ou d’annonces. Bien que leur enveloppe de fonte florale soit un élément indissociable de l’identité métropolitaine, certains n’ont même plus un rôle d’éclairage : les candélabres font ainsi partie des seuls monuments du quotidien dont l’hybridation ne dérange pas, et dont l’avenir promet encore de nombreux détournements.",
       "À l’avenir, que deviendront ces candélabres, étoiles de métal, face à la pollution lumineuse et à l’économie d’énergie ? Les Gryffes proposent une réponse fantasmée : sur une enfilade de candélabres, des données sont mises en scène et produisent ainsi un parcours scénique urbain. L’implantation in situ nourrit l’idée d’une ville dont les supports et les surfaces sont des objets de dialogue et de réflexions, à but non commercial."
@@ -367,6 +367,7 @@
   },
   {
     "title": "CONFORT MODERNE - RÉSIDENCE",
+    "link": "https://www.confort-moderne.fr/fr/archives/event/Sortie-de-rsidence-Lou-Parisot-Amalia-Vargas/2363",
     "venue": "Confort Moderne, Poitiers",
     "date": "2019",
     "subtitle": "Duo show avec Amalia Vargas « LISTE », suite à une résidence de 4 mois, Poitiers — 2019",
