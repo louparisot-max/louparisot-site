@@ -176,12 +176,42 @@ function initHomeLightbox() {
   const lightbox = document.getElementById("home-lightbox");
   if (!lightbox) return;
   const lightboxStage = lightbox.querySelector(".lightbox__stage");
+  const zoomWrap = lightbox.querySelector(".lightbox__zoom-wrap");
+  const zoomBtn = lightbox.querySelector(".lightbox__zoom-btn");
   const lightboxImg = lightbox.querySelector("img");
   const lightboxCaption = lightbox.querySelector(".lightbox__caption");
+
+  function resetZoom() {
+    zoomWrap.classList.remove("is-zoomed");
+    zoomBtn.classList.remove("is-zoomed");
+    zoomBtn.setAttribute("aria-label", "Zoomer sur l'image");
+    lightboxImg.style.width = "";
+    lightboxImg.style.height = "";
+    zoomWrap.scrollLeft = 0;
+    zoomWrap.scrollTop = 0;
+  }
+
+  function toggleZoom() {
+    if (zoomWrap.classList.contains("is-zoomed")) {
+      resetZoom();
+      return;
+    }
+    if (!lightboxImg.naturalWidth) return;
+    zoomWrap.classList.add("is-zoomed");
+    zoomBtn.classList.add("is-zoomed");
+    zoomBtn.setAttribute("aria-label", "Réduire l'image");
+    lightboxImg.style.width = lightboxImg.naturalWidth + "px";
+    lightboxImg.style.height = "auto";
+    requestAnimationFrame(() => {
+      zoomWrap.scrollLeft = (zoomWrap.scrollWidth - zoomWrap.clientWidth) / 2;
+      zoomWrap.scrollTop = (zoomWrap.scrollHeight - zoomWrap.clientHeight) / 2;
+    });
+  }
 
   function open(i, e) {
     const item = homeLightboxIndex[i];
     if (!item) return;
+    resetZoom();
     lightboxImg.src = item.src;
     lightboxImg.alt = item.title || "";
     lightboxCaption.textContent = [item.title, item.meta].filter(Boolean).join(" — ");
@@ -191,20 +221,62 @@ function initHomeLightbox() {
     lightbox.classList.add("is-open");
   }
 
+  function close() {
+    lightbox.classList.remove("is-open");
+    resetZoom();
+  }
+
   document.querySelectorAll('.home-item[data-lightbox-index]').forEach((el) => {
     const idx = Number(el.dataset.lightboxIndex);
     if (idx < 0) return;
     el.addEventListener("click", (e) => open(idx, e));
   });
 
-  lightbox.querySelector(".lightbox__close").addEventListener("click", () => {
-    lightbox.classList.remove("is-open");
+  zoomBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleZoom();
   });
+
+  let dragInfo = null;
+  let didDrag = false;
+
+  zoomWrap.addEventListener("mousedown", (e) => {
+    if (!zoomWrap.classList.contains("is-zoomed")) return;
+    didDrag = false;
+    dragInfo = { startX: e.clientX, startY: e.clientY, scrollLeft: zoomWrap.scrollLeft, scrollTop: zoomWrap.scrollTop };
+    zoomWrap.classList.add("is-dragging");
+    e.preventDefault();
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!dragInfo) return;
+    const dx = e.clientX - dragInfo.startX;
+    const dy = e.clientY - dragInfo.startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) didDrag = true;
+    zoomWrap.scrollLeft = dragInfo.scrollLeft - dx;
+    zoomWrap.scrollTop = dragInfo.scrollTop - dy;
+  });
+
+  window.addEventListener("mouseup", () => {
+    dragInfo = null;
+    zoomWrap.classList.remove("is-dragging");
+  });
+
+  zoomWrap.addEventListener("click", () => {
+    if (!zoomWrap.classList.contains("is-zoomed")) {
+      toggleZoom();
+    } else if (!didDrag) {
+      resetZoom();
+    }
+    didDrag = false;
+  });
+
+  lightbox.querySelector(".lightbox__close").addEventListener("click", close);
   lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) lightbox.classList.remove("is-open");
+    if (e.target === lightbox) close();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") lightbox.classList.remove("is-open");
+    if (e.key === "Escape") close();
   });
 }
 
