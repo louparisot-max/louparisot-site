@@ -113,16 +113,20 @@ async function loadExhibitions() {
     .join("");
 
   const lightbox = document.getElementById("lightbox");
+  const lightboxStage = lightbox.querySelector(".lightbox__stage");
   const lightboxImg = lightbox.querySelector("img");
   const lightboxCaption = lightbox.querySelector(".lightbox__caption");
   let currentIndex = 0;
 
-  function open(i) {
+  function open(i, e) {
     currentIndex = i;
     const item = allImages[currentIndex];
     lightboxImg.src = item.src;
     lightboxImg.alt = item.title || "";
     lightboxCaption.textContent = [item.title, item.caption].filter(Boolean).join(" — ");
+    if (!lightbox.classList.contains("is-open")) {
+      lightboxStage.style.transformOrigin = e ? `${e.clientX}px ${e.clientY}px` : "50% 50%";
+    }
     lightbox.classList.add("is-open");
   }
 
@@ -131,7 +135,7 @@ async function loadExhibitions() {
   }
 
   container.querySelectorAll(".gallery__item").forEach((el) => {
-    el.addEventListener("click", () => open(Number(el.dataset.index)));
+    el.addEventListener("click", (e) => open(Number(el.dataset.index), e));
   });
 
   lightbox.querySelector(".lightbox__close").addEventListener("click", () => {

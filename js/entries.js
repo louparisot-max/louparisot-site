@@ -14,8 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
       <article class="entry">
         <div class="entry__meta">${item.date || ""}</div>
         <h2 class="entry__title">${item.title || ""}</h2>
-        <p class="entry__text">${item.text || ""}</p>
-        ${item.link ? `<a class="entry__link" href="${item.link}" target="_blank" rel="noopener">En savoir plus →</a>` : ""}
+        ${
+          item.link
+            ? `<a class="entry__text entry__text--link" href="${item.link}" target="_blank" rel="noopener">${item.text || ""}</a>`
+            : `<p class="entry__text">${item.text || ""}</p>`
+        }
       </article>`
   );
 

@@ -79,6 +79,18 @@ img {
 .news-ticker__track {
   display: block;
   width: 100%;
+  overflow: hidden;
+}
+
+.news-ticker__inner {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: news-ticker-scroll 55s linear infinite;
+  will-change: transform;
+}
+
+.news-ticker__inner:hover {
+  animation-play-state: paused;
 }
 
 .news-ticker__item {
@@ -90,21 +102,20 @@ img {
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
-  animation: news-ticker-scroll 26s linear infinite;
+  padding-right: 8rem;
 }
 
 .news-ticker__item:hover {
   color: #7aa2ff;
-  animation-play-state: paused;
 }
 
 @keyframes news-ticker-scroll {
-  from { transform: translateX(100vw); }
-  to { transform: translateX(-100%); }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .news-ticker__item {
+  .news-ticker__inner {
     animation: none;
   }
 }
@@ -431,16 +442,35 @@ main {
   position: fixed;
   inset: 0;
   background: rgba(255, 255, 255, 0.93);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   z-index: 100;
   padding: 1.25rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
 .lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox__stage {
+  position: absolute;
+  inset: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1.25rem;
+  transform: scale(0.3);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.22, 0.8, 0.28, 1), opacity 0.3s ease;
+}
+
+.lightbox.is-open .lightbox__stage {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .lightbox img {
@@ -452,7 +482,7 @@ main {
 
 .lightbox__caption {
   color: #222;
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   margin-top: 1rem;
   text-align: center;
   max-width: 640px;
@@ -463,11 +493,12 @@ main {
   top: 1.5rem;
   right: 1.75rem;
   color: #222;
-  font-size: 1.6rem;
+  font-size: 2.3rem;
   background: none;
   border: none;
   cursor: pointer;
   line-height: 1;
+  z-index: 1;
 }
 
 .lightbox__close:hover {
@@ -481,9 +512,11 @@ main {
   background: none;
   border: none;
   color: #222;
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: 300;
   cursor: pointer;
   padding: 0.5rem 1rem;
+  z-index: 1;
 }
 
 .lightbox__nav:hover {
@@ -515,11 +548,13 @@ main {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 60;
+  transition: background 0.25s ease;
 }
 
 .insta-fab svg {
@@ -529,7 +564,7 @@ main {
 }
 
 .insta-fab:hover {
-  background: #f2f2f2;
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .entry-list {
@@ -565,6 +600,17 @@ main {
 .entry__text {
   color: #333;
   margin: 0 0 0.8rem;
+}
+
+a.entry__text--link {
+  display: block;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+a.entry__text--link:hover {
+  color: #1f5eff;
+  text-decoration: underline;
 }
 
 .entry__link {
@@ -659,7 +705,7 @@ main {
 }
 
 .expo-title a:hover {
-  color: #b0b0ae;
+  color: #1f5eff;
   text-decoration: underline;
 }
 
@@ -712,15 +758,17 @@ main {
 }
 
 .about-main {
-  flex: 1.6;
+  flex: 1;
   min-width: 0;
+  max-width: 640px;
 }
 
 .about-portrait {
-  flex: 1;
+  flex: 0 0 340px;
   min-width: 0;
+  margin-left: auto;
   position: sticky;
-  top: 2.5rem;
+  top: 6rem;
 }
 
 .about-portrait img {

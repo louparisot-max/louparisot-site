@@ -17,8 +17,8 @@ function wrapLetters(text) {
 
 let homeLightboxIndex = [];
 
-function renderItem(item, sectionHeight, globalIndex) {
-  const style = `top:${pct(item.top, sectionHeight)}; left:${pct(item.left, DESIGN_WIDTH)}; width:${pct(item.width, DESIGN_WIDTH)}; height:${pct(item.height, sectionHeight)}; z-index:${item.z};`;
+function renderItem(item, sectionHeight, globalIndex, delayMs) {
+  const style = `top:${pct(item.top, sectionHeight)}; left:${pct(item.left, DESIGN_WIDTH)}; width:${pct(item.width, DESIGN_WIDTH)}; height:${pct(item.height, sectionHeight)}; z-index:${item.z}; transition-delay:${delayMs || 0}ms;`;
 
   if (item.type === "color") {
     return `<div class="home-item home-item--color" style="${style} background:${item.color};"></div>`;
@@ -37,9 +37,9 @@ function renderSection(section) {
   const titleStyle = `top:${pct(TITLE_TOP, section.height)}; left:0;`;
 
   const items = section.items
-    .map((item) => {
+    .map((item, i) => {
       if (item.type === "image") homeLightboxIndex.push(item);
-      return renderItem(item, section.height, item.type === "image" ? homeLightboxIndex.length - 1 : -1);
+      return renderItem(item, section.height, item.type === "image" ? homeLightboxIndex.length - 1 : -1, i * 160);
     })
     .join("");
 
@@ -175,22 +175,26 @@ function initParallax() {
 function initHomeLightbox() {
   const lightbox = document.getElementById("home-lightbox");
   if (!lightbox) return;
+  const lightboxStage = lightbox.querySelector(".lightbox__stage");
   const lightboxImg = lightbox.querySelector("img");
   const lightboxCaption = lightbox.querySelector(".lightbox__caption");
 
-  function open(i) {
+  function open(i, e) {
     const item = homeLightboxIndex[i];
     if (!item) return;
     lightboxImg.src = item.src;
     lightboxImg.alt = item.title || "";
     lightboxCaption.textContent = [item.title, item.meta].filter(Boolean).join(" — ");
+    if (!lightbox.classList.contains("is-open")) {
+      lightboxStage.style.transformOrigin = e ? `${e.clientX}px ${e.clientY}px` : "50% 50%";
+    }
     lightbox.classList.add("is-open");
   }
 
   document.querySelectorAll('.home-item[data-lightbox-index]').forEach((el) => {
     const idx = Number(el.dataset.lightboxIndex);
     if (idx < 0) return;
-    el.addEventListener("click", () => open(idx));
+    el.addEventListener("click", (e) => open(idx, e));
   });
 
   lightbox.querySelector(".lightbox__close").addEventListener("click", () => {
@@ -214,8 +218,9 @@ async function loadNewsTicker() {
   const entry = items.find((it) => (it.title || "").includes("EST Galerie")) || items[0];
   if (!entry) return;
 
-  const label = `NEWS : ${entry.text || entry.title}${entry.date ? " — " + entry.date + "." : ""}`;
-  track.innerHTML = `<a class="news-ticker__item" href="${entry.link}" target="_blank" rel="noopener">${label}</a>`;
+  const label = `NEWS : ${entry.date ? entry.date + " — " : ""}${entry.text || entry.title}`;
+  const itemHtml = `<a class="news-ticker__item" href="${entry.link}" target="_blank" rel="noopener">${label}</a>`;
+  track.innerHTML = `<div class="news-ticker__inner">${itemHtml}${itemHtml}</div>`;
   ticker.hidden = false;
 }
 
