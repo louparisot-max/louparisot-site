@@ -611,6 +611,14 @@ main {
   hyphens: auto;
 }
 
+.prose--bio {
+  font-size: 1rem;
+}
+
+.prose--bio p {
+  line-height: 1.6;
+}
+
 /* Instagram fixed icon */
 
 .insta-fab {
