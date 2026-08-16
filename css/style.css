@@ -634,7 +634,8 @@ main {
   align-items: center;
   justify-content: center;
   z-index: 60;
-  transition: background 0.25s ease;
+  color: #000;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .insta-fab svg {
@@ -645,6 +646,7 @@ main {
 
 .insta-fab:hover {
   background: rgba(255, 255, 255, 0.95);
+  color: #1f5eff;
 }
 
 .entry-list {
@@ -661,6 +663,15 @@ main {
 
 .entry:last-child {
   border-bottom: none;
+}
+
+.entry__status {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 0.5rem;
 }
 
 .entry__meta {

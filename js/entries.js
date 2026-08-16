@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "news-list",
     (item) => `
       <article class="entry">
-        <div class="entry__meta">${item.past ? '<strong>PAST</strong> — ' : ""}${item.date || ""}</div>
+        ${item.past ? '<div class="entry__status">Past</div>' : ""}
+        <div class="entry__meta">${item.date || ""}</div>
         <h2 class="entry__title">${item.title || ""}</h2>
         ${
           item.link
