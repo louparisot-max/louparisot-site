@@ -333,6 +333,32 @@
     ]
   },
   {
+    "title": "KIRUMONOS",
+    "venue": "Jakmousse, Montreuil",
+    "date": "2023",
+    "subtitle": "Sortie de résidence, série de parures-sculpturales, Jakmousse+-, Montreuil — 2023",
+    "description": [
+      "Kiru(porter)Monos(choses) est une série de 5 parures-sculpturales réalisée lors d'une résidence de 6 mois à Jakmousse+- (Usine d'élastique en caoutchouc et résidences). Les parures représentent des costumes de combats post-industriels, à la délicatesse vernaculaire, assemblés sans coutures, à l'unique force de l'entrelacs manuel. Artefacts du passé ou du futur, ils symbolisent une société où la production n'a plus de sens et où les acteurs de l'usine ont récupéré les multiples rebuts de matières premières pour se protéger et afficher leur statut social dans une organisation dystopique."
+    ],
+    "images": [
+      {
+        "src": "images/Jakmousse-2023/Kirumonos_camouflage_veste_d_elastique_en_caoutchouc.jpg",
+        "title": "Vue portée",
+        "caption": "Parure-sculpturale, élastique de caoutchouc."
+      },
+      {
+        "src": "images/Jakmousse-2023/Kirumonos_camouflage_veste_d_elastique_en_caoutchouc2.jpg",
+        "title": "Vue portée",
+        "caption": "Parure-sculpturale, élastique de caoutchouc."
+      },
+      {
+        "src": "images/Jakmousse-2023/Kirumonos_camouflage_veste_d_elastique_en_caoutchouc3.jpg",
+        "title": "Vue portée",
+        "caption": "Parure-sculpturale, élastique de caoutchouc."
+      }
+    ]
+  },
+  {
     "title": "L'ACADÉMIE - LE SHED",
     "link": "https://www.le-shed.com/",
     "venue": "L'Académie (Le SHED), Maromme",
