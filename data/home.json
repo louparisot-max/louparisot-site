@@ -33,14 +33,14 @@
     ]
   },
   {
-    "title": "ENSCI",
+    "title": "ENSCI — LES ATELIERS",
     "link": "https://formation-continue.ensci.com/une-actu?tx_news_pi1%5Baction%5D=detail&tx_news_pi1%5Bcontroller%5D=News&tx_news_pi1%5Bnews%5D=50283&cHash=1146f21a94789ba32296674e32f90061",
-    "height": 1400,
+    "height": 1250,
     "items": [
-      { "type": "image", "src": "images/ensci-2024/Gryffes_Vue_d_atelier.jpg", "title": "Vue d'atelier", "meta": "2024, ENSCI — Les Ateliers, Paris", "top": 40, "left": 200, "width": 750, "height": 500, "tagTop": 560, "tagLeft": 180, "z": 20 },
+      { "type": "image", "src": "images/ensci-2024/Gryffes_Vue_d_atelier.jpg", "title": "Vue d'atelier", "meta": "2024, ENSCI — Les Ateliers, Paris", "top": 40, "left": 200, "width": 750, "height": 500, "tagTop": 550, "tagLeft": 180, "z": 20 },
       { "type": "color", "color": "#33414f", "top": 280, "left": 900, "width": 400, "height": 460, "z": 15 },
-      { "type": "video", "src": "images/ensci-2024/GIFF4.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 120, "left": 980, "width": 340, "height": 520, "tagTop": 660, "tagLeft": 960, "z": 30 },
-      { "type": "video", "src": "images/ensci-2024/GIFF5.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 700, "left": 250, "width": 1000, "height": 580, "tagTop": 1300, "tagLeft": 230, "z": 25 }
+      { "type": "video", "src": "images/ensci-2024/GIFF4.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 120, "left": 980, "width": 400, "height": 400, "tagTop": 530, "tagLeft": 960, "z": 30 },
+      { "type": "video", "src": "images/ensci-2024/GIFF5.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 600, "left": 250, "width": 520, "height": 520, "tagTop": 1130, "tagLeft": 230, "z": 25 }
     ]
   }
 ]
