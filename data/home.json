@@ -24,7 +24,7 @@
   {
     "title": "NUIT BLANCHE",
     "link": "https://www.paris.fr/evenements/lou-parisot-fantawatt-84174",
-    "height": 1560,
+    "height": 1680,
     "items": [
       { "type": "image", "src": "images/NuitBlanche/Évènement_Nuit_Blanche_2025_Mairie_du_15e_Paris_©V.Tanelian.jpg.jpg", "title": "Interaction nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 90, "left": 220, "width": 670, "height": 447, "tagTop": 547, "tagLeft": 200, "z": 40 },
       { "type": "color", "color": "#4d3a2b", "top": 420, "left": 650, "width": 560, "height": 480, "z": 15 },
@@ -35,12 +35,12 @@
   {
     "title": "ENSCI — LES ATELIERS",
     "link": "https://formation-continue.ensci.com/une-actu?tx_news_pi1%5Baction%5D=detail&tx_news_pi1%5Bcontroller%5D=News&tx_news_pi1%5Bnews%5D=50283&cHash=1146f21a94789ba32296674e32f90061",
-    "height": 1250,
+    "height": 1350,
     "items": [
       { "type": "image", "src": "images/ensci-2024/Gryffes_Vue_d_atelier.jpg", "title": "Vue d'atelier", "meta": "2024, ENSCI — Les Ateliers, Paris", "top": 40, "left": 200, "width": 750, "height": 500, "tagTop": 550, "tagLeft": 180, "z": 20 },
       { "type": "color", "color": "#33414f", "top": 280, "left": 900, "width": 400, "height": 460, "z": 15 },
-      { "type": "video", "src": "images/ensci-2024/GIFF4.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 120, "left": 980, "width": 400, "height": 400, "tagTop": 530, "tagLeft": 960, "z": 30 },
-      { "type": "video", "src": "images/ensci-2024/GIFF5.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 600, "left": 250, "width": 520, "height": 520, "tagTop": 1130, "tagLeft": 230, "z": 25 }
+      { "type": "video", "src": "images/ensci-2024/GIFF4.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 220, "left": 980, "width": 400, "height": 400, "tagTop": 630, "tagLeft": 960, "z": 30 },
+      { "type": "video", "src": "images/ensci-2024/GIFF5.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 720, "left": 250, "width": 520, "height": 520, "tagTop": 1250, "tagLeft": 230, "z": 25 }
     ]
   }
 ]
