@@ -284,6 +284,10 @@ img {
 }
 
 @media (max-width: 900px) {
+  .home-organic-line-slot {
+    display: none;
+  }
+
   .home-section__canvas {
     height: auto !important;
     padding-top: 0 !important;
