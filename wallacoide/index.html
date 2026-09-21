@@ -26,6 +26,18 @@
     transition:opacity .6s ease; z-index:5;
   }
 
+  #zoom {
+    position:fixed; bottom:16px; right:16px; z-index:5;
+    display:flex; flex-direction:column; border:1px solid #fff;
+  }
+  #zoom button {
+    width:36px; height:36px; background:#000; color:#fff; border:none;
+    border-bottom:1px solid #fff; font-size:18px; font-family:inherit;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;
+  }
+  #zoom button:last-child { border-bottom:none; }
+  #zoom button:active { background:#fff; color:#000; }
+
   #panneau {
     position:fixed; inset:0; background:#000; z-index:10;
     display:none; flex-direction:column;
@@ -77,6 +89,10 @@
   <div id="compte"></div>
 </div>
 <div id="hint">DRAG TO EXPLORE · TAP A NAME</div>
+<div id="zoom">
+  <button id="zoomIn" aria-label="zoom in">+</button>
+  <button id="zoomOut" aria-label="zoom out">−</button>
+</div>
 
 <div id="panneau">
   <button id="retour" aria-label="back">‹</button>
@@ -222,6 +238,25 @@ function traceVide(trace) {
   return true;
 }
 
+// Pré-rendu de chaque dessin sur sa propre petite toile hors écran, une
+// seule fois : dessiner ainsi avec drawImage() (au lieu de
+// putImageData(), qui ignore l'échelle DPR/zoom de la toile principale
+// et faisait apparaître les dessins décalés en haut à gauche sur les
+// écrans haute résolution) reste correct quel que soit le zoom, et
+// coûte beaucoup moins cher à chaque image qu'un putImageData répété.
+VOEUX.forEach(v => {
+  v._vide = traceVide(v.trace);
+  if (v._vide) return;
+  const c = document.createElement('canvas');
+  c.width = 40; c.height = 24;
+  const cx = c.getContext('2d');
+  cx.fillStyle = '#fff';
+  for (let row = 0; row < 24; row++)
+    for (let col = 0; col < 40; col++)
+      if (traceBit(v.trace, row, col)) cx.fillRect(col, row, 1, 1);
+  v._traceImg = c;
+});
+
 /* ---------- similarité (identique à correspondanceEntre() du firmware) ---------- */
 function similarite(a, b) {
   let produit = 0, normeA = 0, normeB = 0;
@@ -278,26 +313,47 @@ window.addEventListener('resize', resize);
 resize();
 
 let camX = 0, camY = 0;
-const CHAR_W = 8, LINE_H = 20, PAD_X = 10;
+let scale = 1;
+const SCALE_MIN = 0.3, SCALE_MAX = 4;
+const CHAR_W = 8, PAD_X = 10;
+// Largeur/hauteur de cadre en unités MONDE (indépendantes du zoom) —
+// la répulsion, comme sur l'ESP32, se calcule toujours en unités
+// monde ; seule la conversion vers l'écran, plus bas, tient compte du
+// zoom.
 function boxWidth(nom) { return Math.max(nom.length * CHAR_W + PAD_X * 2, 46); }
 
 const compteEl = document.getElementById('compte');
 compteEl.textContent = N + ' WISH' + (N === 1 ? '' : 'ES');
 
-let dragging = false, moved = false, startX = 0, startY = 0, startCamX = 0, startCamY = 0;
+let dragging = false, pinching = false, moved = false;
+let startX = 0, startY = 0, startCamX = 0, startCamY = 0;
 let lastX = 0, lastY = 0;
 const hint = document.getElementById('hint');
 let hintCache = false;
 
-function ecranXY(v) {
-  return {
-    x: v.wx + derive[VOEUX.indexOf(v)].dx - camX + W / 2,
-    y: v.wy + derive[VOEUX.indexOf(v)].dy - camY + H / 2
-  };
+function mondeVersEcran(wx, wy) {
+  return { x: (wx - camX) * scale + W / 2, y: (wy - camY) * scale + H / 2 };
+}
+function ecranVersMonde(px, py) {
+  return { x: camX + (px - W / 2) / scale, y: camY + (py - H / 2) / scale };
+}
+function zoomVers(px, py, facteur) {
+  const avant = ecranVersMonde(px, py);
+  scale = Math.max(SCALE_MIN, Math.min(SCALE_MAX, scale * facteur));
+  const apres = mondeVersEcran(avant.x, avant.y);
+  // recentre pour que le point sous (px,py) reste sous (px,py)
+  camX += (apres.x - px) / scale;
+  camY += (apres.y - py) / scale;
 }
 
-function boucle() {
-  // dérive
+// La dérive/répulsion avance à un rythme FIXE (comme la boucle de
+// l'ESP32, ~toutes les 20-30ms), indépendant de la fréquence d'affichage
+// du navigateur — sans ça, un écran 120Hz fait bouger les vœux 2x plus
+// vite qu'un écran 60Hz, et tout paraît trop rapide.
+const PAS_MS = 30;
+let dernierPas = 0;
+
+function avancerPhysique() {
   VOEUX.forEach((v, i) => {
     const d = derive[i];
     d.dx += d.vx; d.dy += d.vy;
@@ -305,17 +361,18 @@ function boucle() {
     if (d.dy > PORTEE || d.dy < -PORTEE) { d.vy = -d.vy; d.dy = Math.max(-PORTEE, Math.min(PORTEE, d.dy)); }
   });
 
-  const sx = new Array(N), sy = new Array(N), lw = new Array(N);
+  const wx = new Array(N), wy = new Array(N), lw = new Array(N);
   VOEUX.forEach((v, i) => {
-    sx[i] = v.wx + derive[i].dx - camX + W / 2;
-    sy[i] = v.wy + derive[i].dy - camY + H / 2;
+    wx[i] = v.wx + derive[i].dx;
+    wy[i] = v.wy + derive[i].dy;
     lw[i] = boxWidth(v.nom);
   });
 
-  // répulsion (identique à l'esprit du firmware)
+  // répulsion en unités MONDE (comme le firmware) : reste cohérente
+  // quel que soit le niveau de zoom à l'écran.
   for (let i = 0; i < N; i++) {
     for (let j = i + 1; j < N; j++) {
-      const dx = sx[j] - sx[i], dy = sy[j] - sy[i];
+      const dx = wx[j] - wx[i], dy = wy[j] - wy[i];
       let dist = Math.sqrt(dx * dx + dy * dy); if (dist < 1) dist = 1;
       const distMin = (lw[i] + lw[j]) / 2 + 14;
       if (dist < distMin) {
@@ -323,11 +380,18 @@ function boucle() {
         const ux = dx / dist, uy = dy / dist;
         derive[i].dx -= ux * push; derive[i].dy -= uy * push;
         derive[j].dx += ux * push; derive[j].dy += uy * push;
-        sx[i] -= ux * push; sy[i] -= uy * push;
-        sx[j] += ux * push; sy[j] += uy * push;
       }
     }
   }
+}
+
+function dessiner() {
+  const sx = new Array(N), sy = new Array(N), lw = new Array(N);
+  VOEUX.forEach((v, i) => {
+    const p = mondeVersEcran(v.wx + derive[i].dx, v.wy + derive[i].dy);
+    sx[i] = p.x; sy[i] = p.y;
+    lw[i] = boxWidth(v.nom) * scale;
+  });
 
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
@@ -343,63 +407,92 @@ function boucle() {
   });
 
   // nœuds
-  ctx.font = '12px "Courier New", monospace';
+  ctx.font = Math.max(7, 12 * scale) + 'px "Courier New", monospace';
   ctx.textBaseline = 'middle';
   VOEUX.forEach((v, i) => {
-    if (sx[i] < -80 || sx[i] > W + 80 || sy[i] < -40 || sy[i] > H + 40) return;
-    const w = lw[i], h = 20;
+    const h = 20 * scale;
+    if (sx[i] < -lw[i] || sx[i] > W + lw[i] || sy[i] < -h * 3 || sy[i] > H + h * 3) { v._boite = null; return; }
+    const w = lw[i];
     const bx = sx[i] - w / 2, by = sy[i] - h / 2;
     ctx.strokeStyle = '#fff'; ctx.lineWidth = 1;
     ctx.strokeRect(bx + 0.5, by + 0.5, w, h);
     ctx.fillStyle = '#fff';
-    ctx.fillText(v.nom, bx + PAD_X, sy[i] + 1);
+    ctx.fillText(v.nom, bx + PAD_X * scale, sy[i] + 1);
 
-    if (!traceVide(v.trace)) {
-      const tx = bx, ty = by + h + 4, tw = 40, th = 18;
+    let hBoite = h;
+    if (!v._vide) {
+      const tw = 40 * scale, th = 18 * scale;
+      const tx = bx, ty = by + h + 4 * scale;
       ctx.strokeStyle = 'rgba(255,255,255,0.5)';
       ctx.strokeRect(tx - 1, ty - 1, tw + 2, th + 2);
-      const img = ctx.createImageData(tw, th);
-      for (let row = 0; row < 18; row++) {
-        const srcRow = Math.floor(row * 24 / 18);
-        for (let col = 0; col < tw; col++) {
-          const on = traceBit(v.trace, srcRow, col);
-          const o = (row * tw + col) * 4;
-          img.data[o] = img.data[o+1] = img.data[o+2] = 255;
-          img.data[o+3] = on ? 255 : 0;
-        }
-      }
-      ctx.putImageData(img, tx, ty);
+      // drawImage (contrairement à putImageData) respecte le zoom/la
+      // résolution de l'écran : les dessins restent bien accrochés
+      // sous leur cadre, à toute échelle.
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(v._traceImg, tx, ty, tw, th);
     }
-    v._boite = { bx, by, w, h: h + (traceVide(v.trace) ? 0 : 26) };
+    v._boite = { bx, by, w, h: hBoite + (v._vide ? 0 : 18 * scale + 8 * scale) };
   });
+}
 
+function boucle(t) {
+  if (t - dernierPas >= PAS_MS) {
+    avancerPhysique();
+    dernierPas = t;
+  }
+  dessiner();
   requestAnimationFrame(boucle);
 }
 requestAnimationFrame(boucle);
 
-/* ---------- interaction : glisser pour naviguer, taper un nom ---------- */
+/* ---------- interaction : glisser pour naviguer, molette/pincement pour zoomer, taper un nom ---------- */
+function masquerIndice() { if (!hintCache) { hint.style.opacity = '0'; hintCache = true; } }
+
+function debut(e) {
+  if (e.touches && e.touches.length === 2) {
+    pinching = true; dragging = false;
+    pinchDistDebut = distanceDoigts(e.touches);
+    pinchScaleDebut = scale;
+    pinchCentre = centreDoigts(e.touches);
+    return;
+  }
+  const p = pointDePage(e);
+  dragging = true; pinching = false; moved = false;
+  startX = lastX = p.x; startY = lastY = p.y;
+  startCamX = camX; startCamY = camY;
+  canvas.classList.add('dragging');
+  masquerIndice();
+}
 function pointDePage(e) {
   if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
   return { x: e.clientX, y: e.clientY };
 }
-function debut(e) {
-  const p = pointDePage(e);
-  dragging = true; moved = false;
-  startX = lastX = p.x; startY = lastY = p.y;
-  startCamX = camX; startCamY = camY;
-  canvas.classList.add('dragging');
-  if (!hintCache) { hint.style.opacity = '0'; hintCache = true; }
+function distanceDoigts(touches) {
+  const dx = touches[0].clientX - touches[1].clientX, dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
 }
+function centreDoigts(touches) {
+  return { x: (touches[0].clientX + touches[1].clientX) / 2, y: (touches[0].clientY + touches[1].clientY) / 2 };
+}
+let pinchDistDebut = 0, pinchScaleDebut = 1, pinchCentre = { x: 0, y: 0 };
+
 function bouge(e) {
+  if (pinching && e.touches && e.touches.length === 2) {
+    const dist = distanceDoigts(e.touches);
+    scale = Math.max(SCALE_MIN, Math.min(SCALE_MAX, pinchScaleDebut * (dist / pinchDistDebut)));
+    e.preventDefault();
+    return;
+  }
   if (!dragging) return;
   const p = pointDePage(e);
   const dx = p.x - startX, dy = p.y - startY;
   if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
-  camX = startCamX - dx; camY = startCamY - dy;
+  camX = startCamX - dx / scale; camY = startCamY - dy / scale;
   lastX = p.x; lastY = p.y;
   e.preventDefault();
 }
 function fin(e) {
+  if (pinching) { pinching = false; return; }
   if (!dragging) return;
   dragging = false;
   canvas.classList.remove('dragging');
@@ -420,6 +513,16 @@ window.addEventListener('mouseup', fin);
 canvas.addEventListener('touchstart', debut, { passive: true });
 canvas.addEventListener('touchmove', bouge, { passive: false });
 canvas.addEventListener('touchend', fin);
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  masquerIndice();
+  const facteur = Math.pow(1.0015, -e.deltaY);
+  zoomVers(e.clientX, e.clientY, facteur);
+}, { passive: false });
+
+document.getElementById('zoomIn').addEventListener('click', () => { masquerIndice(); zoomVers(W / 2, H / 2, 1.35); });
+document.getElementById('zoomOut').addEventListener('click', () => { masquerIndice(); zoomVers(W / 2, H / 2, 1 / 1.35); });
 
 /* ---------- fiche détaillée ---------- */
 const panneau = document.getElementById('panneau');
