@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Wallacoïde — the wishing fountain</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin:0; padding:0; background:#000; color:#fff; overflow:hidden; height:100%; width:100%;
+    font-family: "Courier New", Consolas, Menlo, monospace; -webkit-tap-highlight-color: transparent; }
+  #canvas { display:block; touch-action:none; cursor:grab; }
+  #canvas.dragging { cursor:grabbing; }
+
+  #titre {
+    position:fixed; top:0; left:0; right:0; padding:14px 18px 10px;
+    display:flex; justify-content:space-between; align-items:flex-start;
+    pointer-events:none; z-index:5;
+  }
+  #titre h1 { margin:0; font-size:15px; font-weight:400; letter-spacing:0.12em; }
+  #titre .sub { font-size:10px; color:#9a9a9a; letter-spacing:0.08em; margin-top:3px; }
+  #compte { font-size:10px; color:#9a9a9a; text-align:right; white-space:nowrap; }
+
+  #hint {
+    position:fixed; bottom:14px; left:50%; transform:translateX(-50%);
+    font-size:10px; color:#7a7a7a; letter-spacing:0.06em; pointer-events:none;
+    transition:opacity .6s ease; z-index:5;
+  }
+
+  #panneau {
+    position:fixed; inset:0; background:#000; z-index:10;
+    display:none; flex-direction:column;
+    -webkit-overflow-scrolling:touch;
+  }
+  #panneau.ouvert { display:flex; }
+  #panneauScroll { flex:1; overflow-y:auto; padding:22px 22px 60px; }
+  #panneauScroll::-webkit-scrollbar { width:0; }
+
+  #retour {
+    position:absolute; top:14px; left:14px; z-index:11;
+    width:42px; height:42px; border:1px solid #fff; background:#000; color:#fff;
+    font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  #retour:active { background:#fff; color:#000; }
+
+  .nomTitre { font-size:22px; letter-spacing:0.06em; text-align:center; margin:54px 0 26px; word-break:break-word; }
+
+  .traceWrap { display:flex; justify-content:center; margin-bottom:34px; }
+  #traceCanvas { border:1px solid #666; image-rendering: pixelated; }
+
+  .sectionTitre { font-size:11px; letter-spacing:0.14em; color:#9a9a9a; text-align:center; margin:30px 0 16px; }
+
+  .ligne { display:flex; align-items:baseline; justify-content:center; gap:14px; padding:9px 0;
+    font-size:14px; letter-spacing:0.03em; }
+  .ligne .n { text-align:right; min-width:0; }
+  .ligne .p { font-size:17px; font-weight:bold; min-width:44px; }
+  .vide { text-align:center; color:#7a7a7a; font-size:12px; padding:10px 0 0; letter-spacing:0.08em; }
+
+  .fontaine { text-align:center; margin-top:6px; }
+  .fontaine .type { font-size:15px; margin-bottom:10px; }
+  .fontaine .adr, .fontaine .com { font-size:13px; color:#9a9a9a; margin-bottom:4px; }
+  .fontaine .gid { font-size:10px; color:#666; margin-top:14px; }
+
+  @media (min-width: 620px) {
+    #panneauScroll { max-width:520px; margin:0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div id="titre">
+  <div>
+    <h1>WALLACOÏDE</h1>
+    <div class="sub">THE WISHING FOUNTAIN</div>
+  </div>
+  <div id="compte"></div>
+</div>
+<div id="hint">DRAG TO EXPLORE · TAP A NAME</div>
+
+<div id="panneau">
+  <button id="retour" aria-label="back">‹</button>
+  <div id="panneauScroll">
+    <div class="nomTitre" id="pNom"></div>
+
+    <div class="traceWrap"><canvas id="traceCanvas" width="200" height="120"></canvas></div>
+
+    <div class="sectionTitre">ANALYSIS OF THIS WISH</div>
+    <div id="pCategories"></div>
+
+    <div class="sectionTitre">CORRESPONDENCES WITH OTHERS</div>
+    <div id="pMatchs"></div>
+
+    <div class="sectionTitre">ATTRIBUTED FOUNTAIN</div>
+    <div class="fontaine" id="pFontaine"></div>
+  </div>
+</div>
+
+<script>
+const VOEUX = [
+{"index":0,"nom":"LILI","trace_b64":"AAACAAAAAA4AAAAAOgAAAADiAAAAAIIDAAAAg14AAAAB4AMAgABAAwBsAMABAPyBcQAAjgAfAACQAeQDAGBogAMAMC/AAAD4sDsAAAyYDgAABgYAAAAADAEAAAAIAQAAAHgBAAAA0AMAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"NATURE","pct":95},{"nom":"WORLDS FUTURE","pct":80},{"nom":"WORLD PEACE","pct":75},{"nom":"JUSTICE","pct":65},{"nom":"RESILIENCE","pct":50}],"fontaine":{"gid":450072165,"type":"FONTAINE BOIS","adresse":"CITE DEBERGUE","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":1,"nom":"ASTER","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAXAAAADAMAAABcAAAAABwAAAAAHAAAAIARAAAAwAAAAAAYAAAAADgAAAAAOAAAAAACAAAAgAIAAADgAAAAADAAAAAAEAAAAAAIAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HAPPINESS","pct":100},{"nom":"JOY","pct":80},{"nom":"SELF LOVE","pct":60},{"nom":"PEACE","pct":50}],"fontaine":{"gid":450071497,"type":"FONTAINE PETILLANTE","adresse":"129S QUAI ANDRE CITROEN","commune":"PARIS, 15TH ARRONDISSEMENT"}},
+{"index":2,"nom":"NGOC","trace_b64":"AAAAAAAAAAAAAAAAAAAAwAA3AADAA38AAIAHfwAAAAV/AAAADX8AAAANPwAAAAkfAACADA78AIAMDmYAgAhGNgCADAIUAMB8AxYAwPwBGgDAzh8LAMDGPw0AwMahBQDgw+ADAEDD4AIAYADwAwBAAHABAAAAIAEA","categories":[{"nom":"ABUNDANCE","pct":90},{"nom":"JOY","pct":80},{"nom":"CELEBRATION","pct":70},{"nom":"FREEDOM","pct":60}],"fontaine":{"gid":450071295,"type":"FONTAINE 2EN1","adresse":"QUAI DES CELESTINS","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":3,"nom":"ALIX","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAA+4IABACLwwAAAI5hAAIAghCAAgGCGMAAAwIEZAAAAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100}],"fontaine":{"gid":450077529,"type":"FONTAINE BOIS","adresse":"RUE MOUNET SULLY","commune":"PARIS, 20TH ARRONDISSEMENT"}},
+{"index":4,"nom":"CLIO","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAABgAAACAeAAAAMZ4AAAMjn4AAAzKGQAABL4JAAAEiw0AAMSKBwAAbI4AAAAc7AAAAA88AACAEQAAAMBgAwAAcMABAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"HEALTH","pct":100},{"nom":"HUMANITY","pct":90},{"nom":"UNITY","pct":80},{"nom":"WORLD PEACE","pct":70},{"nom":"HOPE","pct":60}],"fontaine":{"gid":450072550,"type":"FONTAINE BOIS","adresse":"RUE DE JESSAINT","commune":"PARIS, 18TH ARRONDISSEMENT"}},
+{"index":5,"nom":"MICHELDEUXFOIS","trace_b64":"AAAAAAAAAAAGAAAAwB8AAAB8cAAAAA7gAAAAA48BAACPOAMAALhjAgAA4M4GAACAmwUAAAA3BQAAAHwHAAAA8AYAAADgBAAAAOAEAAAAwAQAAADADwAAAMAPAAAAwA4AAADABwAAAPADAAAAWAEAAADAAAAAAEAA","categories":[{"nom":"CREATIVITY","pct":90},{"nom":"HOME","pct":85},{"nom":"FRIENDSHIP","pct":80},{"nom":"FAMILY","pct":60},{"nom":"IMAGINATION","pct":50}],"fontaine":{"gid":450085574,"type":"BORNE FONTAINE","adresse":"5 PLACE DU COLONEL FABIEN","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":6,"nom":"CONSTANCE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAewAAAMDPAAAAYIwAAABggAAAAGCAAAAAQIgAAADAnAAAAIDBAAAAAEMAAAAAZgAAAAAsAAAAADgAAAAAGAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"CONNECTION","pct":60},{"nom":"HOPE","pct":40}],"fontaine":{"gid":450071236,"type":"FONTAINE POING D EAU","adresse":"50 BOULEVARD DAVOUT","commune":"PARIS, 20TH ARRONDISSEMENT"}},
+{"index":7,"nom":"FREDDA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAA4AAAAAP4AAAAA9wAAAIBXAAAAgNwCAACAgQAAAADBAAAAAGEAAAAAvwEAAADsAAAAADAAAAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAgAAAAACAAAAAAAAAAAAAAAAAAAEAAAAAAQAAA","categories":[{"nom":"ROMANTIC LOVE","pct":90},{"nom":"SELF LOVE","pct":75},{"nom":"IMAGINATION","pct":60},{"nom":"DREAM","pct":50}],"fontaine":{"gid":450085471,"type":"FONTAINE 2EN1","adresse":"RUE ARISTIDE MAILLOL","commune":"PARIS, 15TH ARRONDISSEMENT"}},
+{"index":8,"nom":"VLAD","trace_b64":"AAAAwAAAAACAAQAAAAABAAAAAAEAAABgAAAYAjgAAAYGBgGAAfwBA+AA7gABwAD+gwCABwvDAAAMmSEAAJDwHAAAsB8HAABgUEAAAMDwMAAAgDkfAAAAbgAAAABAAAAAAEAAAAAAwAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"AMBITION","pct":95},{"nom":"SUCCESS","pct":90},{"nom":"GROWTH","pct":80},{"nom":"STRENGTH","pct":75},{"nom":"COURAGE","pct":70}],"fontaine":{"gid":450072168,"type":"FONTAINE BOIS","adresse":"PARC DE BERCY","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":9,"nom":"RAPHAEL","trace_b64":"AAAAAAAAAAAAAACABwAAAOAfAAAAYHgAAAAwQAAAABjAAAAAGIABAAAIAAEAAAgAAQAADAABAAAEAAEAAAwAAQAACIABAAAIgAAAABjAAAAAMGAAAABgMAAAAMAfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"CALM","pct":95},{"nom":"PEACE","pct":90},{"nom":"BALANCE","pct":80},{"nom":"SILENCE","pct":75},{"nom":"HEALING","pct":60}],"fontaine":{"gid":450071284,"type":"FONTAINE ARCEAU","adresse":"12F PLACE DE LA REPUBLIQUE","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":10,"nom":"K","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEAAACAAAIAAIAAAgAAgAADAGBIADEA8EzyOQCAah8JAJgxgQAACCCAAAAIIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ART","pct":90},{"nom":"CREATIVITY","pct":70},{"nom":"TRAVEL","pct":60},{"nom":"EXPLORATION","pct":50}],"fontaine":{"gid":450071810,"type":"FONTAINE BOIS","adresse":"11F RUE DE NAVARRE","commune":"PARIS, 5TH ARRONDISSEMENT"}},
+{"index":11,"nom":"BBEN","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAABggN8BACDBAAcAAEQADAAAbAAQAAAwAAAAADAfAAAAEOADAAAQAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"MONEY","pct":100}],"fontaine":{"gid":450071237,"type":"FONTAINE POING D EAU","adresse":"66 BOULEVARD DAVOUT","commune":"PARIS, 20TH ARRONDISSEMENT"}},
+{"index":12,"nom":"VAMP","trace_b64":"AAAAAAAAAAAAAABgAAAAAHAAAAAAmAEAAADoBwAAAGwMAAAANAgAAACUEQAAANQTAAAAVDIAAADcIgAAANQzAAAANBMAAADkEQAAAAwYAAAAOAgAAADgDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ABUNDANCE","pct":100},{"nom":"MONEY","pct":80},{"nom":"SECURITY","pct":70}],"fontaine":{"gid":450072560,"type":"FONTAINE BOIS","adresse":"SQUARE DE LA BUTTE DU CHAPEAU ROUGE","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":13,"nom":"FX","trace_b64":"AAAAAAAAAAAAAAAAAAAAAACAAAAAAEABAAAAIBgAAAAgHAAAABAkAAAAAAAAAAAQIAAAABAgAAAAECAAAAAQIAAAABAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"DISCOVERY","pct":90},{"nom":"CURIOSITY","pct":85},{"nom":"MEANING OF LIFE","pct":75},{"nom":"TRUTH","pct":60},{"nom":"HOME","pct":50}],"fontaine":{"gid":450085263,"type":"FONTAINE 2EN1","adresse":"100 RUE DE LA FONTAINE AU ROI","commune":"PARIS, 11TH ARRONDISSEMENT"}},
+{"index":14,"nom":"SARAH","trace_b64":"AAAAAAAAABAAAMAAEAAAwAMQAAAABh8CAAAEAQIAAHADAgAA0AYhAADwgGEAAGaAIAAAhEEwBAAEZhgGAIQPBA4AhAkGCgAEZYQMAAK/wBzwA7BANhAA4MACEAAggAMQICAIABAgMBgAMDwfIAAgDAVAAGAEAQAA","categories":[{"nom":"MUSIC","pct":100},{"nom":"AMBITION","pct":90},{"nom":"SUCCESS","pct":80},{"nom":"FREEDOM","pct":75},{"nom":"DREAM","pct":70},{"nom":"CREATIVITY","pct":60}],"fontaine":{"gid":450071920,"type":"FONTAINE BOIS","adresse":"2B RUE ROBERT BLACHE","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":15,"nom":"FLO","trace_b64":"AAAAAAAAAAAAAAAAEAAAAAAYAAAAABgAAAAAHAAAAAAUAAAAABQAAAAAzAAAACBMAAAA4OwAAADgugAAAM5jAAAAjmEGAADKYAcAAE7gBwAAbIACAAA8gAAAgByAAADAB4ABAMABABEAAAAAHgAAAAAGAAAAAAAA","categories":[{"nom":"KNOWLEDGE","pct":90},{"nom":"UNDERSTANDING","pct":85},{"nom":"CURIOSITY","pct":80},{"nom":"UNCERTAINTY","pct":75},{"nom":"HOPE","pct":70},{"nom":"WISDOM","pct":65},{"nom":"AMBITION","pct":60}],"fontaine":{"gid":450072166,"type":"FONTAINE BOIS","adresse":"40F BOULEVARD DE LA BASTILLE","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":16,"nom":"NICK","trace_b64":"AAAAAAAAAAAHAAAAgA0AAADACAAAACAIAAAAIBAAAOARHAAAGBsUAAAMDhIAAAQ8FwAABAgfAAAMAAgAAPAHCgAAAAwHAAAAGAcAAADgAwAAAKAAAAAAQAAAAABAAAAAACAAAAAAQAAAAABgAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":90}],"fontaine":{"gid":450072209,"type":"FONTAINE BOIS","adresse":"57F RUE DE CROULEBARBE","commune":"PARIS, 13TH ARRONDISSEMENT"}},
+{"index":17,"nom":"MARO","trace_b64":"AAAAAAAAAAAADgAAAMALAAAOQA8AAAvAGwAAic8XAIAI2R8AmAjQDwBsiBEHAMaIEQcAwoQwBACCBBAcAAMCER4AAwITHwADAhAPAAIDGAwABgIIBQD8AwgHAAAGhAMAAAwEAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"CONNECTION","pct":70},{"nom":"KINDNESS","pct":60}],"fontaine":{"gid":450080640,"type":"FONTAINE BOIS","adresse":"RUE D ALSACE","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":18,"nom":"DAVID","trace_b64":"AAAAAAIAAAAAAwAAAIADAACA4gcAAIj/BQAA7D8AAAD+DwAAAP0BAAACHwAAgIcHAAAAvgcAAADEAwAAACwHAAAADAcAAADuAQAAgD0BAADAEwEAAAAwAQAAALAAAAAAgAAAAACAAAAAAIAAAAAAAAAAAAAAAAAA","categories":[{"nom":"TRAVEL","pct":95},{"nom":"ADVENTURE","pct":85},{"nom":"EXPLORATION","pct":75},{"nom":"FREEDOM","pct":60}],"fontaine":{"gid":450071872,"type":"FONTAINE BOIS","adresse":"PLACE DE LA REP DOMINICAINE","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":19,"nom":"TILILA","trace_b64":"MAAAAARgAAAABMADAAAGAAQAAAMAAAjgAAAACBgAAAAIBAAAAAQDAAAAhAAAAABEAAAAAAQAAAAABAAAAAAEAAAAAAIAAAAAjAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"SUCCESS","pct":100},{"nom":"AMBITION","pct":80},{"nom":"ABUNDANCE","pct":60}],"fontaine":{"gid":450072169,"type":"FONTAINE BOIS","adresse":"PARC DE BERCY","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":20,"nom":"LOIC","trace_b64":"AAAAAAAAAADAAQAAALgBAAAAmAEAAMCNAQAAcMcPAAAscAgAAAQYCAAAAwwQAIAABxgAwP0BAADAIwEAAEBhAQAAwCADAAAA4AEAAABgAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"NATURE","pct":90},{"nom":"ANIMALS","pct":90},{"nom":"EXPLORATION","pct":80},{"nom":"ADVENTURE","pct":70},{"nom":"CURIOSITY","pct":60},{"nom":"FREEDOM","pct":50}],"fontaine":{"gid":450071823,"type":"FONTAINE BOIS","adresse":"SQUARE TARAS CHEVTCHENKO","commune":"PARIS, 6TH ARRONDISSEMENT"}},
+{"index":21,"nom":"DINA","trace_b64":"AAAAAAAAAAAAAAAAgAAAAADggAPwgJ/AAsAAgHgCcABDJAJYmEEkAiz6QDICAD5HEgMA/EEGAQBcQIQBQPwgiABAOiGwAEA7I+4GYDkgCw+gZyCJPeBsgAxnYEAABAYAAAAEBAAAAAAAAAAAGAAAAAAQAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"BEAUTY","pct":70},{"nom":"CONNECTION","pct":60},{"nom":"DREAM","pct":50},{"nom":"ETERNITY","pct":40}],"fontaine":{"gid":450025566,"type":"FONTAINE BOIS","adresse":"18F ROUTE CEINTURE LAC DAUMESNIL","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":22,"nom":"SPOGEL","trace_b64":"AAAAAAAAAAAAAAAAHwAAAMBxAAAAYMABAAAggAEAADAAAwAAEAwCAADYHwQAAGgXBAAA6B0MAADIBAgAAAhwCAAACH4IAADI6wgAAMj6GAAA2B8YAABY1xkAABhvGQAAeHsLAACccQcAAJgxAgAAmAEAAAAAAAAA","categories":[{"nom":"UNIVERSE","pct":90},{"nom":"HOPE","pct":85},{"nom":"WORLDS FUTURE","pct":80},{"nom":"FEAR","pct":75},{"nom":"KNOWLEDGE","pct":65},{"nom":"TRUTH","pct":60}],"fontaine":{"gid":450071753,"type":"FONTAINE BOIS","adresse":"SQUARE JEAN XXIII","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":23,"nom":"NEFELI","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAIAAAAABwAAAAAHAAAAAAWAAAAABIAAAAAEgAAAAASAAAAABIAAAAAEgAAAAASAQAAAJIBAAAAlgEAAACcAQAAAMADAAAAwAMAAADAAQAAAIABAAAAAAAA","categories":[{"nom":"JUSTICE","pct":95},{"nom":"COMMUNITY","pct":90},{"nom":"ABUNDANCE","pct":90},{"nom":"EQUALITY","pct":85},{"nom":"HUMANITY","pct":85},{"nom":"UNITY","pct":80},{"nom":"KINDNESS","pct":75},{"nom":"NATURE","pct":70},{"nom":"HEALTH","pct":65}],"fontaine":{"gid":450071235,"type":"FONTAINE POING D EAU","adresse":"111 RUE SAINT BLAISE","commune":"PARIS, 20TH ARRONDISSEMENT"}},
+{"index":24,"nom":"SAM","trace_b64":"AAAAAAAAAAAAAADg7w4AADC4DwAAEJAMAAAQEA4AAAAYDgAACAwfAAAIBhUAAAQGEQAABpcZAAAG/QgAwIMZBgAA4AwCAAAwxgAAgB0jAAAADxEAAAAHGQAAAIMNAAAAgQQAAACjBgAAACYCAAAAVAMAAAAYAQAA","categories":[{"nom":"FREEDOM","pct":95},{"nom":"ADVENTURE","pct":90},{"nom":"NATURE","pct":85},{"nom":"ANIMALS","pct":85},{"nom":"ESCAPE","pct":80},{"nom":"DREAM","pct":75},{"nom":"EXPLORATION","pct":70}],"fontaine":{"gid":450072303,"type":"FONTAINE BOIS","adresse":"RUE DES THERMOPYLES","commune":"PARIS, 14TH ARRONDISSEMENT"}},
+{"index":25,"nom":" ","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAYAAAAAB0AAAAANwAAAMA3AAAAYDwAAABgbgAAACBLAAAAMMkAAACQiAAAAJCYAAAA2JgAAADYzAAAANBHAAAAEHAAAAAwGAAAAOAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":50},{"nom":"FRIENDSHIP","pct":50},{"nom":"FAMILY","pct":50},{"nom":"CHILDREN","pct":50},{"nom":"PARENTS","pct":50}],"fontaine":{"gid":450072575,"type":"FONTAINE BOIS","adresse":"PARC DES BUTTES CHAUMONT","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":26,"nom":"JNK","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAQAAAABjAAAAAPYAAAgDNAAACAIsAAAIDGogAAYIbZAgDgT4IMAEA+gjAAADiMQAAAMJCAABhwUAADAPBQAAIAUCEAAgDgIQACAOAjAAAA4HMAAIAgTwAAgBgAAACADAAAAAAAAAAA","categories":[{"nom":"WORLD PEACE","pct":100},{"nom":"PEACE","pct":90},{"nom":"UNITY","pct":85},{"nom":"HUMANITY","pct":80},{"nom":"SOLIDARITY","pct":75},{"nom":"HOPE","pct":70}],"fontaine":{"gid":450072164,"type":"FONTAINE BOIS","adresse":"CITE DEBERGUE","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":27,"nom":"MAXIME","trace_b64":"AAAAAAAAAAAAAAAAAAAA8OMDAAAwZgIAAHAsDAAA+C0+8AB4J2aoATgmQygBICcgIAH4IyAkDfAgICQd4CAgphWgQRD+FSBBEJIgQMEQkiTggRi2HOCACOwYwIAFcADAAAIwAAAAAgAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"CONNECTION","pct":60},{"nom":"HOPE","pct":50},{"nom":"DREAM","pct":30}],"fontaine":{"gid":450077722,"type":"FONTAINE BOIS","adresse":"AVENUE TRANSVERSALE","commune":"PARIS, 14TH ARRONDISSEMENT"}},
+{"index":28,"nom":"LOUIS","trace_b64":"AAAAAAAAAAAAAAAwAAAACAAAAAAMAAwAAhgADwADEABzAAEQwIEAABDgAAEAAGAAAwAAMAACAAAwAAIAABAAAgAAEAADAAAQAAEAABCAOQAAEIBgAAAQQEAAADBgQAAYIDBgAABgDmAAAMADIAAAAAAAGAAAACAY","categories":[{"nom":"DISCOVERY","pct":95},{"nom":"EXPLORATION","pct":90},{"nom":"CURIOSITY","pct":85},{"nom":"ADVENTURE","pct":80},{"nom":"DREAM","pct":75},{"nom":"HOPE","pct":70},{"nom":"INDEPENDENCE","pct":60},{"nom":"IMAGINATION","pct":55}],"fontaine":{"gid":450071756,"type":"FONTAINE BOIS","adresse":"21 RUE DES BLANCS MANTEAUX","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":29,"nom":"TOMVAL","trace_b64":"AAAAAAAAAAAAAAAAfwAAAGDZAwAAOA8OAACMeRgAAMTAMAAAZLxgAAAiYkMAACJDggAAI2CGAABDIIQAAMMxhAAABg+EAAAMAIQAABwAhgAAMADCAABgAGIAAIABOQAAAN4HAAAA8AMAAIAfAAAA/AAAAMAHAAAA","categories":[{"nom":"AMBITION","pct":95},{"nom":"SUCCESS","pct":90},{"nom":"LEGACY","pct":60}],"fontaine":{"gid":450025542,"type":"FONTAINE BOIS","adresse":"AVENUE DE GRAVELLE","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":30,"nom":"ITALY WORLD CUP","trace_b64":"AAAAAAAAAAAAAAAAADgAAAAYJgAAgGcgAABgwCAAABCAIAAAiIcgAABoyycAAKT/LQAA8N8ZAADKzRgAAAmrCAAAiaUMAIB4ZAQAgCBTAACAgFEAAIBgMAAAAB8wAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"CELEBRATION","pct":90},{"nom":"JOY","pct":80},{"nom":"ADVENTURE","pct":70},{"nom":"AMBITION","pct":60}],"fontaine":{"gid":450071822,"type":"FONTAINE BOIS","adresse":"91B RUE DU MONTPARNASSE","commune":"PARIS, 6TH ARRONDISSEMENT"}},
+{"index":31,"nom":"ROM","trace_b64":"AAAAHAAAAAAGAAAABAMAAADAAAAA4GAAAAAgGAAAAG4OAAAA/wEAAABBAAAAAEEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA4QMAAAAfBgAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"NOSTALGIA","pct":50},{"nom":"GRIEF","pct":40},{"nom":"LONELINESS","pct":30}],"fontaine":{"gid":450071809,"type":"FONTAINE BOIS","adresse":"RUE DES ARENES","commune":"PARIS, 5TH ARRONDISSEMENT"}},
+{"index":32,"nom":"APO","trace_b64":"AAAOAAAAAAgAAAAACQAAAAAIAAAAAAgAAAAABAAAAAMAAAAAAQQAAAABBAAAAAEAAAAAAYRbAEABKkAPIAEEAAYgAgDQAaAHBAoAgAECAACAAAAAAMAABAAAQAAAAABAAAQAAGAABAAAYAAAAABgAAQAAAAACAAA","categories":[{"nom":"PEACE","pct":100},{"nom":"CALM","pct":90},{"nom":"BALANCE","pct":80},{"nom":"SILENCE","pct":70},{"nom":"WORLD PEACE","pct":65}],"fontaine":{"gid":450071918,"type":"FONTAINE BOIS","adresse":"SQUARE ALBAN SATRAGNE","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":33,"nom":"PEACE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAwAcAAAD4CwAAADzCBwAA/n0PAACfBw0AgAUBBACA1AEEAACMAwYAgNz+AQAARYYHAAAXBw4AAB4FCQAAAQwIAIABmQwAwADxBwBgAMMAADgABgAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"CONNECTION","pct":70},{"nom":"KINDNESS","pct":60}],"fontaine":{"gid":450071811,"type":"FONTAINE BOIS","adresse":"19F SQUARE PAUL LANGEVIN","commune":"PARIS, 5TH ARRONDISSEMENT"}},
+{"index":34,"nom":"LOVE","trace_b64":"AAAAAAAAAPABAAAADB4AAAAGHwAAAAMIAACAARgAACABGAAAmAAYAACEACQAAKIANAAA0QF0AACRP3gAAEnsDwAAxHMAAAB+gAAAADAAAwAA4AsEAAAA9BgAAAAAPwAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"MONEY","pct":80}],"fontaine":{"gid":450072079,"type":"FONTAINE BOIS","adresse":"PARC DE BAGATELLE","commune":"PARIS, 16TH ARRONDISSEMENT"}},
+{"index":35,"nom":"ELEANNA","trace_b64":"AAAAAAAAAAAAAAAQAAAAwBAYAACAIQgAAAAhCAAAAEIEBAAABAQGAAAMgAEAAJgHAAAA8B8AAABAMAAAAEAhfAAAACgAAADASQAAgAdHAAAAAH8AAAAAAAAAAEAAAAAAYAACAAAwAAIAAAgEBAAAAAAAAAAAAAAA","categories":[{"nom":"HAPPINESS","pct":100},{"nom":"JOY","pct":90},{"nom":"PEACE","pct":60}],"fontaine":{"gid":450080155,"type":"FONTAINE PETILLANTE","adresse":"BOULEVARD VOLTAIRE","commune":"PARIS, 11TH ARRONDISSEMENT"}},
+{"index":36,"nom":"VASILIA","trace_b64":"AAAAAAAAAAACAAAAAAYAABgABwAAGIAHAAAUwA8AABzADwAAHOAfAAA69D8AADb/PwAAf+97AIDn/3kAwOb38QB4zxvgAZh/DKAD4A8A4AL4AgCABuwCAAAMfAAAABhgAAAAEDAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"FREEDOM","pct":100},{"nom":"INDEPENDENCE","pct":90},{"nom":"PEACE","pct":70},{"nom":"ESCAPE","pct":60},{"nom":"STRENGTH","pct":50}],"fontaine":{"gid":450072350,"type":"FONTAINE BOIS","adresse":"124 AVENUE FELIX FAURE","commune":"PARIS, 15TH ARRONDISSEMENT"}},
+{"index":37,"nom":"VINCENT","trace_b64":"AAAAAAAAAAAAAABAAAEAAPDBBgAAGDIEAAAIHgQAAAgOBAAACAYEAAAIAgQAAAgDAgAACAMCAAAYAAIAABAAAQAAMIABAAAwgAAAAGBAAAAAQEAAAADAIAAAAIAwAAAAABEAAAAACwAAAAAKAAAAAAwAAAAADAAA","categories":[{"nom":"HAPPINESS","pct":100},{"nom":"JOY","pct":90},{"nom":"HOPE","pct":70}],"fontaine":{"gid":450080587,"type":"FONTAINE ARCEAU","adresse":"12 RUE GEORGES THILL","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":38,"nom":"SHAUNIE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAABwAAAIAFAAAA+AQAAADsBAAAAIgEAACAiAAAAIAYAgAAwBACAADAIIMAAMDggQAAgICBAACAAIEAAIAAmAAAgACQAAAAAK4AAAAYywAAABgaAAAAkBsAAACQDAAAAPAAAAAAIAAA","categories":[{"nom":"GROWTH","pct":60},{"nom":"NEW BEGINNING","pct":50},{"nom":"SELF LOVE","pct":40},{"nom":"FREEDOM","pct":30}],"fontaine":{"gid":450071922,"type":"FONTAINE BOIS","adresse":"8 RUE DES RECOLLETS","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":39,"nom":"MARTIN","trace_b64":"AAAAAAAAAAAAAAAAAAAAAABAAAAAAGAAAAAAYAAAAAB/AAAAYHkAAABgOQAAAMBsAAAA4F4AAAD+SwAAAOMdAACAQHACAIBB8AMAAEP9AQAAfjQAAABQPgAAAPA/AAAAYDkAAABAPwAAAEAQAAAAQDAAAAAAMAAA","categories":[{"nom":"HEALING","pct":95},{"nom":"HEALTH","pct":90},{"nom":"JOY","pct":85},{"nom":"HOPE","pct":80},{"nom":"PEACE","pct":75},{"nom":"CALM","pct":70},{"nom":"STRENGTH","pct":65},{"nom":"HAPPINESS","pct":60}],"fontaine":{"gid":450071827,"type":"FONTAINE BOIS","adresse":"6F PLACE DU PRESIDENT MITHOUARD","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":40,"nom":"PAULINA PANIK","trace_b64":"AAAAAAAAAAAAAAAAAAAAADwAAAAA5AAAAADAAAAAIIAAAAAQAAYAABCABXMAEPj0fwAwpt9uAMARfzkAQD63HQAgcGgLADBAGA4ACEAAAAAIQAAAAAhAAAAAGEAAAAAwIAAAAGAQAAAAwBgAAACADwAAAAAAAAAA","categories":[{"nom":"PEACE","pct":100},{"nom":"ROMANTIC LOVE","pct":100},{"nom":"SECURITY","pct":95},{"nom":"HEALTH","pct":90},{"nom":"MONEY","pct":90},{"nom":"ABUNDANCE","pct":85},{"nom":"WORLD PEACE","pct":80}],"fontaine":{"gid":450085237,"type":"FONTAINE 2EN1","adresse":"PLACE DU CARDINAL LAVIGERIE","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":41,"nom":"KHALED","trace_b64":"AAAAAAAAAAAAAAAAEAAAAAAcPgAAABAjAABAkBcAAGDwEAAAYDgoAAAwHicAALDOMwAAaOcRAAC4+xgAAGhHyQAA/L9FAAB4wcIAAJiBQwAAUEBDAABwoMMGAGgYwwcAuAXwAQAYB/4AABAP4AEAgH6wAQBAAJwB","categories":[{"nom":"ROMANTIC LOVE","pct":95},{"nom":"SUCCESS","pct":90},{"nom":"PEACE","pct":90},{"nom":"MONEY","pct":85},{"nom":"AMBITION","pct":80},{"nom":"CAREER","pct":75},{"nom":"ART","pct":70}],"fontaine":{"gid":450072073,"type":"FONTAINE BOIS","adresse":"PARC DE BAGATELLE","commune":"PARIS, 16TH ARRONDISSEMENT"}},
+{"index":42,"nom":"KIMBERLLY SANTANA","trace_b64":"AAAAABAAAAAACAAAAAAICAAAAAwYAAAABhgAAAACMAAAAAHgAACAAIABAMAAAAMAMAAABgAYAAAMAAwAABgABwAAMIABAABgcAAAAMAcAAAAgAcAAAAAAQAAAIABAADg/wAAAD4AAAAABgAAAAAAAAAAAAAAAAAA","categories":[{"nom":"MONEY","pct":90},{"nom":"SECURITY","pct":85},{"nom":"PEACE","pct":80},{"nom":"ABUNDANCE","pct":75},{"nom":"FREEDOM","pct":70},{"nom":"WORRY","pct":65},{"nom":"ROMANTIC LOVE","pct":60},{"nom":"CAREER","pct":55}],"fontaine":{"gid":450072255,"type":"FONTAINE BOIS","adresse":"MAIL DE BIEVRE","commune":"PARIS, 13TH ARRONDISSEMENT"}},
+{"index":43,"nom":"ZOI","trace_b64":"AAAAAAAAAAAAABgAAAAAGAABABAIgAMGFQikAi4ViO8C6x/I+gH4EsieARAQyAMfABD0AAAAEBwAAAAgBgBOACACAOIAIAAwpgAgAAKkACAAQnzAIADCzJAjAPKMESYA3gwbOAAAAAwAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HAPPINESS","pct":95},{"nom":"JOY","pct":90},{"nom":"SELF LOVE","pct":85},{"nom":"PEACE","pct":75},{"nom":"ROMANTIC LOVE","pct":60}],"fontaine":{"gid":450071878,"type":"FONTAINE BOIS","adresse":"PARC MONCEAU","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":44,"nom":"V","trace_b64":"AAAAAAAAAAAAAQDsAAALMH0AAQ2wfYABHeAZ8AEf4BHhDxbgAdEBFOADMQMc8IABIAh48A/gAGDwbuAAYMDn5wEAQEfHAQDgheMAAOCA8QAAIADZAMAAwMAAwAEAQABAiREAANDNmQAA2M8JAQB4u38BADAQAAAA","categories":[{"nom":"DREAM","pct":95},{"nom":"AMBITION","pct":90},{"nom":"HOME","pct":85},{"nom":"TRAVEL","pct":80},{"nom":"ROMANTIC LOVE","pct":75},{"nom":"NEW BEGINNING","pct":70},{"nom":"ADVENTURE","pct":65},{"nom":"FREEDOM","pct":60},{"nom":"SUCCESS","pct":55},{"nom":"CREATIVITY","pct":50}],"fontaine":{"gid":450071806,"type":"FONTAINE BOIS","adresse":"9F QUAI SAINT BERNARD","commune":"PARIS, 5TH ARRONDISSEMENT"}},
+{"index":45,"nom":"C","trace_b64":"AMAAQAAAYADwAAAgfpAAADDGiAAAMMAYAACQQRgBAJRBAAEAyiFAAQCpIeABgPkh4AHA2KFjAADEIGAAAIQwIAAABBAAAAAEEAcAAIAJ/gAAwAgMAABgBAAAADAMeAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"NEW BEGINNING","pct":100},{"nom":"ROMANTIC LOVE","pct":95},{"nom":"REBIRTH","pct":90},{"nom":"GROWTH","pct":80},{"nom":"BALANCE","pct":70}],"fontaine":{"gid":450071745,"type":"FONTAINE BOIS","adresse":"10 RUE DES ROSIERS","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":46,"nom":"MARTIN","trace_b64":"AAAAAAAAwBgAAABoDScAmLWUJxC429qjGXhry2ME+D7tRyDw/faqP1D8u34A2L3+bADQtVp5AFjV19ExWHWRIg5YVbVmAFBVLU0AUNUr2R9QhWpwAECnSmIAGK/aRwBooHfCAewAXUY/NAfUBADWmbMIABiA5gEA","categories":[{"nom":"HEALTH","pct":100},{"nom":"FAMILY","pct":90},{"nom":"LONGEVITY","pct":60}],"fontaine":{"gid":450071733,"type":"FONTAINE BOIS","adresse":"SQUARE DU VERT GALANT","commune":"PARIS, 1ST ARRONDISSEMENT"}},
+{"index":47,"nom":"RAYMONDE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIcAAADo4wAAAN9/AAAA1mQAAABMJAAAACg0AAAAOBwAAAAQGAAAADgYAAAAKCwAAAAoxAAAAPz/AAAATgAAAADEAQAAAOAAAAAAYAAAAABAAAAAAGAAAAAAMAAAAAAAAAAA","categories":[{"nom":"MORTALITY","pct":90},{"nom":"MONEY","pct":80},{"nom":"CHILDREN","pct":50},{"nom":"PARENTS","pct":50}],"fontaine":{"gid":450071826,"type":"FONTAINE BOIS","adresse":"SQUARE DE L ABBE ESQUERRE","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":48,"nom":"THIERRY","trace_b64":"AABAAACAb8CAAUC8wIABIDhZQQEwaFvgABDIXnIAENi9GgAQlDkMABCUsz4AcIazLwDg/3FbAIDlv1MA4ATjYQCgCWWhAGAJycEAAI94jQAApjAQAABmOEAAAAAYAAEAABwABAAAHAAIAAAAAAAAAAAACAAAAAAI","categories":[{"nom":"FRIENDSHIP","pct":95},{"nom":"CONNECTION","pct":85},{"nom":"HOPE","pct":75},{"nom":"GRATITUDE","pct":60}],"fontaine":{"gid":450085255,"type":"FONTAINE 2EN1","adresse":"14 RUE EMILIO CASTELAR","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":49,"nom":"CAMZER","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAD4gQcAAAzBDAAcBkIYAGQGRhAAxgbEGQACNYwJAAItiAkAAjsICAACAggMADKCiQMALMLpAQAuwg0AABqCBwAADwIGAAAPwQEAAI898AAAjwzgAAAPAOAAAAYA4AAABgBgAAAEAMAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"HAPPINESS","pct":80},{"nom":"JOY","pct":80},{"nom":"BEAUTY","pct":50},{"nom":"HOPE","pct":40}],"fontaine":{"gid":450071751,"type":"FONTAINE BOIS","adresse":"SQUARE DE LA TOUR SAINT JACQUES","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":50,"nom":"LINH KIM","trace_b64":"AAAAAAAAAAAAAAAAEDAAAMAYEAAAwBQYAABgCBgAADAEDAIAEAIMAgC4AQQDANwEcgMArgb7AwCV+tkCwIx5/QLghn83AiDDfxsCsMMBAAL4QQAAB4AAAIsAwAC8wAAAAAMwAAAAHggAAAAwBgAAAMABAAAAAAAA","categories":[{"nom":"AMBITION","pct":100},{"nom":"MONEY","pct":100},{"nom":"SUCCESS","pct":100},{"nom":"PARENTS","pct":90},{"nom":"FAMILY","pct":90},{"nom":"HAPPINESS","pct":90},{"nom":"HEALTH","pct":90},{"nom":"ABUNDANCE","pct":80},{"nom":"LEGACY","pct":70}],"fontaine":{"gid":450071731,"type":"FONTAINE BOIS","adresse":"JARDIN ANNE FRANCK","commune":"PARIS, 3RD ARRONDISSEMENT"}},
+{"index":51,"nom":"MARTURA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAgAAABgGAAAAGAcAAAAoBQAAACgNwAAACAzAAAAIDMAAAAhMQAAACEwAAAAYRIAAABhHAAAAPEGAAAAswMAAAAWDAAAABA8AAAAEDQAAAAQJgAAAPADAAAAAAAAAAAAAAAA","categories":[{"nom":"ART","pct":50},{"nom":"CREATIVITY","pct":40}],"fontaine":{"gid":450071882,"type":"FONTAINE BOIS","adresse":"PARC MONCEAU","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":52,"nom":"ELEKTRA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAcAAAAgEcAAADgfQAAADA+AAAAEB8AAADwDwAAAJAPAAAAwB0AAADADAAAAGAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"SUCCESS","pct":95},{"nom":"AMBITION","pct":90},{"nom":"CAREER","pct":80}],"fontaine":{"gid":450071865,"type":"FONTAINE BOIS","adresse":"SQUARE LOUIS XVI","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":53,"nom":"MALEK","trace_b64":"AAAAAAAAAAAAAAAAAAwAAAAABAAAAAADAAAAgAEAAADAAAQAACAADAAAMAAGAADwBQEAAABeAAAAACAAAAAAKAAAAAAiAAAAADEAAABAEAAAACAIAAAACAYAAAAGAQAAgIEBAABgcAAAAOAfAAAAAAAAAAAAAAAA","categories":[{"nom":"SUCCESS","pct":95},{"nom":"AMBITION","pct":90},{"nom":"CAREER","pct":80}],"fontaine":{"gid":450071836,"type":"FONTAINE BOIS","adresse":"SQUARE SANTIAGO DU CHILI","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":54,"nom":"AVA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAwAAAAADgAAAAAGAAAAAA4gEAAHBiAQAA0PYBAABY7gAAgEuqAACAXC4AAIBYNwAAgIE3AAAAgSYAAACDBAAAAN4EAAAAsAAAAADwAAAAAMAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"SUCCESS","pct":95},{"nom":"AMBITION","pct":90},{"nom":"CAREER","pct":85},{"nom":"KNOWLEDGE","pct":60},{"nom":"HOPE","pct":50}],"fontaine":{"gid":450080225,"type":"FONTAINE BOIS","adresse":"CIMETIERE PARISIEN DE SAINT-OUEN","commune":"SAINT-OUEN"}},
+{"index":55,"nom":"RUBEN","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAD+A4AgIcPEACA7QkwAICdCRgAAI8JOQDAH4svAECSjksAwNa8SwAAFKBZAAAEfkcAAABAAAAAACIAAAAAEQAAAAANAAAAgAQAAADAAwAAAMAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HAPPINESS","pct":90},{"nom":"JOY","pct":85},{"nom":"HOPE","pct":75},{"nom":"BEAUTY","pct":60}],"fontaine":{"gid":450071496,"type":"FONTAINE PETILLANTE","adresse":"153 AVENUE DAUMESNIL","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":56,"nom":"QUENTINB","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAQAAAAABgAAAAAEAAAALAQAAAA2DcAAAD4dx8AAOj3ww0A+L0WAADwfwAAAOAPAAAA4AMAAADwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HAPPINESS","pct":100},{"nom":"JOY","pct":95},{"nom":"ETERNITY","pct":90},{"nom":"HOPE","pct":80}],"fontaine":{"gid":450071927,"type":"FONTAINE BOIS","adresse":"SQUARE ARISTIDE CAVAILLE COLL","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":57,"nom":"RALPH","trace_b64":"AAAAAAAAAAAAAAAcAAAAAOaABwAAAsEEAAADQQgAAPFDCwAAmaMbAACN8xYAAIfSFAAAhpIsAACAligAAAAcOAAAABwAAAAABAAAAAAMAAAAgAgAAADACAAAAICfAAAAAJMAAAAA8AAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"JUSTICE","pct":60},{"nom":"FEAR","pct":30}],"fontaine":{"gid":450071910,"type":"FONTAINE BOIS","adresse":"SQUARE MONTHOLON","commune":"PARIS, 9TH ARRONDISSEMENT"}},
+{"index":58,"nom":"TERRY","trace_b64":"AAAAAAAAAEAfAAAw/l0AAPu7XwDg//9HA2D4feQDMP5vfgCg/zsfAKB8kR8A4H+FFwDgPoMbAIB0AgwAgAYCBgDAA+MDAOABeQAAsIENAACwgIQBAKCB/QMAoD8TAgBgZw4CAGDgNQMAgL+zAQAADP8AAAAAOAAA","categories":[{"nom":"HAPPINESS","pct":90},{"nom":"JOY","pct":85},{"nom":"HOPE","pct":75},{"nom":"ABUNDANCE","pct":70},{"nom":"PEACE","pct":60}],"fontaine":{"gid":450071843,"type":"FONTAINE BOIS","adresse":"AVENUE DU GENERAL FERRIE","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":59,"nom":"LILA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAOAAAKgBsAAAaAGMAAAkAUQAACQBQwMAtIBhAQCUxzEAANxFPgAAWuQOAABupAMAAC4UAAAAJgwAAAAmAAAAABIAAAAACwAAAAAPAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"RESILIENCE","pct":100},{"nom":"STRENGTH","pct":90},{"nom":"COURAGE","pct":80}],"fontaine":{"gid":450072465,"type":"FONTAINE BOIS","adresse":"SQUARE DES BATIGNOLLES","commune":"PARIS, 17TH ARRONDISSEMENT"}},
+{"index":60,"nom":"SIMON","trace_b64":"ABjABgAAfqAPAADDEAgAAAEICACAAAQQAIAABRAAgAADCACAAAIIAIAAAgwAgAACBAAAAQICAAABAAEAAAOAAAAAAkAAAAAEIAAAAAwQAAAAMBgAAABgBgAAAMADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"CONNECTION","pct":80},{"nom":"SELF LOVE","pct":70},{"nom":"JOY","pct":60},{"nom":"KINDNESS","pct":50}],"fontaine":{"gid":450071267,"type":"FONTAINE TOTEM","adresse":"18 QUAI DE L HOTEL DE VILLE","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":61,"nom":"MORGAN","trace_b64":"AAAAAAAA/AcAAIAPDAAAYAgYAAAADDYAAEAUIgAAQAwYAABgGGwAACBwRgAAIFjOAAAgANgAACAAUAAAIABAAAAgAEAAACAAQAAAIMBhAABAsCEAAED4IwAAAOgmAACAoPQAAIDg8AAAwEHwAABAA/wAAIAH9gAA","categories":[{"nom":"FREEDOM","pct":100},{"nom":"INDEPENDENCE","pct":85},{"nom":"ESCAPE","pct":60},{"nom":"PEACE","pct":50}],"fontaine":{"gid":450026022,"type":"FONTAINE BOIS","adresse":"CHEMIN CEINTURE LAC INFERIEUR","commune":"PARIS, 16TH ARRONDISSEMENT"}},
+{"index":62,"nom":"JULIUS","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAACAAxgHAJAyHA0AGDokCQBYCqQIAHhLpwgAeM7hCAAIhsAIAAgAAAgACAAACAAYhnwIABDn/AgAEORwCAAwwgAMAOAOeAQAQBrOBwAA9g8AAAAOBgAAAAwCAAAAGAIAAAAQAwAA","categories":[{"nom":"CREATIVITY","pct":100},{"nom":"IMAGINATION","pct":90},{"nom":"ART","pct":80},{"nom":"BEAUTY","pct":70},{"nom":"SELF LOVE","pct":60},{"nom":"GROWTH","pct":50}],"fontaine":{"gid":450073011,"type":"FONTAINE ARCEAU","adresse":"45F QUAI DE LA SEINE","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":63,"nom":"DCACAMIMI","trace_b64":"AAAAAAAAAAAAAADwAAAAAIgBAAAADAMAAAAEBgAAAAQEAAAABAwAAAAECAAAAAT/AAAAxJALAABIEAIAAHgQAAAA4JEBAABg9wAAAMA8AAAAgAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"MONEY","pct":100},{"nom":"ABUNDANCE","pct":85},{"nom":"AMBITION","pct":60},{"nom":"SUCCESS","pct":50}],"fontaine":{"gid":450080223,"type":"FONTAINE BOIS","adresse":"CIMETIERE PARISIEN DE SAINT-OUEN","commune":"SAINT-OUEN"}},
+{"index":64,"nom":"PIOU","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAMACAMAATwoAYIFJCgAgg1gRACCCUBEAIIJIIQAQwAghADCAiCAAIIHEAAAggcQQAKCAxhEAoIBDHwBggEMMAPjAJgDAjzEcAIABHwAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"SIMPLICITY","pct":60},{"nom":"REST","pct":40}],"fontaine":{"gid":450071750,"type":"FONTAINE BOIS","adresse":"3 SQUARE DE LA TOUR SAINT JACQUES","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":65,"nom":"MIKA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAQAAQAABAABgAAEAAGAAAQAAMAADAAAQAAIAAB4ADgAAAwAYAAACABAAAAMAEAAAAwwQAAACBhAAAAYiEAAADCMQAAC4QRgAAODADwAAAAAAAAAAAAAA","categories":[{"nom":"AMBITION","pct":80},{"nom":"SELF LOVE","pct":75},{"nom":"GROWTH","pct":60}],"fontaine":{"gid":450071869,"type":"FONTAINE BOIS","adresse":"PARC MONCEAU","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":66,"nom":"VERA","trace_b64":"AAAAAAAAAAAAAIABAAAAwAMAAACAfwAAAID7AAAAAIcAAAAAhAEAAAAEAwAAAAQYAAAADGAAAAAYQAAAABhAAAAAGEAAAADgQQAAAIBfAAAAAHAAAAAA4AAAAADAAAAAAIABAAAAgAEAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"JUSTICE","pct":98},{"nom":"WORLD PEACE","pct":95},{"nom":"FREEDOM","pct":90},{"nom":"SOLIDARITY","pct":90},{"nom":"COMMUNITY","pct":85},{"nom":"HOPE","pct":80},{"nom":"WORLDS FUTURE","pct":75},{"nom":"UNITY","pct":75},{"nom":"COURAGE","pct":70}],"fontaine":{"gid":450071687,"type":"FONTAINE WALLACE","adresse":"1 PLACE PIERRE RIBOULET","commune":"PARIS, 13TH ARRONDISSEMENT"}},
+{"index":67,"nom":"IRIS","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAAAGwAAAAA78AAAAbmYAAAA8MAAAAAYcAAAABBgAAAAEMAAAAARjAAAAFMMAAAA6jQAAgC8bAADAY+IAAOBAAgAAeMACAAAAgAMAAAAAAwAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"SKY AND STARS","pct":100},{"nom":"EXPLORATION","pct":90},{"nom":"ADVENTURE","pct":85},{"nom":"DREAM","pct":80},{"nom":"ELSEWHERE","pct":75},{"nom":"UNIVERSE","pct":70},{"nom":"HORIZON","pct":60},{"nom":"FREEDOM","pct":50}],"fontaine":{"gid":450072449,"type":"FONTAINE BOIS","adresse":"224 RUE DE COURCELLES","commune":"PARIS, 17TH ARRONDISSEMENT"}},
+{"index":68,"nom":"CHARLY","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAOATAAAAXh8AAMAfGAAAfhQQAAAMKBAAAAYQEADABRAcAMB//RcAAAKIEwAAA8QQAIAGMhAAAA4dEAAA/AMQAABwADAAAAAAEAAAAAAwAAAAADAAAAAAMAAAAAAAAAAAAAAA","categories":[{"nom":"MONEY","pct":95},{"nom":"ABUNDANCE","pct":90},{"nom":"AMBITION","pct":60},{"nom":"SUCCESS","pct":50}],"fontaine":{"gid":450072210,"type":"FONTAINE BOIS","adresse":"57F RUE DE CROULEBARBE","commune":"PARIS, 13TH ARRONDISSEMENT"}},
+{"index":69,"nom":"LUNA","trace_b64":"AADAAAAAAMAAAAAASAAAAABEAAAAAEIAAAAAQgAAAAxBAAAA+EEAAADQ/wcAAOAgDAAAYCAOAABgoAMAAGDwAAAAoBwAAACQEwAAAHAIAAAAHAgAAAAODgAAAAwGAAAABAYAAAAGAAAAAAIAAAAAAAAAAAAAAAAA","categories":[{"nom":"TRAVEL","pct":90},{"nom":"ADVENTURE","pct":85},{"nom":"EXPLORATION","pct":80},{"nom":"NEW BEGINNING","pct":75},{"nom":"DISCOVERY","pct":70},{"nom":"AMBITION","pct":60},{"nom":"FREEDOM","pct":55}],"fontaine":{"gid":450077423,"type":"FONTAINE BOIS","adresse":"220F RUE DE LA CROIX NIVERT","commune":"PARIS, 15TH ARRONDISSEMENT"}},
+{"index":70,"nom":"CHARLY","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAAAYYAAAAAhAAAAACEAAAAAIQAAAAAhAAAAACAAAAAAAwAAAAACAAAAAAAAAAAAAAAAAAAMAAAAABgAAAAAEAAAAAAgAEAAAcAAMAADA/wcA","categories":[{"nom":"HAPPINESS","pct":95},{"nom":"SUCCESS","pct":90},{"nom":"JOY","pct":85}],"fontaine":{"gid":450072189,"type":"FONTAINE BOIS","adresse":"1F RUE ANTOINE VOLLON","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":71,"nom":"NICOLE","trace_b64":"AAAeAAAAALIAAMD74wcAQAD7ZgDgH+Z8AOAwA1gAIBjBbAAAjIEsAACGgDAAAI+AEQAAmB4ZAACQGGkAgJ+AfQDw8IBAAFDAgWAA+IFBMAAYg0YYAADufQwAADgJBgAAgAkGAACA/R0AAIAHHwAAAAMMAAAAAQAA","categories":[{"nom":"ART","pct":100},{"nom":"AMBITION","pct":90},{"nom":"SUCCESS","pct":80},{"nom":"CREATIVITY","pct":70},{"nom":"DREAM","pct":60}],"fontaine":{"gid":450071167,"type":"FONTAINE WALLACE","adresse":"36 RUE POLIVEAU","commune":"PARIS, 5TH ARRONDISSEMENT"}},
+{"index":72,"nom":"MANOS","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAACAwQAAAADzDAAAAJgAAAAAzhAAAACDGAAAAIIIAAAEgwAAAIyRAQAAABEDAAAAMQIAAAAxAgAAAOcGAAAALAwAAAA4OAAAcBAwAAAAGBwAAAD4BwAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"MONEY","pct":95},{"nom":"ART","pct":90},{"nom":"ABUNDANCE","pct":75},{"nom":"AMBITION","pct":60},{"nom":"SUCCESS","pct":50}],"fontaine":{"gid":450071883,"type":"FONTAINE BOIS","adresse":"PARC MONCEAU","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":73,"nom":"TOM","trace_b64":"AAAAAAAAAAAAAAAAAEAAAAAA4AMAAAYQAgCABdAAAMDAfxwAIHAABgAQGMAMAAgRvAYAzAE4AwB2AAYAAB8AAgAAhwMCAAD5AwIAADiAAwAAAMAAAAAAMAAAAIADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"WORLD PEACE","pct":100},{"nom":"WORLDS FUTURE","pct":95},{"nom":"HUMANITY","pct":90},{"nom":"JUSTICE","pct":85},{"nom":"UNITY","pct":80},{"nom":"SOLIDARITY","pct":75},{"nom":"HOPE","pct":70},{"nom":"PEACE","pct":65}],"fontaine":{"gid":450085265,"type":"FONTAINE 2EN1","adresse":"2 RUE MATHIS","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":74,"nom":"SAUL","trace_b64":"AAAAAAAAAAAAAAAAAAAAAACAGAAAAIAIAAAAkAgAAACYCAAAAFgIAAAASAwAAABIBAAAAEgEAAAAaAQAAAAoBAAAACQEAAAAJAAAAAAkAAAAAEAEAAAARAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"JUSTICE","pct":90},{"nom":"AMBITION","pct":70},{"nom":"REBELLION","pct":50}],"fontaine":{"gid":450071930,"type":"FONTAINE BOIS","adresse":"106F QUAI DE JEMMAPES","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":75,"nom":"LOLA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM8AMAAOifwAAADIA4AAAEgA8AAAyAAQAABHAAAAAEHAAAAISHAAAA/IAAAAAegAAA+AiAAQAMCAABAAIIAAEAAAgAAQAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ANCESTORS","pct":100},{"nom":"MEMORY","pct":70},{"nom":"SPIRITUALITY","pct":60},{"nom":"PRAYER","pct":50},{"nom":"NOSTALGIA","pct":40}],"fontaine":{"gid":450071840,"type":"FONTAINE BOIS","adresse":"PLACE JOFFRE","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":76,"nom":"MURIALI","trace_b64":"AAAAAAAAAAAAAAwAAIADDgAAwAMP4B+AAws88IAPjweAGQ8GAPg3DscAHHAMRxgGsADnHwOAAQE8AcADAOABwAMAYAiMAwAwDIQAAAwGwgcABwNDDYABh4EB4ACMQAE4MGZAA/AfMwACAAMPAAAAAAAAAAAAAAAA","categories":[{"nom":"PEACE","pct":95},{"nom":"CALM","pct":80},{"nom":"BALANCE","pct":70},{"nom":"ABUNDANCE","pct":60},{"nom":"SILENCE","pct":50}],"fontaine":{"gid":450085509,"type":"FONTAINE ARCEAU","adresse":"212 RUE D AUBERVILLIERS","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":77,"nom":"CAMILLE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAgAAAAAGAAAAAAoAAAAACwAAAAAbAAAAADEHwAAAIQwAAAwAKALAGAA4AkAwCAADACMcQAEADxJHAQAfE0YAAD0TBIAAGxkEwEASLQZBwAAjJkMAACACHwAAIAMIAAAgMEAAAAAQAEA","categories":[{"nom":"HOME","pct":95},{"nom":"CONNECTION","pct":90},{"nom":"DESTINY","pct":80},{"nom":"REUNION","pct":75},{"nom":"SELF LOVE","pct":70},{"nom":"HOPE","pct":65},{"nom":"MEANING OF LIFE","pct":60}],"fontaine":{"gid":450024928,"type":"FONTAINE WALLACE","adresse":"4F PLACE DU GENERAL BEURET","commune":"PARIS, 15TH ARRONDISSEMENT"}},
+{"index":78,"nom":"ANGI","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAADAAAA4AUAAAAwcAAAAAzPAAAABsEAAAACYAAAADgQAAAABA4AAAACCgAAAIMZAACAcD4AAIDIQQAAQDYAAADACQQAAGAHBgAA8IABAAAMcAAAAOQPAAAAPAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HOPE","pct":90},{"nom":"JOY","pct":85},{"nom":"HAPPINESS","pct":85},{"nom":"STRENGTH","pct":80},{"nom":"BEAUTY","pct":75},{"nom":"AMBITION","pct":70},{"nom":"GROWTH","pct":65},{"nom":"COURAGE","pct":60},{"nom":"SUCCESS","pct":50}],"fontaine":{"gid":450019318,"type":"FONTAINE WALLACE","adresse":"9F RUE DE L ANNONCIATION","commune":"PARIS, 16TH ARRONDISSEMENT"}},
+{"index":79,"nom":"MIRA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAADEAAAAAIQAAAAAhAAAAACEAAAAAIQAAABwhAAAAFCEAAAAYIAAAABggBwAAGCAcAAAYADYAABgAIgAAEAACAAAQAAMAABAAAQAAEIAAAAAwgAAAACBAAAAAYDAAAADAHwAA","categories":[{"nom":"JOY","pct":100},{"nom":"FRIENDSHIP","pct":100}],"fontaine":{"gid":450071838,"type":"FONTAINE BOIS","adresse":"PLACE JOFFRE","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":80,"nom":"LO","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAB+cAADAcQYBAEDAgwEAYMCAAABAYIAAAEAwQAAAQBAgAADAEBAAAIAQDAAAAAEGAAAAgwMAAADmAAAAADwAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"PEACE","pct":95},{"nom":"FREEDOM","pct":90},{"nom":"NATURE","pct":85},{"nom":"OCEAN","pct":85},{"nom":"CALM","pct":75},{"nom":"ABUNDANCE","pct":60}],"fontaine":{"gid":450072308,"type":"FONTAINE BOIS","adresse":"133F RUE VERCINGETORIX","commune":"PARIS, 14TH ARRONDISSEMENT"}},
+{"index":81,"nom":"VERA","trace_b64":"AAAAAAAAAAAAAEAAABAIwAEAEAgABwAQCDAcACAO4HCA/QPAYACHAwADAAMGAA4AAXBgODgBAMBg4AAAgIcBAwDABQMMAGBwDHgAYGA4wAEwQOAHBwBAAA4MAECAGQgAgP8gAACAQQMAAABAAgAAAEAAAAAAYAAA","categories":[{"nom":"REUNION","pct":95},{"nom":"LOSS","pct":90},{"nom":"ABSENCE","pct":85},{"nom":"ROMANTIC LOVE","pct":80},{"nom":"MEMORY","pct":75},{"nom":"NOSTALGIA","pct":70},{"nom":"LONELINESS","pct":65},{"nom":"GRIEF","pct":60},{"nom":"REGRET","pct":50},{"nom":"CONNECTION","pct":40}],"fontaine":{"gid":450071921,"type":"FONTAINE BOIS","adresse":"8 RUE DES RECOLLETS","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":82,"nom":"LUCIEN","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAOADAAAAIA4AAAAQEgAAABAzAAAAECMAAAAQIAAAABAwAAAAEBAAAAAgGAAAACAIAAAAYAwAAADABAAAAIAHAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"WORLD PEACE","pct":100},{"nom":"PEACE","pct":95},{"nom":"UNITY","pct":90},{"nom":"HUMANITY","pct":80},{"nom":"SOLIDARITY","pct":75},{"nom":"HOPE","pct":70}],"fontaine":{"gid":450070461,"type":"FONTAINE BOIS","adresse":"ROUTE DE SEVRES A NEUILLY","commune":"PARIS, 16TH ARRONDISSEMENT"}},
+{"index":83,"nom":"MARC","trace_b64":"AAAAAAAAAAAAAEA/xgAAQH70AgAA4P8AAAAAHgAAAAAPAAAAAA0AAAAABwAATAB/AAhMwO3IPfRjjE08fCAIRTxu6IjJHf6bydA8/BZPUCxcHjxYDFwC+OgL/GefDQHAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HEALING","pct":90},{"nom":"HOPE","pct":80},{"nom":"REBIRTH","pct":70},{"nom":"KNOWLEDGE","pct":60},{"nom":"HUMANITY","pct":50}],"fontaine":{"gid":450071747,"type":"FONTAINE BOIS","adresse":"2F QUAI DES CELESTINS","commune":"PARIS, 4TH ARRONDISSEMENT"}},
+{"index":84,"nom":"THELMA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAMAAADgfwAAAEDhAwAA4McHAABAAA8AAPAH/wUA8OAHDQDwPxgPAIDnGQcAgAP3AwCA/z8AAICDMAAAwMEdAADAYAcAAOCAAQAAYAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"NATURE","pct":90},{"nom":"REBIRTH","pct":85},{"nom":"GROWTH","pct":75},{"nom":"CHANGE","pct":60}],"fontaine":{"gid":450072309,"type":"FONTAINE BOIS","adresse":"JARDIN DE L ABBE LEMIRE","commune":"PARIS, 14TH ARRONDISSEMENT"}},
+{"index":85,"nom":"FRIDA","trace_b64":"AAAAAAAAAAAAEAAAMPAeAAB4kBMA+GxgCwCMRsAPAIRjgAcAhCGADAAMIwAAAAgTHAAAEPAWAABgmBMAAMAYCQAAIRsNAIg7PgQASDt4AgBIG9ABAOgfsgEA+LWDAQAAcMADAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HOPE","pct":90},{"nom":"JOY","pct":80},{"nom":"HAPPINESS","pct":80},{"nom":"NEW BEGINNING","pct":75},{"nom":"CHANGE","pct":60}],"fontaine":{"gid":450071904,"type":"FONTAINE BOIS","adresse":"SQUARE DE LA TRINITE","commune":"PARIS, 9TH ARRONDISSEMENT"}},
+{"index":86,"nom":"STEPH","trace_b64":"ABwAIQAANgABAAAimGEAACP44wAAKfChAAA52KAAADT8oQAANHahAAAmYxIAACJhkgAAJmGDAACmYEEAAPbgQQAAcsBAAABagEAAAAoAIQAADgAgAAAAACMAAAAAMgAAAAASAAAAAAwAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"MONEY","pct":100},{"nom":"ABUNDANCE","pct":80},{"nom":"SUCCESS","pct":60},{"nom":"SECURITY","pct":40}],"fontaine":{"gid":450072148,"type":"FONTAINE BOIS","adresse":"JARDIN EMILE GALLE","commune":"PARIS, 11TH ARRONDISSEMENT"}},
+{"index":87,"nom":"JUNIPER ","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAHwAAgIUPAACAjwcAAEAPgAEA4AuAAQDgCEABAGAIwAMAADjAAwAAeMADAAB4wAAAAExgAAAAwAMAAADgAwAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"CONNECTION","pct":70},{"nom":"KINDNESS","pct":60},{"nom":"JOY","pct":50},{"nom":"HAPPINESS","pct":50}],"fontaine":{"gid":450071598,"type":"FONTAINE BOIS","adresse":"SQUARE DE BITCHE","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":88,"nom":"CHARLIE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAADgAAAAAOAAAAABsAAAAANR4AAAAvO8DAAAsgAcAACDALwAAYH4+AAD4dzwAADx4AAAAPNgCAAA82AM2AHwwYQYAQBAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"TRAVEL","pct":100},{"nom":"ADVENTURE","pct":90},{"nom":"EXPLORATION","pct":80},{"nom":"FREEDOM","pct":60},{"nom":"DISCOVERY","pct":50},{"nom":"ELSEWHERE","pct":40}],"fontaine":{"gid":450072145,"type":"FONTAINE BOIS","adresse":"CITE PROST","commune":"PARIS, 11TH ARRONDISSEMENT"}},
+{"index":89,"nom":"ISMA","trace_b64":"AAAAAAAAgAMAAACABgAAAIACAAAAQAIAAABAAgAAAEA+AAAAQOIBAADA4AEAAIAgAQAA8P8fAO+/APgHAAAAAAEAwAgBAABAAAMAAAAIBgAAMAwEAAAYBAgAAAwAMAAABARgAAADAEAAwAEEQABAAAQAAAAAAAAA","categories":[{"nom":"MONEY","pct":100},{"nom":"SUCCESS","pct":90},{"nom":"ABUNDANCE","pct":80},{"nom":"AMBITION","pct":70},{"nom":"SECURITY","pct":60}],"fontaine":{"gid":450072508,"type":"FONTAINE BOIS","adresse":"23F RUE TRISTAN TZARA","commune":"PARIS, 18TH ARRONDISSEMENT"}},
+{"index":90,"nom":"PASCAL","trace_b64":"AAAAAAAAAAAAAABAAAAAAGABAAAAMAMAAAAQDgAAABATAAAAEAEAAMDTHQAAQPINAABgMAMAACAYAgAAIBwTwAAglj/gAOD2/qEAgAMAogAAAgOsAAAsArwAAHgGtAAA8Ab/AACA52kAAABBbgAAAMAjAAAAACAA","categories":[{"nom":"NATURE","pct":95},{"nom":"CHANGE","pct":80},{"nom":"REBIRTH","pct":75},{"nom":"WORLDS FUTURE","pct":60},{"nom":"UNIVERSE","pct":50}],"fontaine":{"gid":450072301,"type":"FONTAINE BOIS","adresse":"27F RUE JACQUIER","commune":"PARIS, 14TH ARRONDISSEMENT"}},
+{"index":91,"nom":"CAR","trace_b64":"AAAAAAAAAAAAAAAAAAAAAMADAAAAcB4AAAAYIBAAABjAFwAAELAJAABgmBwAgINPFwDAADwRAEAAJiMAQADiIgBAACIiAEAAFBQAQAA89AGAAPwPA4AAIgACgADBAAMAwYAAAQB2AIEAABwAQgAAAAB8AAAAAAAA","categories":[{"nom":"PEACE","pct":100},{"nom":"CALM","pct":90},{"nom":"WORLD PEACE","pct":85},{"nom":"BALANCE","pct":75},{"nom":"SILENCE","pct":70}],"fontaine":{"gid":450071112,"type":"FONTAINE ARCEAU","adresse":"3F RUE DIDOT","commune":"PARIS, 14TH ARRONDISSEMENT"}},
+{"index":92,"nom":"BOUBOU","trace_b64":"AMAwAAAAwGwAAADARxgAAEBgGwAAQOAfAABAcB8AAEDoFwAAQKwLAABA8w8AAPD5CgAAfP8fAAA0bx4AABQfHwAAnIsTAAC0xxAAAMS9CAAAZHsgAAAEETAAABwAHgAAZoADAADE/gAAAAQAAAAAAAAAAAAAAAAA","categories":[{"nom":"CELEBRATION","pct":40},{"nom":"JOY","pct":30}],"fontaine":{"gid":450071819,"type":"FONTAINE BOIS","adresse":"RUE AUGUSTE COMTE","commune":"PARIS, 6TH ARRONDISSEMENT"}},
+{"index":93,"nom":"CALLI","trace_b64":"AAAAAAAAAAAAAAAA0D8AAOB/SgAAOASgAAAMNoABAAQjHwEABsExAQC84IgBAPABkAAAAAEYAAAAAwwAAAACBAAAAAICAAAAhAEAAADYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"HEALTH","pct":100}],"fontaine":{"gid":450071359,"type":"FONTAINE TOTEM","adresse":"71F QUAI D ORSAY","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":94,"nom":"ROMAIN","trace_b64":"AADQAAAAAEwAAAAAggAAAACBAAAAkpEMAIBbmQcAgD+ZAQCAH9EAAAA38eABABWxGAIAEZkHAAARnwEAABEBAAAAMwEAAAAjAQAAAAIBAAAAAwEAAAAAAAAAAAAAAAAAQAAAAADAAAAAAMAAAAAAQAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":90},{"nom":"FRIENDSHIP","pct":80},{"nom":"CONNECTION","pct":75}],"fontaine":{"gid":450071881,"type":"FONTAINE BOIS","adresse":"PARC MONCEAU","commune":"PARIS, 8TH ARRONDISSEMENT"}},
+{"index":95,"nom":"AUREL","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAAAAAOAEAAMC5AwAAwLkDAADA/QcAAMD5BwAAwPkHAACA/wMAAAD8AQAAAHgAAAAAuAEAAAD4AAAAAP4BAAAAfgMAAAD8BwAAAP4HAAAAfwEAAAAfAAAAAAAAAAAAAAAA","categories":[{"nom":"KINDNESS","pct":90},{"nom":"UNDERSTANDING","pct":85},{"nom":"KNOWLEDGE","pct":80},{"nom":"ROMANTIC LOVE","pct":75},{"nom":"UNCERTAINTY","pct":60}],"fontaine":{"gid":450071933,"type":"FONTAINE BOIS","adresse":"23F RUE JULIETTE DODU","commune":"PARIS, 10TH ARRONDISSEMENT"}},
+{"index":96,"nom":"CHRIS","trace_b64":"AAAAAAAAAAAAAAAAAAAAAPXwBwCA/5kPAMCADQwA+AEFDgC4AwUfADwDBTYANAEFbgAUAQV7AB4HB3MACgYHYwAOAsdhAA4e5+AABhAl8AAGdCXYAArYPcYAepj1QwDmkHdwAIyBJhwACPOmBwBg/sYAAMAHAAAA","categories":[{"nom":"KNOWLEDGE","pct":90},{"nom":"UNDERSTANDING","pct":85},{"nom":"UNCERTAINTY","pct":80},{"nom":"TRUTH","pct":75},{"nom":"CURIOSITY","pct":70},{"nom":"WISDOM","pct":65}],"fontaine":{"gid":450072570,"type":"FONTAINE BOIS","adresse":"53F RUE EMILE BOLLAERT","commune":"PARIS, 19TH ARRONDISSEMENT"}},
+{"index":97,"nom":"ANNA","trace_b64":"AAAAAAAAAAAAAABgAAAAAHAAAAAAWAAIAABIAAwAAEwAkgEAJAD5AAAkACkAACSAHQAAIjMPAACifwIAAKJvAAAAEC8AAAAZPQAAAD8FAAAAMwUAAAAZAAAAgBkAAACACAAAAIAMAAAAoAQAAACgBwAAACAAAAAA","categories":[{"nom":"ELSEWHERE","pct":60},{"nom":"TRAVEL","pct":50},{"nom":"EXPLORATION","pct":40}],"fontaine":{"gid":450072468,"type":"FONTAINE BOIS","adresse":"RUE MARIA DERAISMES","commune":"PARIS, 17TH ARRONDISSEMENT"}},
+{"index":98,"nom":"NIKA","trace_b64":"AAAAAAAAAAAAAAAAAAACAACAAAcAIMDAAQBwfGAAgFAGPACAmQMGAIAP4QMAAAAwAAwADBAABxweEIAANiEIYACCQIw5BMKAxw8CQgBgAAJiADDAAzIQAGAAHHAMNgAAyAMfAAAIAAEAAAAAAQAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"MEMORY","pct":65},{"nom":"NOSTALGIA","pct":50},{"nom":"DREAM","pct":40}],"fontaine":{"gid":450071730,"type":"FONTAINE BOIS","adresse":"SQUARE JACQUES BIDAULT","commune":"PARIS, 2ND ARRONDISSEMENT"}},
+{"index":99,"nom":"MARC ANTOINE","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAABoAAAAAGgAAAAAfQAAAABVAAAAAGUAAAAAfwAAAAArAAAAAC8AAAAAZwAAAABhAAAAgOMAAACAowAAAICjAQAAwCABAAAAIAMAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":95},{"nom":"JOY","pct":70},{"nom":"HAPPINESS","pct":60}],"fontaine":{"gid":450080401,"type":"FONTAINE BOIS","adresse":"RUE BRILLAT SAVARIN","commune":"PARIS, 13TH ARRONDISSEMENT"}},
+{"index":100,"nom":"LOU","trace_b64":"AAAAAAAAAAAAAAAAAAAAAMBAAAAA+PsDAAAYDgYAAAQGBAAABAYEAAAEAgQAAAQABgAABAADAAAYgAEAADBwAAAAwBgAAACADQAAAAAEAAAAAAcAAAAABgAAAAAGAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"ROMANTIC LOVE","pct":100},{"nom":"ETERNITY","pct":90},{"nom":"HOPE","pct":70},{"nom":"CONNECTION","pct":60}],"fontaine":{"gid":450071824,"type":"FONTAINE BOIS","adresse":"FACE 65 QUAI D ORSAY","commune":"PARIS, 7TH ARRONDISSEMENT"}},
+{"index":101,"nom":"ANTOINE","trace_b64":"AAAAAAAAAAAAAAAAMAAAAAAwAAAAADAAAAAAEAAAAAAoAAAAACQAAAAAJAAAAABCAAAAAEIAAAAAQQAAAACBAAAAgIAAAABAgAAAAEAAAQAAIAABAAAgAAEAACAAAQAAEAADAAAY+AMAAPgDAAAAAAAAAAAAAAAA","categories":[{"nom":"PEACE","pct":95},{"nom":"WORLDS FUTURE","pct":90},{"nom":"WORLD PEACE","pct":85},{"nom":"UNITY","pct":80},{"nom":"HUMANITY","pct":75},{"nom":"HOPE","pct":70},{"nom":"CALM","pct":65},{"nom":"CONNECTION","pct":60}],"fontaine":{"gid":450070377,"type":"FONTAINE WALLACE","adresse":"187T RUE DE CHARENTON","commune":"PARIS, 12TH ARRONDISSEMENT"}},
+{"index":102,"nom":"TAHA","trace_b64":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAjhkAAACOMAAAANsgAAAAUWAAADAQZAAAfBAmAABEEDIAAEbmEQAAwwAYAABBIAgAAEEQiAAAQRCIAABBEMgAAMEPWAAAAwJwAAABAAAAAAAAAAAAAAAAAAAAAAAA","categories":[{"nom":"FEAR","pct":95},{"nom":"PEACE","pct":90},{"nom":"ESCAPE","pct":80},{"nom":"NEW BEGINNING","pct":75},{"nom":"HOPE","pct":70}],"fontaine":{"gid":450072305,"type":"FONTAINE BOIS","adresse":"AVENUE DE LA SIBELLE","commune":"PARIS, 14TH ARRONDISSEMENT"}}
+]
+;
+
+/* ---------- décodage des traces (base64 -> grille 40x24) ---------- */
+function decoderBase64(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+function traceBit(trace, row, col) {
+  const b = row * 40 + col;
+  return (trace[b >> 3] & (1 << (b & 7))) !== 0;
+}
+VOEUX.forEach(v => { v.trace = decoderBase64(v.trace_b64); });
+
+function traceVide(trace) {
+  for (let i = 0; i < trace.length; i++) if (trace[i]) return false;
+  return true;
+}
+
+/* ---------- similarité (identique à correspondanceEntre() du firmware) ---------- */
+function similarite(a, b) {
+  let produit = 0, normeA = 0, normeB = 0;
+  for (const c of a.categories) normeA += c.pct * c.pct;
+  for (const c of b.categories) normeB += c.pct * c.pct;
+  for (const ca of a.categories) for (const cb of b.categories)
+    if (ca.nom === cb.nom) produit += ca.pct * cb.pct;
+  if (normeA <= 0 || normeB <= 0) return 0;
+  return produit / (Math.sqrt(normeA) * Math.sqrt(normeB));
+}
+
+const N = VOEUX.length;
+const aretes = [];
+for (let i = 0; i < N; i++)
+  for (let j = i + 1; j < N; j++)
+    if (similarite(VOEUX[i], VOEUX[j]) > 0.35) aretes.push([i, j]);
+
+/* précalcule, pour chaque vœu, ses correspondances triées (comme voeuxTopCorrespondances) */
+VOEUX.forEach((v, i) => {
+  const scores = [];
+  VOEUX.forEach((autre, j) => { if (j !== i) scores.push({ i: j, score: similarite(v, autre) }); });
+  scores.sort((a, b) => b.score - a.score);
+  v._matchs = scores;
+});
+
+/* ---------- placement : même spirale dorée que placerNoeud() ---------- */
+function placerNoeud(index) {
+  const angle = index * 137.5 * Math.PI / 180;
+  const rayon = 50 * Math.sqrt(index + 1);
+  return { wx: rayon * Math.cos(angle), wy: rayon * Math.sin(angle) };
+}
+VOEUX.forEach((v, i) => { const p = placerNoeud(i); v.wx = p.wx; v.wy = p.wy; });
+
+/* ---------- dérive aléatoire persistante (comme DeriveEtat) ---------- */
+const derive = VOEUX.map(() => {
+  let vx = (Math.random() * 21 - 10) / 6; if (vx === 0) vx = 0.3;
+  let vy = (Math.random() * 21 - 10) / 6; if (vy === 0) vy = 0.3;
+  return { dx: 0, dy: 0, vx, vy };
+});
+const PORTEE = 22;
+
+/* ---------- rendu ---------- */
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H, DPR;
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+let camX = 0, camY = 0;
+const CHAR_W = 8, LINE_H = 20, PAD_X = 10;
+function boxWidth(nom) { return Math.max(nom.length * CHAR_W + PAD_X * 2, 46); }
+
+const compteEl = document.getElementById('compte');
+compteEl.textContent = N + ' WISH' + (N === 1 ? '' : 'ES');
+
+let dragging = false, moved = false, startX = 0, startY = 0, startCamX = 0, startCamY = 0;
+let lastX = 0, lastY = 0;
+const hint = document.getElementById('hint');
+let hintCache = false;
+
+function ecranXY(v) {
+  return {
+    x: v.wx + derive[VOEUX.indexOf(v)].dx - camX + W / 2,
+    y: v.wy + derive[VOEUX.indexOf(v)].dy - camY + H / 2
+  };
+}
+
+function boucle() {
+  // dérive
+  VOEUX.forEach((v, i) => {
+    const d = derive[i];
+    d.dx += d.vx; d.dy += d.vy;
+    if (d.dx > PORTEE || d.dx < -PORTEE) { d.vx = -d.vx; d.dx = Math.max(-PORTEE, Math.min(PORTEE, d.dx)); }
+    if (d.dy > PORTEE || d.dy < -PORTEE) { d.vy = -d.vy; d.dy = Math.max(-PORTEE, Math.min(PORTEE, d.dy)); }
+  });
+
+  const sx = new Array(N), sy = new Array(N), lw = new Array(N);
+  VOEUX.forEach((v, i) => {
+    sx[i] = v.wx + derive[i].dx - camX + W / 2;
+    sy[i] = v.wy + derive[i].dy - camY + H / 2;
+    lw[i] = boxWidth(v.nom);
+  });
+
+  // répulsion (identique à l'esprit du firmware)
+  for (let i = 0; i < N; i++) {
+    for (let j = i + 1; j < N; j++) {
+      const dx = sx[j] - sx[i], dy = sy[j] - sy[i];
+      let dist = Math.sqrt(dx * dx + dy * dy); if (dist < 1) dist = 1;
+      const distMin = (lw[i] + lw[j]) / 2 + 14;
+      if (dist < distMin) {
+        const push = (distMin - dist) * 0.14;
+        const ux = dx / dist, uy = dy / dist;
+        derive[i].dx -= ux * push; derive[i].dy -= uy * push;
+        derive[j].dx += ux * push; derive[j].dy += uy * push;
+        sx[i] -= ux * push; sy[i] -= uy * push;
+        sx[j] += ux * push; sy[j] += uy * push;
+      }
+    }
+  }
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+
+  // traits de correspondance, gris, uniquement si les deux bouts sont proches de l'écran
+  ctx.strokeStyle = 'rgba(180,180,180,0.55)';
+  ctx.lineWidth = 1;
+  const marge = 60;
+  aretes.forEach(([i, j]) => {
+    if ((sx[i] < -marge && sx[j] < -marge) || (sx[i] > W + marge && sx[j] > W + marge)) return;
+    if ((sy[i] < -marge && sy[j] < -marge) || (sy[i] > H + marge && sy[j] > H + marge)) return;
+    ctx.beginPath(); ctx.moveTo(sx[i], sy[i]); ctx.lineTo(sx[j], sy[j]); ctx.stroke();
+  });
+
+  // nœuds
+  ctx.font = '12px "Courier New", monospace';
+  ctx.textBaseline = 'middle';
+  VOEUX.forEach((v, i) => {
+    if (sx[i] < -80 || sx[i] > W + 80 || sy[i] < -40 || sy[i] > H + 40) return;
+    const w = lw[i], h = 20;
+    const bx = sx[i] - w / 2, by = sy[i] - h / 2;
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1;
+    ctx.strokeRect(bx + 0.5, by + 0.5, w, h);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(v.nom, bx + PAD_X, sy[i] + 1);
+
+    if (!traceVide(v.trace)) {
+      const tx = bx, ty = by + h + 4, tw = 40, th = 18;
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.strokeRect(tx - 1, ty - 1, tw + 2, th + 2);
+      const img = ctx.createImageData(tw, th);
+      for (let row = 0; row < 18; row++) {
+        const srcRow = Math.floor(row * 24 / 18);
+        for (let col = 0; col < tw; col++) {
+          const on = traceBit(v.trace, srcRow, col);
+          const o = (row * tw + col) * 4;
+          img.data[o] = img.data[o+1] = img.data[o+2] = 255;
+          img.data[o+3] = on ? 255 : 0;
+        }
+      }
+      ctx.putImageData(img, tx, ty);
+    }
+    v._boite = { bx, by, w, h: h + (traceVide(v.trace) ? 0 : 26) };
+  });
+
+  requestAnimationFrame(boucle);
+}
+requestAnimationFrame(boucle);
+
+/* ---------- interaction : glisser pour naviguer, taper un nom ---------- */
+function pointDePage(e) {
+  if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  return { x: e.clientX, y: e.clientY };
+}
+function debut(e) {
+  const p = pointDePage(e);
+  dragging = true; moved = false;
+  startX = lastX = p.x; startY = lastY = p.y;
+  startCamX = camX; startCamY = camY;
+  canvas.classList.add('dragging');
+  if (!hintCache) { hint.style.opacity = '0'; hintCache = true; }
+}
+function bouge(e) {
+  if (!dragging) return;
+  const p = pointDePage(e);
+  const dx = p.x - startX, dy = p.y - startY;
+  if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
+  camX = startCamX - dx; camY = startCamY - dy;
+  lastX = p.x; lastY = p.y;
+  e.preventDefault();
+}
+function fin(e) {
+  if (!dragging) return;
+  dragging = false;
+  canvas.classList.remove('dragging');
+  if (!moved) {
+    for (let i = N - 1; i >= 0; i--) {
+      const v = VOEUX[i], b = v._boite;
+      if (!b) continue;
+      if (lastX >= b.bx && lastX <= b.bx + b.w && lastY >= b.by && lastY <= b.by + b.h) {
+        ouvrirFiche(v);
+        break;
+      }
+    }
+  }
+}
+canvas.addEventListener('mousedown', debut);
+window.addEventListener('mousemove', bouge);
+window.addEventListener('mouseup', fin);
+canvas.addEventListener('touchstart', debut, { passive: true });
+canvas.addEventListener('touchmove', bouge, { passive: false });
+canvas.addEventListener('touchend', fin);
+
+/* ---------- fiche détaillée ---------- */
+const panneau = document.getElementById('panneau');
+const pNom = document.getElementById('pNom');
+const pCategories = document.getElementById('pCategories');
+const pMatchs = document.getElementById('pMatchs');
+const pFontaine = document.getElementById('pFontaine');
+const traceCanvas = document.getElementById('traceCanvas');
+const traceCtx = traceCanvas.getContext('2d');
+
+function ligneNomValeur(container, nom, pct) {
+  const d = document.createElement('div');
+  d.className = 'ligne';
+  d.innerHTML = '<span class="n">' + nom + '</span><span class="p">' + pct + '%</span>';
+  container.appendChild(d);
+}
+
+function ouvrirFiche(v) {
+  pNom.textContent = v.nom.trim() ? v.nom : 'ANONYMOUS';
+
+  traceCtx.clearRect(0, 0, 200, 120);
+  if (traceVide(v.trace)) {
+    traceCtx.fillStyle = '#7a7a7a';
+    traceCtx.font = '12px "Courier New", monospace';
+    traceCtx.textAlign = 'center';
+    traceCtx.fillText('NO DRAWING', 100, 60);
+  } else {
+    const ech = 5;
+    traceCanvas.width = 40 * ech; traceCanvas.height = 24 * ech;
+    traceCtx.fillStyle = '#fff';
+    for (let row = 0; row < 24; row++)
+      for (let col = 0; col < 40; col++)
+        if (traceBit(v.trace, row, col)) traceCtx.fillRect(col * ech, row * ech, ech, ech);
+  }
+
+  pCategories.innerHTML = '';
+  if (!v.categories.length) {
+    const d = document.createElement('div'); d.className = 'vide'; d.textContent = 'NONE';
+    pCategories.appendChild(d);
+  } else {
+    v.categories.forEach(c => ligneNomValeur(pCategories, c.nom, c.pct));
+  }
+
+  pMatchs.innerHTML = '';
+  const top = v._matchs.slice(0, 5).filter(m => m.score > 0);
+  if (!top.length) {
+    const d = document.createElement('div'); d.className = 'vide'; d.textContent = 'NO MATCH';
+    pMatchs.appendChild(d);
+  } else {
+    top.forEach(m => {
+      const autre = VOEUX[m.i];
+      ligneNomValeur(pMatchs, autre.nom.trim() ? autre.nom : 'ANONYMOUS', Math.round(m.score * 100));
+    });
+  }
+
+  const f = v.fontaine;
+  pFontaine.innerHTML =
+    '<div class="type">' + f.type + '</div>' +
+    '<div class="adr">' + f.adresse + '</div>' +
+    '<div class="com">' + f.commune + '</div>' +
+    '<div class="gid">#' + f.gid + '</div>';
+
+  panneau.classList.add('ouvert');
+  document.getElementById('panneauScroll').scrollTop = 0;
+}
+document.getElementById('retour').addEventListener('click', () => panneau.classList.remove('ouvert'));
+</script>
+</body>
+</html>
