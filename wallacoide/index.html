@@ -76,10 +76,13 @@
   .sectionTitre { font-size:11px; letter-spacing:0.14em; color:#9a9a9a; text-align:center; margin:30px 0 16px; }
 
   .ligne { display:flex; align-items:baseline; justify-content:center; gap:14px; padding:9px 0;
-    font-size:14px; letter-spacing:0.03em; }
+    font-size:14px; letter-spacing:0.03em; color:inherit; text-decoration:none; cursor:pointer; }
   .ligne .n { text-align:right; min-width:0; }
   .ligne .p { font-size:17px; font-weight:400; min-width:44px; }
   .vide { text-align:center; color:#7a7a7a; font-size:12px; padding:10px 0 0; letter-spacing:0.08em; }
+
+  .contact { text-align:center; font-size:11px; color:#8a8a8a; line-height:1.6;
+    letter-spacing:0.02em; margin:0 auto 16px; max-width:340px; }
 
   .fontaine { text-align:center; margin-top:6px; }
   .fontaine .type { font-size:15px; margin-bottom:10px; }
@@ -132,6 +135,7 @@
     <div class="traceWrap"><canvas id="traceCanvas" width="200" height="120"></canvas></div>
 
     <div class="sectionTitre">RESONANCES WITH OTHERS</div>
+    <div class="contact">Want to leave a message to the people you have the most resonance with — or find out if someone left one for you? Tap a name.</div>
     <div id="pMatchs"></div>
 
     <div class="sectionTitre">ATTRIBUTED FOUNTAIN</div>
@@ -531,7 +535,7 @@ function fin(e) {
       const v = VOEUX[i], b = v._boite;
       if (!b) continue;
       if (lastX >= b.bx && lastX <= b.bx + b.w && lastY >= b.by && lastY <= b.by + b.h) {
-        ouvrirFiche(v);
+        ouvrirFiche(v, i);
         break;
       }
     }
@@ -562,15 +566,33 @@ const pFontaine = document.getElementById('pFontaine');
 const traceCanvas = document.getElementById('traceCanvas');
 const traceCtx = traceCanvas.getContext('2d');
 
-function ligneNomValeur(container, nom, pct) {
-  const d = document.createElement('div');
-  d.className = 'ligne';
-  d.innerHTML = '<span class="n">' + nom + '</span><span class="p">' + pct + '%</span>';
-  container.appendChild(d);
+// formulaire de mise en contact (double consentement, voir Apps Script) :
+// chaque lien vient d'une résonance précise (identifiant unique, jamais
+// une saisie libre de prénom) -- aucune confusion possible entre deux
+// personnes qui partagent le même prénom.
+const FORM_CONTACT = 'https://docs.google.com/forms/d/e/1FAIpQLSdGdExk2v5BTF8KbqnbJQ0QkAOFT_XMupuym-B6sE5CzL7VaA/viewform';
+function lienContact(monNom, monId, cibleNom, cibleId) {
+  const p = new URLSearchParams();
+  p.set('entry.1368175476', monNom);
+  p.set('entry.62909949', String(monId));
+  p.set('entry.1231881102', cibleNom);
+  p.set('entry.1354941381', String(cibleId));
+  return FORM_CONTACT + '?' + p.toString();
 }
 
-function ouvrirFiche(v) {
-  pNom.textContent = v.nom.trim() ? v.nom : 'ANONYMOUS';
+function ligneNomValeur(container, nom, pct, href) {
+  const a = document.createElement('a');
+  a.className = 'ligne';
+  a.href = href;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.innerHTML = '<span class="n">' + nom + '</span><span class="p">' + pct + '%</span>';
+  container.appendChild(a);
+}
+
+function ouvrirFiche(v, monId) {
+  const monNom = v.nom.trim() ? v.nom : 'ANONYMOUS';
+  pNom.textContent = monNom;
 
   traceCtx.clearRect(0, 0, 200, 120);
   if (traceVide(v.trace)) {
@@ -597,7 +619,9 @@ function ouvrirFiche(v) {
   } else {
     top.forEach(m => {
       const autre = VOEUX[m.i];
-      ligneNomValeur(pMatchs, autre.nom.trim() ? autre.nom : 'ANONYMOUS', Math.round(m.score * 100));
+      const nomAutre = autre.nom.trim() ? autre.nom : 'ANONYMOUS';
+      ligneNomValeur(pMatchs, nomAutre, Math.round(m.score * 100),
+        lienContact(monNom, monId, nomAutre, m.i));
     });
   }
 
