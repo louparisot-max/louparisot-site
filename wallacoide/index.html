@@ -573,6 +573,7 @@ const traceCtx = traceCanvas.getContext('2d');
 const FORM_CONTACT = 'https://docs.google.com/forms/d/e/1FAIpQLSdGdExk2v5BTF8KbqnbJQ0QkAOFT_XMupuym-B6sE5CzL7VaA/viewform';
 function lienContact(monNom, monId, cibleNom, cibleId) {
   const p = new URLSearchParams();
+  p.set('usp', 'pp_url'); // marqueur attendu par Google Forms pour lire les entry.* ci-dessous
   p.set('entry.1368175476', monNom);
   p.set('entry.62909949', String(monId));
   p.set('entry.1231881102', cibleNom);
