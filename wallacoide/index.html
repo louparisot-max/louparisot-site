@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Wallacoïde — the wishing fountain</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap">
 <style>
   :root { color-scheme: dark; }
   html, body { margin:0; padding:0; background:#000; color:#fff; overflow:hidden; height:100%; width:100%;
@@ -18,7 +18,7 @@
     display:flex; justify-content:space-between; align-items:flex-start;
     pointer-events:none; z-index:5;
   }
-  #titre h1 { margin:0; font-size:15px; font-weight:700; letter-spacing:0.12em; }
+  #titre h1 { margin:0; font-size:15px; font-weight:400; letter-spacing:0.12em; color:#9a9a9a; }
   #titre .sub { font-size:10px; color:#9a9a9a; letter-spacing:0.08em; margin-top:3px; }
   #compte { font-size:10px; color:#9a9a9a; text-align:right; white-space:nowrap; }
   #credits { font-size:13px; color:#8a8a8a; text-align:right; line-height:1.7; letter-spacing:0.01em;
@@ -42,15 +42,15 @@
 
   #zoom {
     position:fixed; bottom:16px; right:16px; z-index:5;
-    display:flex; flex-direction:column; border:1px solid #fff;
+    display:flex; flex-direction:column; border:1px solid #9a9a9a;
   }
   #zoom button {
     width:36px; height:36px; background:#000; color:#fff; border:none;
-    border-bottom:1px solid #fff; font-size:18px; font-family:inherit;
+    border-bottom:1px solid #9a9a9a; font-size:18px; font-family:inherit;
     cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;
   }
   #zoom button:last-child { border-bottom:none; }
-  #zoom button:active { background:#fff; color:#000; }
+  #zoom button:active { background:#9a9a9a; color:#000; }
 
   #panneau {
     position:fixed; inset:0; background:#000; z-index:10;
@@ -63,10 +63,10 @@
 
   #retour {
     position:absolute; top:14px; left:14px; z-index:11;
-    width:42px; height:42px; border:1px solid #fff; background:#000; color:#fff;
+    width:42px; height:42px; border:1px solid #9a9a9a; background:#000; color:#fff;
     font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
   }
-  #retour:active { background:#fff; color:#000; }
+  #retour:active { background:#9a9a9a; color:#000; }
 
   .nomTitre { font-size:22px; letter-spacing:0.06em; text-align:center; margin:54px 0 26px; word-break:break-word; }
 
@@ -78,7 +78,7 @@
   .ligne { display:flex; align-items:baseline; justify-content:center; gap:14px; padding:9px 0;
     font-size:14px; letter-spacing:0.03em; }
   .ligne .n { text-align:right; min-width:0; }
-  .ligne .p { font-size:17px; font-weight:bold; min-width:44px; }
+  .ligne .p { font-size:17px; font-weight:400; min-width:44px; }
   .vide { text-align:center; color:#7a7a7a; font-size:12px; padding:10px 0 0; letter-spacing:0.08em; }
 
   .fontaine { text-align:center; margin-top:6px; }
@@ -435,9 +435,8 @@ function dessiner() {
     if (sx[i] < -lw[i] || sx[i] > W + lw[i] || sy[i] < -h * 3 || sy[i] > H + h * 3) { v._boite = null; return; }
     const w = lw[i];
     const bx = sx[i] - w / 2, by = sy[i] - h / 2;
-    // fond plein (même passé devant la fontaine) : garde chaque cadre lisible
-    ctx.fillStyle = '#000'; ctx.fillRect(bx, by, w, h);
-    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1;
+    // cadre transparent (pas de fond) : la fontaine et les traits restent visibles derrière
+    ctx.strokeStyle = '#9a9a9a'; ctx.lineWidth = 1;
     ctx.strokeRect(bx + 0.5, by + 0.5, w, h);
     ctx.fillStyle = '#fff';
     ctx.fillText(v.nom, bx + PAD_X * scale, sy[i] + 1);
@@ -446,8 +445,7 @@ function dessiner() {
     if (!v._vide) {
       const tw = 40 * scale, th = 18 * scale;
       const tx = bx, ty = by + h + 4 * scale;
-      ctx.fillStyle = '#000'; ctx.fillRect(tx - 1, ty - 1, tw + 2, th + 2);
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.strokeStyle = 'rgba(154,154,154,0.6)';
       ctx.strokeRect(tx - 1, ty - 1, tw + 2, th + 2);
       // drawImage (contrairement à putImageData) respecte le zoom/la
       // résolution de l'écran : les dessins restent bien accrochés
