@@ -92,6 +92,27 @@
   @media (min-width: 620px) {
     #panneauScroll { max-width:520px; margin:0 auto; }
   }
+
+  #contactOverlay {
+    position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:20;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  #contactOverlay.ouvert { display:flex; }
+  #contactBox { background:#000; border:1px solid #9a9a9a; padding:26px 22px; width:100%; max-width:360px; }
+  #contactBox h2 { font-size:14px; font-weight:400; letter-spacing:0.08em; margin:0 0 18px; text-align:center; }
+  #contactBox label { display:block; font-size:10px; color:#9a9a9a; letter-spacing:0.08em; margin:14px 0 6px; }
+  #contactBox input, #contactBox textarea {
+    width:100%; background:#000; border:1px solid #666; color:#fff; font-family:inherit; font-size:13px;
+    padding:8px; box-sizing:border-box;
+  }
+  #contactBox textarea { min-height:70px; resize:vertical; }
+  #contactBox .boutons { display:flex; gap:10px; margin-top:18px; }
+  #contactBox button {
+    flex:1; background:#000; color:#fff; border:1px solid #9a9a9a; padding:10px; font-family:inherit;
+    font-size:12px; letter-spacing:0.06em; cursor:pointer;
+  }
+  #contactBox button:active { background:#9a9a9a; color:#000; }
+  #contactStatus { font-size:11px; color:#8a8a8a; text-align:center; margin-top:14px; min-height:14px; }
 </style>
 </head>
 <body>
@@ -140,6 +161,21 @@
 
     <div class="sectionTitre">ATTRIBUTED FOUNTAIN</div>
     <div class="fontaine" id="pFontaine"></div>
+  </div>
+</div>
+
+<div id="contactOverlay">
+  <div id="contactBox">
+    <h2 id="contactTitre"></h2>
+    <label for="contactEmail">Your email</label>
+    <input type="email" id="contactEmail" placeholder="you@email.com">
+    <label for="contactMessage">Your message (optional)</label>
+    <textarea id="contactMessage"></textarea>
+    <div class="boutons">
+      <button id="contactAnnuler" type="button">Cancel</button>
+      <button id="contactEnvoyer" type="button">Send</button>
+    </div>
+    <div id="contactStatus"></div>
   </div>
 </div>
 
@@ -566,27 +602,61 @@ const pFontaine = document.getElementById('pFontaine');
 const traceCanvas = document.getElementById('traceCanvas');
 const traceCtx = traceCanvas.getContext('2d');
 
-// formulaire de mise en contact (double consentement, voir Apps Script) :
-// chaque lien vient d'une résonance précise (identifiant unique, jamais
-// une saisie libre de prénom) -- aucune confusion possible entre deux
-// personnes qui partagent le même prénom.
-const FORM_CONTACT = 'https://docs.google.com/forms/d/e/1FAIpQLSePz_hKuAAhBILE9zo4d_mw1XOjfte5hDa9YZUldrPp_lLXNA/viewform';
-function lienContact(monNom, monId, cibleNom, cibleId) {
-  const p = new URLSearchParams();
-  p.set('usp', 'pp_url'); // marqueur attendu par Google Forms pour lire les entry.* ci-dessous
-  p.set('entry.1273200949', monNom);
-  p.set('entry.515001375', String(monId));
-  p.set('entry.246117242', cibleNom);
-  p.set('entry.1326124698', String(cibleId));
-  return FORM_CONTACT + '?' + p.toString();
+// mise en contact (double consentement, voir Apps Script) : formulaire
+// codé directement ici (plus de Google Forms -- trop de comportements
+// imprévisibles). Chaque appel porte une résonance précise (identifiant
+// unique, jamais une saisie libre de prénom) -- aucune confusion possible
+// entre deux personnes qui partagent le même prénom.
+const WEB_APP_URL = 'REMPLACER_PAR_URL_WEB_APP';
+let contactCtx = null;
+
+function ouvrirContact(monNom, monId, cibleNom, cibleId) {
+  contactCtx = { monNom, monId, cibleNom, cibleId };
+  document.getElementById('contactTitre').textContent = 'MESSAGE TO ' + cibleNom;
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactMessage').value = '';
+  document.getElementById('contactStatus').textContent = '';
+  const btn = document.getElementById('contactEnvoyer');
+  btn.disabled = false;
+  btn.textContent = 'Send';
+  document.getElementById('contactOverlay').classList.add('ouvert');
 }
 
-function ligneNomValeur(container, nom, pct, href) {
+document.getElementById('contactAnnuler').addEventListener('click', () => {
+  document.getElementById('contactOverlay').classList.remove('ouvert');
+});
+
+document.getElementById('contactEnvoyer').addEventListener('click', () => {
+  const email = document.getElementById('contactEmail').value.trim();
+  const statusEl = document.getElementById('contactStatus');
+  if (!email || !email.includes('@')) { statusEl.textContent = 'Please enter a valid email.'; return; }
+  const message = document.getElementById('contactMessage').value.trim();
+  const btn = document.getElementById('contactEnvoyer');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  fetch(WEB_APP_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      nom: contactCtx.monNom, id: contactCtx.monId, email: email,
+      cibleNom: contactCtx.cibleNom, cibleId: contactCtx.cibleId, message: message
+    }),
+    mode: 'no-cors'
+  }).then(() => {
+    statusEl.textContent = "Sent. You'll get an email if they reach out too.";
+    btn.textContent = 'Sent';
+    setTimeout(() => document.getElementById('contactOverlay').classList.remove('ouvert'), 2200);
+  }).catch(() => {
+    statusEl.textContent = 'Something went wrong, try again.';
+    btn.disabled = false;
+    btn.textContent = 'Send';
+  });
+});
+
+function ligneNomValeur(container, nom, pct, monNom, monId, cibleId) {
   const a = document.createElement('a');
   a.className = 'ligne';
-  a.href = href;
-  a.target = '_blank';
-  a.rel = 'noopener';
+  a.href = 'javascript:void(0)';
+  a.addEventListener('click', () => ouvrirContact(monNom, monId, nom, cibleId));
   a.innerHTML = '<span class="n">' + nom + '</span><span class="p">' + pct + '%</span>';
   container.appendChild(a);
 }
@@ -621,8 +691,7 @@ function ouvrirFiche(v, monId) {
     top.forEach(m => {
       const autre = VOEUX[m.i];
       const nomAutre = autre.nom.trim() ? autre.nom : 'ANONYMOUS';
-      ligneNomValeur(pMatchs, nomAutre, Math.round(m.score * 100),
-        lienContact(monNom, monId, nomAutre, m.i));
+      ligneNomValeur(pMatchs, nomAutre, Math.round(m.score * 100), monNom, monId, m.i);
     });
   }
 
