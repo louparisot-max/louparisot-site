@@ -570,14 +570,14 @@ const traceCtx = traceCanvas.getContext('2d');
 // chaque lien vient d'une résonance précise (identifiant unique, jamais
 // une saisie libre de prénom) -- aucune confusion possible entre deux
 // personnes qui partagent le même prénom.
-const FORM_CONTACT = 'https://docs.google.com/forms/d/e/1FAIpQLSdGdExk2v5BTF8KbqnbJQ0QkAOFT_XMupuym-B6sE5CzL7VaA/viewform';
+const FORM_CONTACT = 'https://docs.google.com/forms/d/e/1FAIpQLSePz_hKuAAhBILE9zo4d_mw1XOjfte5hDa9YZUldrPp_lLXNA/viewform';
 function lienContact(monNom, monId, cibleNom, cibleId) {
   const p = new URLSearchParams();
   p.set('usp', 'pp_url'); // marqueur attendu par Google Forms pour lire les entry.* ci-dessous
-  p.set('entry.1368175476', monNom);
-  p.set('entry.62909949', String(monId));
-  p.set('entry.1231881102', cibleNom);
-  p.set('entry.1354941381', String(cibleId));
+  p.set('entry.1273200949', monNom);
+  p.set('entry.515001375', String(monId));
+  p.set('entry.246117242', cibleNom);
+  p.set('entry.1326124698', String(cibleId));
   return FORM_CONTACT + '?' + p.toString();
 }
 
