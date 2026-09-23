@@ -40,6 +40,15 @@
     transition:opacity .6s ease; z-index:5;
   }
 
+  #note {
+    position:fixed; bottom:100px; right:16px; z-index:5;
+    font-size:11px; color:#8a8a8a; text-align:right; line-height:1.5;
+    letter-spacing:0.01em; max-width:260px; pointer-events:none;
+  }
+  @media (max-width: 700px) {
+    #note { max-width:160px; font-size:10px; bottom:90px; }
+  }
+
   #zoom {
     position:fixed; bottom:16px; right:16px; z-index:5;
     display:flex; flex-direction:column; border:1px solid #9a9a9a;
@@ -128,7 +137,7 @@
   </div>
   <div>
     <div id="compte"></div>
-    <div id="credits">Exposition Immersive Withdrawal —<br>Feel free to dive in<br>
+    <div id="credits">Exhibition Immersive Withdrawal —<br>Feel free to dive in<br>
       with<br>
       Alix Marie,<br>
       Eleana Balesi,<br>
@@ -137,12 +146,13 @@
       Lou Parisot,<br>
       Manos Tzavolakis,<br>
       Thien-Ngoc Ngô-Rioufol<br>
-      et Vera Chotzoglou.<br>
+      et Vera Chotzoglou.<br><br>
       At EST galerie, Paris.<br>
       10–15 september 2026.</div>
   </div>
 </div>
 <div id="hint">DRAG TO EXPLORE · TAP A NAME</div>
+<div id="note">Visitors were invited to make a secret wish — the fountain analyzed it and connected people to one another.</div>
 <div id="zoom">
   <button id="zoomIn" aria-label="zoom in">+</button>
   <button id="zoomOut" aria-label="zoom out">−</button>
