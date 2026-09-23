@@ -26,12 +26,12 @@
     max-width:320px; margin-top:10px; }
 
   #fontaine {
-    position:fixed; left:0; top:50%; transform:translateY(-50%);
-    height:92vh; width:auto; max-width:42vw; object-fit:contain;
+    position:fixed; left:50%; top:50%; transform:translate(-50%, -50%);
+    height:92vh; width:auto; max-width:60vw; object-fit:contain;
     pointer-events:none; z-index:1;
   }
   @media (max-width: 700px) {
-    #fontaine { height:58vh; max-width:60vw; }
+    #fontaine { height:58vh; max-width:80vw; }
     #credits { max-width:170px; font-size:9px; }
   }
 
@@ -42,12 +42,12 @@
   }
 
   #note {
-    position:fixed; bottom:100px; right:16px; z-index:5;
-    font-size:11px; color:#8a8a8a; text-align:right; line-height:1.5;
+    position:fixed; bottom:16px; left:16px; z-index:5;
+    font-size:11px; color:#8a8a8a; text-align:left; line-height:1.5;
     letter-spacing:0.01em; max-width:260px; pointer-events:none;
   }
   @media (max-width: 700px) {
-    #note { max-width:160px; font-size:10px; bottom:90px; }
+    #note { max-width:160px; font-size:10px; }
   }
 
   #zoom {
@@ -393,7 +393,7 @@ window.addEventListener('resize', resize);
 resize();
 
 let camX = 0, camY = 0;
-let scale = 1;
+let scale = 0.8;
 const SCALE_MIN = 0.3, SCALE_MAX = 4;
 const CHAR_W = 8, PAD_X = 10;
 // Largeur/hauteur de cadre en unités MONDE (indépendantes du zoom) —
