@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Wallacoïde — the wishing fountain</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
 <style>
   :root { color-scheme: dark; }
   html, body { margin:0; padding:0; background:#000; color:#fff; overflow:hidden; height:100%; width:100%;
-    font-family: "Space Mono", "Courier New", Consolas, Menlo, monospace; -webkit-tap-highlight-color: transparent; }
+    font-family: "Roboto Mono", "Courier New", Consolas, Menlo, monospace; -webkit-tap-highlight-color: transparent; }
   #canvas { display:block; touch-action:none; cursor:grab; position:fixed; top:0; left:0; z-index:2; }
   #canvas.dragging { cursor:grabbing; }
 
@@ -476,7 +476,7 @@ function dessiner() {
   });
 
   // nœuds
-  ctx.font = Math.max(7, 12 * scale) + 'px "Space Mono", "Courier New", monospace';
+  ctx.font = Math.max(7, 12 * scale) + 'px "Roboto Mono", "Courier New", monospace';
   ctx.textBaseline = 'middle';
   VOEUX.forEach((v, i) => {
     const h = 20 * scale;
@@ -668,7 +668,7 @@ function ouvrirFiche(v, monId) {
   traceCtx.clearRect(0, 0, 200, 120);
   if (traceVide(v.trace)) {
     traceCtx.fillStyle = '#7a7a7a';
-    traceCtx.font = '12px "Space Mono", "Courier New", monospace';
+    traceCtx.font = '12px "Roboto Mono", "Courier New", monospace';
     traceCtx.textAlign = 'center';
     traceCtx.fillText('NO DRAWING', 100, 60);
   } else {
