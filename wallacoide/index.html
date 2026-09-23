@@ -108,7 +108,8 @@
   }
   #contactOverlay.ouvert { display:flex; }
   #contactBox { background:#000; border:1px solid #9a9a9a; padding:26px 22px; width:100%; max-width:360px; }
-  #contactBox h2 { font-size:14px; font-weight:400; letter-spacing:0.08em; margin:0 0 18px; text-align:center; }
+  #contactBox h2 { font-size:14px; font-weight:400; letter-spacing:0.08em; margin:0 0 10px; text-align:center; }
+  #contactExplication { font-size:11px; color:#8a8a8a; text-align:center; line-height:1.5; margin:0 0 18px; }
   #contactBox label { display:block; font-size:10px; color:#9a9a9a; letter-spacing:0.08em; margin:14px 0 6px; }
   #contactBox input, #contactBox textarea {
     width:100%; background:#000; border:1px solid #666; color:#fff; font-family:inherit; font-size:13px;
@@ -177,6 +178,7 @@
 <div id="contactOverlay">
   <div id="contactBox">
     <h2 id="contactTitre"></h2>
+    <div id="contactExplication">Your email and message will only reach this person if they've sent something too.</div>
     <label for="contactEmail">Your email</label>
     <input type="email" id="contactEmail" placeholder="you@email.com">
     <label for="contactMessage">Your message (optional)</label>
