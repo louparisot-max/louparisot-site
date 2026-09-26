@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Atelier Arduino — Lou Parisot</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fdfdfc;
+    color: #111;
+    font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+  }
+  .intro {
+    color: #6b6b6b;
+    font-size: 0.9rem;
+    margin: 0 0 3rem;
+  }
+  h2 {
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e4e4e2;
+  }
+  h2:first-of-type {
+    margin-top: 0;
+  }
+  pre {
+    background: #1c1c1c;
+    color: #e6e6e6;
+    padding: 1.25rem 1.5rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+  code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    white-space: pre;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Atelier Arduino</h1>
+  <p class="intro">Notes et codes d'atelier — pas de lien vers cette page depuis le reste du site.</p>
+
+  <h2>Faire clignoter une LED</h2>
+  <pre><code>// Faire clignoter une LED
+
+void setup() {
+  pinMode(13, OUTPUT);  // On dit que la broche 13 est une sortie
+}
+void loop() {
+  digitalWrite(13, HIGH); // Allume la LED
+  delay(1000);            // Attend 1 seconde
+  digitalWrite(13, LOW);  // Éteint la LED
+  delay(1000);            // Attend 1 seconde
+}</code></pre>
+
+  <h2>Jeu FightRain</h2>
+  <pre><code>// Jeu FightRain
+
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_GC9A01A.h&gt;
+#include &lt;SPI.h&gt;
+
+// === ÉCRAN ===
+#define TFT_CS 10
+#define TFT_DC 9
+#define TFT_RST 8
+Adafruit_GC9A01A tft(TFT_CS, TFT_DC, TFT_RST);
+
+// === COMMANDES ===
+#define SWITCH_LEFT 2
+#define SWITCH_RIGHT 3
+#define BUZZER 4
+
+// === CONSTANTES DU JEU ===
+const int SCREEN_WIDTH = 240;
+const int SCREEN_HEIGHT = 240;
+const int SCREEN_CENTER_X = 120;
+const int SCREEN_CENTER_Y = 120;
+
+// 10 niveaux : 5, 10, 15, 20, 25, 30, 35, 40, 45, 50
+const int MAX_LEVELS = 10;
+
+// === STRUCTURES ===
+struct Ship {
+int x, y, prevX;
+int width, height;
+};
+
+struct Bullet {
+int x, y, prevY;
+bool active;
+};
+
+struct Drop {
+int x, y, prevY;
+int radius;
+int speed;
+bool active;
+};
+
+// === VARIABLES ===
+Ship ship;
+#define MAX_BULLETS 4
+Bullet bullets[MAX_BULLETS];
+#define MAX_DROPS 8
+Drop drops[MAX_DROPS];
+
+int score = 0;
+int highScore = 0;
+int currentLevel = 1;
+int currentObjective = 5;
+unsigned long lastShoot = 0;
+unsigned long gameTimer = 0;
+bool gameActive = false;
+bool waitingForStart = true;
+
+void setup() {
+pinMode(SWITCH_LEFT, INPUT_PULLUP);
+pinMode(SWITCH_RIGHT, INPUT_PULLUP);
+pinMode(BUZZER, OUTPUT);
+
+tft.begin();
+tft.setRotation(2);
+tft.fillScreen(GC9A01A_BLACK);
+displayLogo();
+}
+
+void displayLogo() {
+tft.fillScreen(GC9A01A_BLACK);
+// Titre FightRain
+tft.setTextSize(3);
+tft.setTextColor(GC9A01A_CYAN);
+tft.setCursor(25, 80);
+tft.print(&quot;Fight&quot;);
+tft.setTextColor(GC9A01A_BLUE);
+tft.setCursor(40, 110);
+tft.print(&quot;Rain&quot;);
+// Quelques gouttes décoratives
+for (int i = 0; i &lt; 8; i++) {
+int x = random(30, 210);
+int y = random(20, 60);
+int r = random(4, 8);
+tft.drawCircle(x, y, r, GC9A01A_BLUE);
+tft.drawCircle(x, y, r - 1, GC9A01A_CYAN);
+}
+waitingForStart = true;
+gameActive = false;
+}
+
+void initGame() {
+tft.fillScreen(GC9A01A_BLACK);
+ship.width = 16;
+ship.height = 8;
+ship.x = SCREEN_CENTER_X - ship.width / 2;
+ship.y = SCREEN_HEIGHT - 55;
+ship.prevX = ship.x;
+
+for (int i = 0; i &lt; MAX_BULLETS; i++) bullets[i].active = false;
+for (int i = 0; i &lt; MAX_DROPS; i++) initDrop(i);
+
+// Calculer l&#x27;objectif du niveau actuel
+currentObjective = currentLevel * 5;
+waitingForStart = false;
+gameActive = true;
+}
+
+void loop() {
+// Si on attend le démarrage
+if (waitingForStart) {
+if (digitalRead(SWITCH_LEFT) == LOW || digitalRead(SWITCH_RIGHT) == LOW) {
+tone(BUZZER, 1200, 100);
+delay(200);
+// Démarrer le jeu
+initGame();
+// Attendre que le bouton soit relâché
+while (digitalRead(SWITCH_LEFT) == LOW || digitalRead(SWITCH_RIGHT) == LOW) {
+delay(10);
+}
+}
+delay(50);
+return;
+}
+// Jeu en cours
+if (gameActive) {
+gameTimer = millis();
+handleControls();
+updateGame();
+renderGame();
+delay(25);
+}
+}
+
+// === CONTRÔLES ===
+void handleControls() {
+bool leftPressed = (digitalRead(SWITCH_LEFT) == LOW);
+bool rightPressed = (digitalRead(SWITCH_RIGHT) == LOW);
+
+ship.prevX = ship.x;
+
+if (leftPressed &amp;&amp; !rightPressed) {
+ship.x -= 3;
+if (ship.x &lt; 15) ship.x = 15;
+} else if (rightPressed &amp;&amp; !leftPressed) {
+ship.x += 3;
+if (ship.x + ship.width &gt; SCREEN_WIDTH - 15)
+ship.x = SCREEN_WIDTH - 15 - ship.width;
+}
+
+if (gameTimer - lastShoot &gt; 250) {
+shoot();
+lastShoot = gameTimer;
+}
+}
+
+void shoot() {
+for (int i = 0; i &lt; MAX_BULLETS; i++) {
+if (!bullets[i].active) {
+bullets[i].active = true;
+bullets[i].x = ship.x + ship.width / 2;
+bullets[i].y = ship.y - 4;
+bullets[i].prevY = bullets[i].y;
+tone(BUZZER, 1000, 40);
+break;
+}
+}
+}
+
+// === LOGIQUE ===
+void updateGame() {
+// Mise à jour des balles
+for (int i = 0; i &lt; MAX_BULLETS; i++) {
+if (bullets[i].active) {
+bullets[i].prevY = bullets[i].y;
+bullets[i].y -= 5;
+if (bullets[i].y &lt; 35) {
+tft.fillRect(bullets[i].x - 1, bullets[i].y, 3, 6, GC9A01A_BLACK);
+bullets[i].active = false;
+}
+}
+}
+
+// Mise à jour des gouttes
+for (int i = 0; i &lt; MAX_DROPS; i++) {
+if (drops[i].active) {
+drops[i].prevY = drops[i].y;
+drops[i].y += drops[i].speed;
+if (drops[i].y &gt; SCREEN_HEIGHT + 20) {
+drops[i].active = false;
+initDrop(i);
+}
+}
+}
+
+checkCollisions();
+checkVictory();
+}
+
+void checkCollisions() {
+// Collision balle / goutte
+for (int i = 0; i &lt; MAX_BULLETS; i++) {
+if (!bullets[i].active) continue;
+for (int j = 0; j &lt; MAX_DROPS; j++) {
+if (!drops[j].active) continue;
+
+int dx = bullets[i].x - drops[j].x;
+int dy = bullets[i].y - drops[j].y;
+if (sqrt(dx * dx + dy * dy) &lt; drops[j].radius + 3) {
+tft.fillCircle(drops[j].x, drops[j].y, drops[j].radius + 3, GC9A01A_BLACK);
+tft.drawCircle(drops[j].x, drops[j].y, drops[j].radius + 3, GC9A01A_BLACK);
+tft.fillRect(bullets[i].x - 1, bullets[i].y, 3, 6, GC9A01A_BLACK);
+bullets[i].active = false;
+drops[j].active = false;
+score++;
+tone(BUZZER, 800, 60);
+initDrop(j);
+}
+}
+}
+
+// Collision goutte / vaisseau
+for (int i = 0; i &lt; MAX_DROPS; i++) {
+if (!drops[i].active) continue;
+if (drops[i].y + drops[i].radius &gt;= ship.y &amp;&amp;
+drops[i].x &gt;= ship.x - drops[i].radius &amp;&amp;
+drops[i].x &lt;= ship.x + ship.width + drops[i].radius) {
+gameOver();
+}
+}
+}
+
+void checkVictory() {
+// Vérifier si l&#x27;objectif du niveau actuel est atteint
+if (score == currentObjective) {
+showVictory();
+}
+}
+
+void showVictory() {
+tone(BUZZER, 1500, 100);
+delay(150);
+tone(BUZZER, 1800, 100);
+delay(150);
+tone(BUZZER, 2000, 200);
+tft.fillScreen(GC9A01A_BLACK);
+tft.setTextSize(3);
+tft.setTextColor(GC9A01A_CYAN);
+tft.setCursor(40, 70);
+tft.print(&quot;VICTOIRE!&quot;);
+tft.setTextSize(2);
+tft.setTextColor(GC9A01A_GREEN);
+tft.setCursor(50, 110);
+tft.print(&quot;Niveau &quot;);
+tft.print(currentLevel);
+tft.setTextColor(GC9A01A_WHITE);
+tft.setCursor(60, 140);
+tft.print(&quot;Score: &quot;);
+tft.print(score);
+gameActive = false;
+waitingForStart = true;
+delay(2000);
+// Attendre que les boutons soient relâchés
+while (digitalRead(SWITCH_LEFT) == LOW || digitalRead(SWITCH_RIGHT) == LOW) {
+delay(10);
+}
+// Passer au niveau suivant
+currentLevel++;
+if (currentLevel &gt; MAX_LEVELS) {
+// Jeu terminé
+showGameComplete();
+}
+}
+
+void showGameComplete() {
+tft.fillScreen(GC9A01A_BLACK);
+tft.setTextSize(2);
+tft.setTextColor(GC9A01A_YELLOW);
+tft.setCursor(30, 70);
+tft.print(&quot;FELICITATIONS!&quot;);
+tft.setTextColor(GC9A01A_CYAN);
+tft.setCursor(20, 110);
+tft.print(&quot;Tous les niveaux&quot;);
+tft.setCursor(50, 135);
+tft.print(&quot;termines!&quot;);
+tft.setTextColor(GC9A01A_WHITE);
+tft.setCursor(50, 170);
+tft.print(&quot;Score: &quot;);
+tft.print(score);
+if (score &gt; highScore) {
+highScore = score;
+}
+tft.setCursor(40, 195);
+tft.print(&quot;Record: &quot;);
+tft.print(highScore);
+gameActive = false;
+waitingForStart = true;
+delay(3000);
+// Attendre que les boutons soient relâchés
+while (digitalRead(SWITCH_LEFT) == LOW || digitalRead(SWITCH_RIGHT) == LOW) {
+delay(10);
+}
+// Réinitialiser pour recommencer
+score = 0;
+currentLevel = 1;
+displayLogo();
+}
+
+void gameOver() {
+tone(BUZZER, 200, 500);
+if (score &gt; highScore) {
+highScore = score;
+}
+tft.fillScreen(GC9A01A_BLACK);
+tft.setTextSize(2);
+tft.setTextColor(GC9A01A_BLUE);
+tft.setCursor(35, 80);
+tft.print(&quot;GAME OVER!&quot;);
+tft.setTextColor(GC9A01A_CYAN);
+tft.setCursor(50, 120);
+tft.print(&quot;Score: &quot;);
+tft.print(score);
+tft.setCursor(35, 150);
+tft.print(&quot;Record: &quot;);
+tft.print(highScore);
+gameActive = false;
+waitingForStart = true;
+delay(2000);
+// Attendre que les boutons soient relâchés
+while (digitalRead(SWITCH_LEFT) == LOW || digitalRead(SWITCH_RIGHT) == LOW) {
+delay(10);
+}
+// Réinitialiser pour recommencer
+score = 0;
+currentLevel = 1;
+displayLogo();
+}
+
+void initDrop(int index) {
+drops[index].x = random(20, SCREEN_WIDTH - 20);
+drops[index].y = random(-150, -20);
+drops[index].radius = random(6, 10);
+drops[index].speed = random(1, 3);
+drops[index].active = true;
+drops[index].prevY = drops[index].y;
+}
+
+void renderGame() {
+// Effacer et redessiner le vaisseau
+if (ship.x != ship.prevX) {
+tft.fillRect(ship.prevX, ship.y - 4, ship.width, ship.height + 8, GC9A01A_BLACK);
+}
+
+tft.fillRect(ship.x, ship.y, ship.width, ship.height, GC9A01A_RED);
+tft.fillTriangle(ship.x + 4, ship.y, ship.x + 8, ship.y - 4, ship.x + 12, ship.y, GC9A01A_YELLOW);
+
+// Dessiner les balles
+for (int i = 0; i &lt; MAX_BULLETS; i++) {
+if (bullets[i].active) {
+if (bullets[i].y != bullets[i].prevY) {
+tft.fillRect(bullets[i].x - 1, bullets[i].prevY, 3, 6, GC9A01A_BLACK);
+}
+tft.fillRect(bullets[i].x - 1, bullets[i].y, 3, 5, GC9A01A_WHITE);
+}
+}
+
+// Dessiner les gouttes bleues
+for (int i = 0; i &lt; MAX_DROPS; i++) {
+if (drops[i].active) {
+if (drops[i].y != drops[i].prevY) {
+tft.fillCircle(drops[i].x, drops[i].prevY, drops[i].radius + 2, GC9A01A_BLACK);
+}
+tft.drawCircle(drops[i].x, drops[i].y, drops[i].radius, GC9A01A_CYAN);
+tft.drawCircle(drops[i].x, drops[i].y, drops[i].radius - 1, GC9A01A_BLUE);
+}
+}
+}</code></pre>
+</main>
+</body>
+</html>
