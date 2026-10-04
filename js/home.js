@@ -86,6 +86,28 @@ function initItemReveal() {
   items.forEach((el) => io.observe(el));
 }
 
+function initSeparatorReveal() {
+  const separators = document.querySelectorAll(".home-separator");
+  if (!separators.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    separators.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.3 }
+  );
+  separators.forEach((el) => io.observe(el));
+}
+
 function initParallax() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -259,6 +281,7 @@ async function loadHome() {
     .join("");
 
   initItemReveal();
+  initSeparatorReveal();
   initParallax();
   initHomeLightbox();
 }
