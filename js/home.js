@@ -1,33 +1,6 @@
 const DESIGN_WIDTH = 1440;
 const TITLE_TOP = 10;
 
-const SPARK_RAIN_COUNT = 22;
-
-function seededRandom(seed) {
-  let s = seed % 2147483647;
-  if (s <= 0) s += 2147483646;
-  return () => {
-    s = (s * 16807) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
-
-function renderSparkField() {
-  const field = document.getElementById("spark-field");
-  if (!field) return;
-  const rand = seededRandom(42);
-  let html = "";
-  for (let i = 0; i < SPARK_RAIN_COUNT; i++) {
-    const left = (rand() * 100).toFixed(1);
-    const length = Math.round(24 + rand() * 46);
-    const duration = (1.6 + rand() * 2.2).toFixed(2);
-    const delay = (rand() * 5).toFixed(2);
-    const steps = 6 + Math.floor(rand() * 5);
-    html += `<div class="spark" style="left:${left}%; width:${length}px; animation-duration:${duration}s; animation-delay:-${delay}s; animation-timing-function:steps(${steps}, end);"></div>`;
-  }
-  field.innerHTML = html;
-}
-
 function pct(value, base) {
   return `${(value / base) * 100}%`;
 }
@@ -316,5 +289,4 @@ async function loadHome() {
 document.addEventListener("DOMContentLoaded", () => {
   loadHome();
   loadNewsTicker();
-  renderSparkField();
 });
