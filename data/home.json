@@ -17,7 +17,7 @@
     "height": 1400,
     "items": [
       { "type": "image", "src": "images/confort-moderne-2026/Les_Gryffes_et_EWOP_Vue_ensemble_exposition.jpg", "title": "Vue d'ensemble", "meta": "2026, Confort Moderne, Poitiers", "top": 20, "left": 200, "width": 730, "height": 487, "tagTop": 517, "tagLeft": 180, "z": 20 },
-      { "type": "color", "color": "#523f38", "top": 320, "left": 860, "width": 420, "height": 460, "z": 15 },
+      { "type": "color", "color": "#3a2e30", "top": 320, "left": 860, "width": 420, "height": 460, "z": 15 },
       { "type": "image", "src": "images/confort-moderne-2026/Gryffographe_céramique_électronique_ConfortModerne_Poitiers_2026.jpg", "title": "Gryffographe", "meta": "2026, Confort Moderne", "top": 150, "left": 1080, "width": 360, "height": 540, "tagTop": 130, "tagLeft": 1060, "z": 30 },
       { "type": "image", "src": "images/accueil/EWOP_vidéo_animation_ConfortModerne_Poitiers_2026.png", "title": "E.W.O.P", "meta": "Experimental Wattscape of Paris, 2026", "top": 640, "left": 200, "width": 1120, "height": 662, "tagTop": 1312, "tagLeft": 180, "z": 25 },
       { "type": "image", "src": "images/accueil/Les_Gryffes_(série)_céramique_interactives_ConfortModerne_Poitiers_2026©ArthurPequin.jpg", "title": "Les Gryffes (série)", "meta": "Céramique interactive, Confort Moderne", "top": 570, "left": 900, "width": 480, "height": 343, "tagTop": 923, "tagLeft": 880, "z": 32 }
@@ -29,7 +29,7 @@
     "height": 1060,
     "items": [
       { "type": "image", "src": "images/accueil/Hydrostellar_et_DayZero_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Vue d'ensemble", "meta": "2026, Jakmousse, Montreuil", "top": 90, "left": 200, "width": 880, "height": 587, "tagTop": 687, "tagLeft": 180, "z": 35 },
-      { "type": "color", "color": "#0e5d5a", "top": 240, "left": 950, "width": 650, "height": 480, "z": 18 },
+      { "type": "color", "color": "#003c39", "top": 240, "left": 950, "width": 650, "height": 480, "z": 18 },
       { "type": "image", "src": "images/accueil/Hydrostellar_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Hydrostellar", "meta": "2026, Jakmousse", "top": 420, "left": 860, "width": 360, "height": 540, "tagTop": 970, "tagLeft": 840, "z": 45 }
     ]
   },
@@ -39,7 +39,7 @@
     "height": 1680,
     "items": [
       { "type": "image", "src": "images/NuitBlanche/Évènement_Nuit_Blanche_2025_Mairie_du_15e_Paris_©V.Tanelian.jpg.jpg", "title": "Interaction nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 90, "left": 220, "width": 670, "height": 447, "tagTop": 547, "tagLeft": 200, "z": 40 },
-      { "type": "color", "color": "#674e3a", "top": 420, "left": 650, "width": 560, "height": 480, "z": 15 },
+      { "type": "color", "color": "#40637a", "top": 420, "left": 650, "width": 560, "height": 480, "z": 15 },
       { "type": "image", "src": "images/NuitBlanche/Gryffotime_céramique_et_électronique_©V.Tanelian.jpg", "title": "Gryffotime", "meta": "2025, Nuit Blanche, Mairie du 15e", "top": 180, "left": 960, "width": 345, "height": 517, "tagTop": 707, "tagLeft": 940, "z": 45 },
       { "type": "image", "src": "images/NuitBlanche/Gryffowave_céramique_et_électronique_NuitBlanche2025_Paris75015_©LolaRossi.jpg", "title": "Vue nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 820, "left": 320, "width": 990, "height": 660, "tagTop": 1490, "tagLeft": 360, "z": 28 }
     ]
