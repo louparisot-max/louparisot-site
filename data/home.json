@@ -5,8 +5,8 @@
     "height": 1680,
     "items": [
       { "type": "image", "src": "images/est-galerie-2026/Fontaine_vue_ensemble_1_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "En pied, EST Galerie, 2026", "top": 40, "left": 200, "width": 520, "height": 780, "tagTop": 840, "tagLeft": 180, "z": 20 },
-      { "type": "color", "color": "#1d4d3a", "top": 120, "left": 800, "width": 690, "height": 750, "z": 15 },
-      { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_figures_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail sculpture, EST Galerie, 2026", "top": 40, "left": 760, "width": 300, "height": 450, "tagTop": 510, "tagLeft": 740, "z": 35 },
+      { "type": "color", "color": "#1d4d3a", "top": 120, "left": 593, "width": 897, "height": 750, "z": 15 },
+      { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_figures_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail sculpture, EST Galerie, 2026", "top": 10, "left": 760, "width": 300, "height": 450, "tagTop": 480, "tagLeft": 740, "z": 35 },
       { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_ecran_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail écran, EST Galerie, 2026", "top": 520, "left": 760, "width": 700, "height": 454, "tagTop": 994, "tagLeft": 740, "z": 25 },
       { "type": "video", "src": "images/est-galerie-2026/Wallacoide_video_EST_Galerie_2026.mp4", "title": "Wallacoïde — vidéo", "meta": "EST Galerie, 2026", "link": "https://www.louparisot.com/wallacoide", "top": 1030, "left": 200, "width": 1000, "height": 550, "tagTop": 1600, "tagLeft": 180, "z": 30 }
     ]
@@ -17,8 +17,8 @@
     "height": 1400,
     "items": [
       { "type": "image", "src": "images/confort-moderne-2026/Les_Gryffes_et_EWOP_Vue_ensemble_exposition.jpg", "title": "Vue d'ensemble", "meta": "2026, Confort Moderne, Poitiers", "top": 20, "left": 200, "width": 730, "height": 487, "tagTop": 517, "tagLeft": 180, "z": 20 },
-      { "type": "color", "color": "#3a2e30", "top": 320, "left": 860, "width": 630, "height": 690, "z": 15 },
-      { "type": "image", "src": "images/confort-moderne-2026/Gryffographe_céramique_électronique_ConfortModerne_Poitiers_2026.jpg", "title": "Gryffographe", "meta": "2026, Confort Moderne", "top": 20, "left": 1080, "width": 360, "height": 540, "tagTop": 0, "tagLeft": 1060, "z": 30 },
+      { "type": "color", "color": "#3a2e30", "top": 320, "left": 671, "width": 819, "height": 690, "z": 15 },
+      { "type": "image", "src": "images/confort-moderne-2026/Gryffographe_céramique_électronique_ConfortModerne_Poitiers_2026.jpg", "title": "Gryffographe", "meta": "2026, Confort Moderne", "top": 60, "left": 1080, "width": 360, "height": 540, "tagTop": 40, "tagLeft": 1060, "z": 30 },
       { "type": "image", "src": "images/accueil/EWOP_vidéo_animation_ConfortModerne_Poitiers_2026.png", "title": "E.W.O.P", "meta": "Experimental Wattscape of Paris, 2026", "top": 640, "left": 200, "width": 1120, "height": 662, "tagTop": 1312, "tagLeft": 180, "z": 25 },
       { "type": "image", "src": "images/accueil/Les_Gryffes_(série)_céramique_interactives_ConfortModerne_Poitiers_2026©ArthurPequin.jpg", "title": "Les Gryffes (série)", "meta": "Céramique interactive, Confort Moderne", "top": 570, "left": 900, "width": 480, "height": 343, "tagTop": 923, "tagLeft": 880, "z": 32 }
     ]
@@ -29,8 +29,8 @@
     "height": 1060,
     "items": [
       { "type": "image", "src": "images/accueil/Hydrostellar_et_DayZero_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Vue d'ensemble", "meta": "2026, Jakmousse, Montreuil", "top": 90, "left": 200, "width": 880, "height": 587, "tagTop": 687, "tagLeft": 180, "z": 35 },
-      { "type": "color", "color": "#003c39", "top": 240, "left": 950, "width": 975, "height": 720, "z": 18 },
-      { "type": "image", "src": "images/accueil/Hydrostellar_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Hydrostellar", "meta": "2026, Jakmousse", "top": 300, "left": 920, "width": 360, "height": 540, "tagTop": 850, "tagLeft": 900, "z": 45 }
+      { "type": "color", "color": "#003c39", "top": 240, "left": 657, "width": 1268, "height": 720, "z": 18 },
+      { "type": "image", "src": "images/accueil/Hydrostellar_Plâtre_peinture_électronique_Jakmousse_Montreuil_2026.jpg", "title": "Hydrostellar", "meta": "2026, Jakmousse", "top": 300, "left": 1000, "width": 360, "height": 540, "tagTop": 850, "tagLeft": 980, "z": 45 }
     ]
   },
   {
@@ -39,7 +39,7 @@
     "height": 1420,
     "items": [
       { "type": "image", "src": "images/NuitBlanche/Évènement_Nuit_Blanche_2025_Mairie_du_15e_Paris_©V.Tanelian.jpg.jpg", "title": "Interaction nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 90, "left": 220, "width": 670, "height": 447, "tagTop": 547, "tagLeft": 200, "z": 40 },
-      { "type": "color", "color": "#4c6d88", "top": 420, "left": 650, "width": 840, "height": 720, "z": 15 },
+      { "type": "color", "color": "#4c6d88", "top": 420, "left": 398, "width": 1092, "height": 720, "z": 15 },
       { "type": "image", "src": "images/NuitBlanche/Gryffotime_céramique_et_électronique_©V.Tanelian.jpg", "title": "Gryffotime", "meta": "2025, Nuit Blanche, Mairie du 15e", "top": 180, "left": 960, "width": 345, "height": 517, "tagTop": 707, "tagLeft": 940, "z": 45 },
       { "type": "image", "src": "images/NuitBlanche/Gryffowave_céramique_et_électronique_NuitBlanche2025_Paris75015_©LolaRossi.jpg", "title": "Vue nocturne", "meta": "Nuit Blanche, Mairie du 15e, 2025", "top": 670, "left": 320, "width": 990, "height": 660, "tagTop": 1340, "tagLeft": 360, "z": 28 }
     ]
@@ -47,12 +47,12 @@
   {
     "title": "ENSCI — LES ATELIERS",
     "link": "https://formation-continue.ensci.com/une-actu?tx_news_pi1%5Baction%5D=detail&tx_news_pi1%5Bcontroller%5D=News&tx_news_pi1%5Bnews%5D=50283&cHash=1146f21a94789ba32296674e32f90061",
-    "height": 1260,
+    "height": 1300,
     "items": [
       { "type": "image", "src": "images/ensci-2024/Gryffes_Vue_d_atelier.jpg", "title": "Vue d'atelier", "meta": "2024, ENSCI — Les Ateliers, Paris", "top": 40, "left": 200, "width": 750, "height": 500, "tagTop": 550, "tagLeft": 180, "z": 20 },
-      { "type": "color", "color": "#847c90", "top": 500, "left": 400, "width": 975, "height": 420, "z": 15 },
+      { "type": "color", "color": "#847c90", "top": 500, "left": 107, "width": 1268, "height": 420, "z": 15 },
       { "type": "video", "src": "images/ensci-2024/GIFF4.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 220, "left": 980, "width": 400, "height": 400, "tagTop": 630, "tagLeft": 960, "z": 30 },
-      { "type": "video", "src": "images/ensci-2024/GIFF5.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 570, "left": 350, "width": 600, "height": 600, "tagTop": 1180, "tagLeft": 330, "z": 25 }
+      { "type": "video", "src": "images/ensci-2024/GIFF5.mp4", "title": "Gryffe — vidéo", "meta": "ENSCI, 2024", "top": 620, "left": 350, "width": 600, "height": 600, "tagTop": 1230, "tagLeft": 330, "z": 25 }
     ]
   }
 ]
