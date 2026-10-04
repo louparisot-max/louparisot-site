@@ -1,21 +1,19 @@
 const DESIGN_WIDTH = 1440;
 const TITLE_TOP = 10;
 
-const SPARK_BOLT_PATH = "M12 2 L4 14 L10 14 L8 22 L18 10 L11 10 Z";
-const SPARK_POSITIONS = [
-  { top: "8%", left: "15%", scale: 0.8, rotate: -12, delay: 0, duration: 9 },
-  { top: "22%", left: "82%", scale: 1.1, rotate: 8, delay: 3.5, duration: 11 },
-  { top: "48%", left: "6%", scale: 0.65, rotate: -20, delay: 6, duration: 8 },
-  { top: "63%", left: "90%", scale: 0.9, rotate: 15, delay: 1.5, duration: 13 },
-  { top: "80%", left: "30%", scale: 1, rotate: -6, delay: 8, duration: 10 },
-  { top: "35%", left: "55%", scale: 0.7, rotate: 22, delay: 4.5, duration: 7 },
+const SPARK_STREAKS = [
+  { variant: "a", length: 70, delay: 0, duration: 6 },
+  { variant: "b", length: 55, delay: 2, duration: 7 },
+  { variant: "c", length: 85, delay: 3.5, duration: 6.5 },
+  { variant: "a", length: 60, delay: 5, duration: 8 },
+  { variant: "b", length: 75, delay: 1.2, duration: 7.5 },
 ];
 
 function renderSparkField() {
   const field = document.getElementById("spark-field");
   if (!field) return;
-  field.innerHTML = SPARK_POSITIONS.map(
-    (p) => `<svg class="spark" style="top:${p.top}; left:${p.left}; transform: scale(${p.scale}) rotate(${p.rotate}deg); animation-delay:${p.delay}s; animation-duration:${p.duration}s;" viewBox="0 0 24 24"><path d="${SPARK_BOLT_PATH}"></path></svg>`
+  field.innerHTML = SPARK_STREAKS.map(
+    (s) => `<div class="spark spark--${s.variant}" style="width:${s.length}px; animation-delay:${s.delay}s; animation-duration:${s.duration}s;"></div>`
   ).join("");
 }
 
