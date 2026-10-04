@@ -921,7 +921,7 @@ a.entry__text--link:hover {
 
 .cv-year {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.85rem;
   margin: 1.1rem 0 0.4rem;
 }
 
@@ -936,7 +936,7 @@ a.entry__text--link:hover {
 }
 
 .cv-list li {
-  font-size: 1rem;
+  font-size: 0.85rem;
   line-height: 1.6;
   color: #222;
   margin-bottom: 0.4rem;
