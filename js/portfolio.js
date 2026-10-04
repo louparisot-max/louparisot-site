@@ -38,27 +38,33 @@ function splitParagraphsForColumns(paragraphs) {
   return { left: paragraphs.slice(0, splitAt), right: paragraphs.slice(splitAt) };
 }
 
-function renderGallery(images, indexOffset) {
-  const numColumns = numColumnsForWidth();
-  const withIndex = images.map((img, i) => ({ ...img, __index: indexOffset + i }));
-  const columns = distributeIntoColumns(withIndex, numColumns);
-
-  return columns
-    .map((col) => {
-      const items = col
-        .map(
-          (img) => `
+function renderGalleryItem(img) {
+  return `
         <figure class="gallery__item" data-index="${img.__index}">
           <img src="${img.src}" alt="${img.title || ""}">
           <figcaption class="gallery__caption">
             <strong>${img.title || ""}</strong>${img.caption ? " — " + img.caption : ""}
           </figcaption>
-        </figure>`
-        )
-        .join("");
-      return `<div class="gallery__column">${items}</div>`;
-    })
+        </figure>`;
+}
+
+function renderGallery(images, indexOffset, maxColumns) {
+  const withIndex = images.map((img, i) => ({ ...img, __index: indexOffset + i }));
+  const normalImages = withIndex.filter((img) => !img.wide);
+  const wideImages = withIndex.filter((img) => img.wide);
+
+  const numColumns = maxColumns ? Math.min(numColumnsForWidth(), maxColumns) : numColumnsForWidth();
+  const columns = distributeIntoColumns(normalImages, numColumns);
+
+  const columnsHtml = columns
+    .map((col) => `<div class="gallery__column">${col.map(renderGalleryItem).join("")}</div>`)
     .join("");
+
+  const wideHtml = wideImages
+    .map((img) => renderGalleryItem(img).replace('class="gallery__item"', 'class="gallery__item gallery__item--wide"'))
+    .join("");
+
+  return `<div class="gallery__columns">${columnsHtml}</div>${wideHtml}`;
 }
 
 async function loadExhibitions() {
@@ -77,7 +83,7 @@ async function loadExhibitions() {
       expo.images.forEach((img) => allImages.push(img));
       index += expo.images.length;
 
-      const gallery = renderGallery(expo.images, startIndex);
+      const gallery = renderGallery(expo.images, startIndex, expo.columns);
       const isManualColumns = expo.description && !Array.isArray(expo.description);
       const { left, right } = isManualColumns
         ? { left: expo.description.left || [], right: expo.description.right || [] }

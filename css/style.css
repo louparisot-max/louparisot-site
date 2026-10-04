@@ -403,8 +403,14 @@ main {
 
 .gallery {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 2.5rem;
   width: calc(100vw - 2 * var(--gutter));
+}
+
+.gallery__columns {
+  display: flex;
+  gap: 1.5rem;
 }
 
 .gallery__column {
@@ -418,6 +424,10 @@ main {
 .gallery__item {
   cursor: pointer;
   margin: 0;
+}
+
+.gallery__item--wide {
+  width: 100%;
 }
 
 .gallery__item img {
