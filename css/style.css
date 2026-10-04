@@ -852,6 +852,24 @@ a.entry__text--link:hover {
   margin: 0 0 1rem;
 }
 
+.expo-description a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.25s ease;
+}
+
+.expo-description a:hover {
+  color: #1f5eff;
+}
+
+.text-divider {
+  width: 2.5rem;
+  height: 0;
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1.2rem 0;
+}
+
 .expo-footnote {
   font-size: 0.72rem;
   color: var(--muted);

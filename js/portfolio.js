@@ -98,8 +98,9 @@ async function loadExhibitions() {
       const rightLinks = expo.linksColumn === "right" ? linksHtml : "";
       const outsideLinks = !expo.linksColumn ? linksHtml : "";
 
-      const leftHtml = left.map((p) => `<p>${p}</p>`).join("") + leftLinks;
-      const rightHtml = right.map((p) => `<p>${p}</p>`).join("") + rightLinks;
+      const renderParagraph = (p) => (p.trim().startsWith("<") ? p : `<p>${p}</p>`);
+      const leftHtml = left.map(renderParagraph).join("") + leftLinks;
+      const rightHtml = right.map(renderParagraph).join("") + rightLinks;
 
       const metaContent = expo.subtitle || [expo.venue, expo.date].filter(Boolean).join(" — ");
       const heading = expo.link
