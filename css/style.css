@@ -120,6 +120,41 @@ img {
   }
 }
 
+/* Spark field (home page background) */
+
+.spark-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  fill: #111;
+  opacity: 0;
+  animation-name: spark-flicker;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spark-flicker {
+  0%, 92%, 100% { opacity: 0; }
+  93% { opacity: 0.18; }
+  94% { opacity: 0.02; }
+  95% { opacity: 0.22; }
+  96% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spark-field {
+    display: none;
+  }
+}
+
 /* Home collage */
 
 .home-collage {
@@ -150,7 +185,7 @@ img {
   left: 50%;
   top: 50%;
   width: calc(100vw + 200px);
-  border-top: 1px solid #111;
+  border-top: 2.5px solid #111;
   transform: translate(-50%, -50%) scaleX(0);
   transform-origin: center;
   opacity: 0;
