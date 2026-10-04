@@ -1,31 +1,31 @@
 const DESIGN_WIDTH = 1440;
 const TITLE_TOP = 10;
 
-const SPARK_BURST_LINES = [
-  [12, 12, 12, 2],
-  [12, 12, 20.7, 6.7],
-  [12, 12, 20.7, 17.3],
-  [12, 12, 12, 22],
-  [12, 12, 3.3, 17.3],
-  [12, 12, 3.3, 6.7],
-];
+const SPARK_RAIN_COUNT = 22;
 
-const SPARK_BURSTS = [
-  { top: "10%", left: "18%", size: 34, delay: 0, duration: 5 },
-  { top: "24%", left: "80%", size: 44, delay: 1.6, duration: 6 },
-  { top: "46%", left: "8%", size: 26, delay: 3.2, duration: 5.5 },
-  { top: "62%", left: "88%", size: 38, delay: 0.8, duration: 6.5 },
-  { top: "78%", left: "32%", size: 30, delay: 2.4, duration: 5 },
-  { top: "36%", left: "55%", size: 24, delay: 4, duration: 6 },
-];
+function seededRandom(seed) {
+  let s = seed % 2147483647;
+  if (s <= 0) s += 2147483646;
+  return () => {
+    s = (s * 16807) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
 
 function renderSparkField() {
   const field = document.getElementById("spark-field");
   if (!field) return;
-  const lines = SPARK_BURST_LINES.map((l) => `<line x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}"></line>`).join("");
-  field.innerHTML = SPARK_BURSTS.map(
-    (b) => `<svg class="spark" style="top:${b.top}; left:${b.left}; width:${b.size}px; height:${b.size}px; animation-delay:${b.delay}s; animation-duration:${b.duration}s;" viewBox="0 0 24 24">${lines}</svg>`
-  ).join("");
+  const rand = seededRandom(42);
+  let html = "";
+  for (let i = 0; i < SPARK_RAIN_COUNT; i++) {
+    const left = (rand() * 100).toFixed(1);
+    const length = Math.round(24 + rand() * 46);
+    const duration = (1.6 + rand() * 2.2).toFixed(2);
+    const delay = (rand() * 5).toFixed(2);
+    const steps = 6 + Math.floor(rand() * 5);
+    html += `<div class="spark" style="left:${left}%; width:${length}px; animation-duration:${duration}s; animation-delay:-${delay}s; animation-timing-function:steps(${steps}, end);"></div>`;
+  }
+  field.innerHTML = html;
 }
 
 function pct(value, base) {
