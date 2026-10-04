@@ -125,53 +125,33 @@ img {
 .spark-field {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: -1;
   overflow: hidden;
   pointer-events: none;
 }
 
 .spark {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, #111 85%, #111);
   opacity: 0;
-  animation-timing-function: linear;
+  transform: scale(0.2);
+  transform-origin: center;
+  animation-name: spark-burst;
+  animation-timing-function: ease-out;
   animation-iteration-count: infinite;
 }
 
-.spark--a {
-  animation-name: spark-streak-a;
+.spark line {
+  stroke: #111;
+  stroke-width: 1.5;
+  stroke-linecap: round;
 }
 
-.spark--b {
-  animation-name: spark-streak-b;
-}
-
-.spark--c {
-  animation-name: spark-streak-c;
-}
-
-@keyframes spark-streak-a {
-  0%, 60% { opacity: 0; transform: translate(-15vw, 10vh) rotate(22deg); }
-  61% { opacity: 1; }
-  70% { opacity: 1; transform: translate(115vw, 65vh) rotate(22deg); }
-  71%, 100% { opacity: 0; transform: translate(118vw, 67vh) rotate(22deg); }
-}
-
-@keyframes spark-streak-b {
-  0%, 45% { opacity: 0; transform: translate(115vw, 5vh) rotate(-28deg); }
-  46% { opacity: 1; }
-  55% { opacity: 1; transform: translate(-15vw, 75vh) rotate(-28deg); }
-  56%, 100% { opacity: 0; transform: translate(-18vw, 78vh) rotate(-28deg); }
-}
-
-@keyframes spark-streak-c {
-  0%, 80% { opacity: 0; transform: translate(-15vw, 90vh) rotate(-12deg); }
-  81% { opacity: 1; }
-  89% { opacity: 1; transform: translate(115vw, 15vh) rotate(-12deg); }
-  90%, 100% { opacity: 0; transform: translate(118vw, 13vh) rotate(-12deg); }
+@keyframes spark-burst {
+  0%, 85% { opacity: 0; transform: scale(0.15); }
+  87% { opacity: 1; transform: scale(0.7); }
+  92% { opacity: 1; transform: scale(1.05); }
+  97% { opacity: 0; transform: scale(1.3); }
+  100% { opacity: 0; transform: scale(1.3); }
 }
 
 @media (prefers-reduced-motion: reduce) {
