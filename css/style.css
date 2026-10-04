@@ -270,6 +270,13 @@ img {
   z-index: 5;
 }
 
+.home-item__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
 .home-tag {
   position: absolute;
   font-size: 0.72rem;

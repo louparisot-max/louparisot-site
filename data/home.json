@@ -1,5 +1,17 @@
 [
   {
+    "title": "EST GALERIE",
+    "link": "https://www.instagram.com/estgalerie/",
+    "height": 2160,
+    "items": [
+      { "type": "image", "src": "images/est-galerie-2026/Fontaine_vue_ensemble_1_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "En pied, EST Galerie, 2026", "top": 40, "left": 200, "width": 520, "height": 780, "tagTop": 820, "tagLeft": 180, "z": 20 },
+      { "type": "color", "color": "#1d4d3a", "top": 120, "left": 800, "width": 460, "height": 500, "z": 15 },
+      { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_figures_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail sculpture, EST Galerie, 2026", "top": 300, "left": 1020, "width": 300, "height": 450, "tagTop": 770, "tagLeft": 1000, "z": 35 },
+      { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_ecran_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail écran, EST Galerie, 2026", "top": 900, "left": 260, "width": 760, "height": 493, "tagTop": 1413, "tagLeft": 240, "z": 25 },
+      { "type": "video", "src": "images/est-galerie-2026/Wallacoide_video_EST_Galerie_2026.mp4", "title": "Wallacoïde — vidéo", "meta": "EST Galerie, 2026", "link": "https://www.louparisot.com/wallacoide", "top": 1500, "left": 200, "width": 1040, "height": 572, "tagTop": 2092, "tagLeft": 180, "z": 30 }
+    ]
+  },
+  {
     "title": "CONFORT MODERNE",
     "link": "https://www.confort-moderne.fr/fr/archives/event/Les-Noces-de-Coquelicot/3116",
     "height": 1400,

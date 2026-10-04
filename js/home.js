@@ -31,7 +31,11 @@ function renderItem(item, sectionHeight, globalIndex, delayMs) {
   const bg = item.bg ? ` background-color:${item.bg};` : "";
 
   if (item.type === "video") {
-    return `<div class="home-item" style="${style}${bg}"><video src="${item.src}" autoplay muted loop playsinline></video></div>${tag}`;
+    const video = `<video src="${item.src}" autoplay muted loop playsinline></video>`;
+    const media = item.link
+      ? `<a class="home-item__link" href="${item.link}" target="_blank" rel="noopener">${video}</a>`
+      : video;
+    return `<div class="home-item" style="${style}${bg}">${media}</div>${tag}`;
   }
 
   return `<div class="home-item" style="${style}${bg}" data-lightbox-index="${globalIndex}"><img src="${item.src}" alt="${item.title || ""}"></div>${tag}`;
