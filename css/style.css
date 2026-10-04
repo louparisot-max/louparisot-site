@@ -227,7 +227,7 @@ img {
 }
 
 .home-section__title:hover span {
-  color: #000;
+  color: #1f5eff;
 }
 
 .home-section__title .arrow {
@@ -731,7 +731,7 @@ a.entry__text--link:hover {
 }
 
 .entry__link:hover {
-  color: #b0b0ae;
+  color: #1f5eff;
 }
 
 .expo-links {
