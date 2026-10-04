@@ -147,11 +147,11 @@ img {
 
 .home-separator {
   position: absolute;
-  left: 0;
+  left: 50%;
   top: 50%;
-  width: 100%;
+  width: calc(100vw + 200px);
   border-top: 1px solid #111;
-  transform: translateY(-50%) scaleX(0);
+  transform: translate(-50%, -50%) scaleX(0);
   transform-origin: center;
   opacity: 0;
   transition: transform 1.1s ease, opacity 0.8s ease;
@@ -160,14 +160,14 @@ img {
 }
 
 .home-separator.is-visible {
-  transform: translateY(-50%) scaleX(1);
+  transform: translate(-50%, -50%) scaleX(1);
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .home-separator {
     transition: none !important;
-    transform: translateY(-50%) scaleX(1) !important;
+    transform: translate(-50%, -50%) scaleX(1) !important;
     opacity: 1 !important;
   }
   .home-item {
