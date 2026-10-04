@@ -6,7 +6,7 @@
     "items": [
       { "type": "image", "src": "images/est-galerie-2026/Fontaine_vue_ensemble_1_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "En pied, EST Galerie, 2026", "top": 40, "left": 200, "width": 520, "height": 780, "tagTop": 840, "tagLeft": 180, "z": 20 },
       { "type": "color", "color": "#1d4d3a", "top": 120, "left": 593, "width": 897, "height": 750, "z": 15 },
-      { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_figures_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail sculpture, EST Galerie, 2026", "top": 10, "left": 760, "width": 300, "height": 450, "tagTop": 480, "tagLeft": 740, "z": 35 },
+      { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_figures_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail sculpture, EST Galerie, 2026", "top": 10, "left": 910, "width": 300, "height": 450, "tagTop": 480, "tagLeft": 890, "z": 35 },
       { "type": "image", "src": "images/est-galerie-2026/Fontaine_detail_ecran_EST_Galerie_2026.jpg", "title": "Wallacoïde", "meta": "Détail écran, EST Galerie, 2026", "top": 520, "left": 760, "width": 700, "height": 454, "tagTop": 994, "tagLeft": 740, "z": 25 },
       { "type": "video", "src": "images/est-galerie-2026/Wallacoide_video_EST_Galerie_2026.mp4", "title": "Wallacoïde — vidéo", "meta": "EST Galerie, 2026", "link": "https://www.louparisot.com/wallacoide", "top": 1030, "left": 200, "width": 1000, "height": 550, "tagTop": 1600, "tagLeft": 180, "z": 30 }
     ]
