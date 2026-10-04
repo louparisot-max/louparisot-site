@@ -98,7 +98,7 @@ async function loadExhibitions() {
       const rightLinks = expo.linksColumn === "right" ? linksHtml : "";
       const outsideLinks = !expo.linksColumn ? linksHtml : "";
 
-      const renderParagraph = (p) => (p.trim().startsWith("<") ? p : `<p>${p}</p>`);
+      const renderParagraph = (p) => (p.trim().startsWith("<hr") ? p : `<p>${p}</p>`);
       const leftHtml = left.map(renderParagraph).join("") + leftLinks;
       const rightHtml = right.map(renderParagraph).join("") + rightLinks;
 
